@@ -86,6 +86,9 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
     setIsSliding(true);
   };
 
+  // Calculate the maximum translation distance (container width minus button width)
+  const maxTranslation = containerRef.current ? containerRef.current.offsetWidth - 40 : 140;
+
   return (
     <div style={{ width: '180px' }}>
       <div
@@ -110,9 +113,9 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
         {/* Slider button */}
         <div
           ref={sliderRef}
-          className="absolute left-0.5 top-0.5 w-9 h-9 bg-yellow-400 rounded-full flex items-center justify-center shadow-md transition-all duration-75 ease-out border border-yellow-500"
+          className="absolute left-0.5 top-0.5 w-9 h-9 bg-yellow-400 rounded-full flex items-center justify-center shadow-md transition-all duration-75 ease-out border border-yellow-500 z-10"
           style={{
-            transform: `translateX(${slideProgress * (containerRef.current?.offsetWidth - 40 || 0)}px)`,
+            transform: `translateX(${slideProgress * maxTranslation}px)`,
             backgroundColor: hasBid ? '#22c55e' : '#fbbf24'
           }}
         >
