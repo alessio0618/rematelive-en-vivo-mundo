@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,14 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// RemateLive brand colors
+				'rl-blue': 'rgb(var(--rl-blue))',
+				'rl-yellow': 'rgb(var(--rl-yellow))',
+				// Live streaming colors
+				'live-red': 'rgb(var(--live-red))',
+				'success-green': 'rgb(var(--success-green))',
+				'warning-yellow': 'rgb(var(--warning-yellow))'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -84,11 +92,20 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'pulse-live': {
+					'0%, 100%': {
+						opacity: '1'
+					},
+					'50%': {
+						opacity: '0.5'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pulse-live': 'pulse-live 2s ease-in-out infinite'
 			}
 		}
 	},
