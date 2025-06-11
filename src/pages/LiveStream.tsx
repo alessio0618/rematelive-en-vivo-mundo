@@ -5,6 +5,7 @@ import { ArrowLeft, MoreHorizontal, Users, Heart, MessageCircle, Share, Wallet, 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
+import { SlideToBid } from '@/components/SlideToBid';
 
 const LiveStream = () => {
   const { sellerId } = useParams();
@@ -45,6 +46,11 @@ const LiveStream = () => {
     { id: 2, user: 'golfpro', message: 'Me interesa el set completo' },
     { id: 3, user: 'maria_g', message: '¿Cuál es el precio final?' }
   ];
+
+  const handleBid = (productId: number, bidAmount: number) => {
+    console.log(`Bid placed for product ${productId}: $${bidAmount}`);
+    // Handle bid logic here
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
@@ -146,14 +152,15 @@ const LiveStream = () => {
                   />
                   <div className="flex-1">
                     <h5 className="text-foreground font-medium text-sm">{product.name}</h5>
-                    <div className="flex items-center justify-between mt-1">
+                    <div className="flex items-center justify-between mt-1 mb-2">
                       <span className="text-green-400 font-bold">${product.currentBid}</span>
                       <span className="text-yellow-400 text-sm">{product.timeLeft}</span>
                     </div>
+                    <SlideToBid
+                      currentBid={product.currentBid}
+                      onBid={(amount) => handleBid(product.id, amount)}
+                    />
                   </div>
-                  <Button size="sm" className="bg-yellow-400 text-black hover:bg-yellow-500">
-                    Pujar
-                  </Button>
                 </div>
               </Card>
             ))}
