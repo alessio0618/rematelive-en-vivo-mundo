@@ -51,7 +51,7 @@ const TopNavBar = () => {
               className={`whitespace-nowrap text-sm font-medium ${
                 index === 0 
                   ? 'bg-foreground text-background hover:bg-foreground/90' 
-                  : 'text-foreground hover:text-foreground/80'
+                  : 'text-white hover:text-white/80'
               }`}
             >
               {category}

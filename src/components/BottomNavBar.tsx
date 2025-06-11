@@ -30,8 +30,8 @@ const BottomNavBar = () => {
               variant="ghost"
               className={`flex flex-col items-center space-y-1 h-auto py-2 px-3 min-w-0 flex-1 ${
                 item.isActive 
-                  ? 'text-foreground' 
-                  : 'text-muted-foreground hover:text-foreground'
+                  ? 'text-white' 
+                  : 'text-muted-foreground hover:text-white'
               }`}
             >
               <Icon className="w-6 h-6" />
