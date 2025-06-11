@@ -22,10 +22,10 @@ const TopNavBar = () => {
       <div className="flex items-center justify-between p-3">
         <div className="flex-1 max-w-none mx-0">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
             <Input 
               placeholder="Buscar RemateLive"
-              className="pl-10 bg-card border-border text-foreground placeholder:text-muted-foreground rounded-full h-10 focus-visible:ring-white focus-visible:border-white"
+              className="pl-10 bg-card border-border text-foreground placeholder:text-gray-400 rounded-full h-10 focus-visible:ring-white focus-visible:border-white"
             />
           </div>
         </div>
