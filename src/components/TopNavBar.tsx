@@ -46,11 +46,11 @@ const TopNavBar = () => {
           {categories.map((category, index) => (
             <Button
               key={category}
-              variant={index === 0 ? 'default' : 'ghost'}
+              variant="ghost"
               size="sm"
               className={`whitespace-nowrap text-sm font-medium ${
                 index === 0 
-                  ? 'text-background border-b-2 border-white' 
+                  ? 'text-white border-b-2 border-white' 
                   : 'text-white border-b-2 border-transparent'
               }`}
             >
