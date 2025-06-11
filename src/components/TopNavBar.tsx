@@ -25,7 +25,7 @@ const TopNavBar = () => {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <Input 
               placeholder="Buscar RemateLive"
-              className="pl-10 bg-card border-border text-foreground placeholder:text-muted-foreground rounded-full h-10"
+              className="pl-10 bg-card border-border text-foreground placeholder:text-muted-foreground rounded-full h-10 focus-visible:ring-white focus-visible:border-white"
             />
           </div>
         </div>
@@ -48,9 +48,9 @@ const TopNavBar = () => {
               key={category}
               variant="ghost"
               size="sm"
-              className={`whitespace-nowrap text-sm font-medium hover:bg-transparent ${
+              className={`whitespace-nowrap text-sm font-medium hover:bg-transparent hover:border-white ${
                 index === 0 
-                  ? 'text-yellow-400 border-b-2 border-yellow-400 hover:border-white' 
+                  ? 'text-yellow-400 border-b-2 border-yellow-400' 
                   : 'text-gray-300 border-b-2 border-transparent'
               }`}
             >

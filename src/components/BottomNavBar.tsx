@@ -28,9 +28,9 @@ const BottomNavBar = () => {
             <Button
               key={item.id}
               variant="ghost"
-              className={`flex flex-col items-center space-y-1 h-auto py-2 px-3 min-w-0 flex-1 hover:bg-transparent ${
+              className={`flex flex-col items-center space-y-1 h-auto py-2 px-3 min-w-0 flex-1 hover:bg-transparent hover:border-white ${
                 item.isActive 
-                  ? 'text-yellow-400 border-t-2 border-yellow-400 hover:border-white' 
+                  ? 'text-yellow-400 border-t-2 border-yellow-400' 
                   : 'text-gray-300 border-t-2 border-transparent'
               }`}
             >
