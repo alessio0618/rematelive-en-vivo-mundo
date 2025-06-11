@@ -90,13 +90,13 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
     <div className="w-full">
       <div
         ref={containerRef}
-        className="relative h-10 bg-gray-800 rounded-full overflow-hidden cursor-pointer select-none border-2 border-yellow-400"
+        className="relative h-8 bg-gray-800 rounded-full overflow-hidden cursor-pointer select-none border border-yellow-400"
         onMouseDown={handleStart}
         onTouchStart={handleStart}
       >
         {/* Background track */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-white text-sm font-bold">
+          <span className="text-white text-xs font-medium">
             {hasBid ? '¡Pujaste!' : `Bid $${nextBidAmount} >>`}
           </span>
         </div>
@@ -110,23 +110,23 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
         {/* Slider button */}
         <div
           ref={sliderRef}
-          className="absolute left-0.5 top-0.5 w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg transition-all duration-75 ease-out border border-yellow-500"
+          className="absolute left-0.5 top-0.5 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center shadow-md transition-all duration-75 ease-out border border-yellow-500"
           style={{
-            transform: `translateX(${slideProgress * (containerRef.current?.offsetWidth - 36 || 0)}px)`,
+            transform: `translateX(${slideProgress * (containerRef.current?.offsetWidth - 28 || 0)}px)`,
             backgroundColor: hasBid ? '#22c55e' : '#fbbf24'
           }}
         >
           {hasBid ? (
-            <div className="w-2 h-2 bg-white rounded-full" />
+            <div className="w-1.5 h-1.5 bg-white rounded-full" />
           ) : (
-            <ChevronRight className="w-4 h-4 text-black" />
+            <ChevronRight className="w-3 h-3 text-black" />
           )}
         </div>
 
         {/* Success state overlay */}
         {hasBid && (
           <div className="absolute inset-0 bg-green-500 rounded-full flex items-center justify-center">
-            <span className="text-white text-sm font-bold">¡Puja exitosa!</span>
+            <span className="text-white text-xs font-medium">¡Puja exitosa!</span>
           </div>
         )}
       </div>
