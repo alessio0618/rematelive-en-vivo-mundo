@@ -30,7 +30,7 @@ const BottomNavBar = () => {
               variant="ghost"
               className={`flex flex-col items-center space-y-1 h-auto py-2 px-3 min-w-0 flex-1 hover:bg-transparent ${
                 item.isActive 
-                  ? 'text-yellow-400 border-t-2 border-yellow-400' 
+                  ? 'text-yellow-400 border-t-2 border-yellow-400 hover:border-white' 
                   : 'text-gray-300 border-t-2 border-transparent'
               }`}
             >
