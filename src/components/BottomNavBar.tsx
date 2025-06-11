@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Home, Compass, Video, Bell, User } from 'lucide-react';
+import { Home, Search, Gift, Heart, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface NavItem {
@@ -12,30 +12,30 @@ interface NavItem {
 
 const BottomNavBar = () => {
   const navItems: NavItem[] = [
-    { id: 'inicio', label: 'Inicio', icon: Home, isActive: true },
-    { id: 'explorar', label: 'Explorar', icon: Compass },
-    { id: 'subir', label: 'Subir en Vivo', icon: Video },
-    { id: 'notificaciones', label: 'Notificaciones', icon: Bell },
-    { id: 'perfil', label: 'Perfil', icon: User },
+    { id: 'inicio', label: 'Home', icon: Home, isActive: true },
+    { id: 'categorias', label: 'Categories', icon: Search },
+    { id: 'vendedor', label: 'Seller Hub', icon: Gift },
+    { id: 'actividad', label: 'Activity', icon: Heart },
+    { id: 'cuenta', label: 'Account', icon: User },
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border z-50">
-      <div className="flex items-center justify-around py-2">
+    <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border z-50 mobile-safe-area">
+      <div className="flex items-center justify-around py-1">
         {navItems.map((item) => {
           const Icon = item.icon;
           return (
             <Button
               key={item.id}
               variant="ghost"
-              className={`flex flex-col items-center space-y-1 h-auto py-2 px-3 ${
+              className={`flex flex-col items-center space-y-1 h-auto py-2 px-3 min-w-0 flex-1 ${
                 item.isActive 
-                  ? 'text-primary' 
+                  ? 'text-foreground' 
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              <Icon className="w-5 h-5" />
-              <span className="text-xs font-medium">{item.label}</span>
+              <Icon className="w-6 h-6" />
+              <span className="text-xs font-medium leading-none">{item.label}</span>
             </Button>
           );
         })}

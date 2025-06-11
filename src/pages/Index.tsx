@@ -6,7 +6,7 @@ import HomeFeed from '@/components/HomeFeed';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground">
       <TopNavBar />
       <main className="relative">
         <HomeFeed />

@@ -1,8 +1,7 @@
 
 import React from 'react';
-import { Eye, Heart } from 'lucide-react';
+import { Eye } from 'lucide-react';
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 
 interface LiveChannelCardProps {
   sellerName: string;
@@ -10,6 +9,7 @@ interface LiveChannelCardProps {
   viewerCount: number;
   category: string;
   thumbnail: string;
+  title: string;
   isLive?: boolean;
 }
 
@@ -18,13 +18,14 @@ const LiveChannelCard = ({
   sellerAvatar, 
   viewerCount, 
   category, 
-  thumbnail, 
+  thumbnail,
+  title,
   isLive = true 
 }: LiveChannelCardProps) => {
   return (
-    <Card className="bg-card border-border overflow-hidden hover:bg-card/80 transition-colors cursor-pointer">
+    <Card className="bg-card border-none overflow-hidden hover:bg-card/80 transition-colors cursor-pointer rounded-lg">
       {/* Thumbnail with live indicator */}
-      <div className="relative aspect-video">
+      <div className="relative aspect-[4/5]">
         <img 
           src={thumbnail} 
           alt={`Canal de ${sellerName}`}
@@ -33,43 +34,24 @@ const LiveChannelCard = ({
         
         {/* Live indicator */}
         {isLive && (
-          <div className="absolute top-2 left-2 live-indicator animate-pulse-live">
-            EN VIVO
+          <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded flex items-center">
+            <div className="w-1.5 h-1.5 bg-white rounded-full mr-1 animate-pulse"></div>
+            Live • {viewerCount}
           </div>
         )}
-        
-        {/* Viewer count */}
-        <div className="absolute top-2 right-2 viewer-count">
-          <Eye className="w-3 h-3 inline mr-1" />
-          {viewerCount.toLocaleString()}
-        </div>
 
-        {/* Category tag */}
-        <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
-          {category}
-        </div>
-      </div>
-
-      {/* Seller info */}
-      <div className="p-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
+        {/* Seller info overlay */}
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
+          <div className="flex items-center space-x-2 mb-1">
             <img 
               src={sellerAvatar} 
               alt={sellerName}
-              className="w-8 h-8 rounded-full object-cover"
+              className="w-6 h-6 rounded-full object-cover"
             />
-            <div>
-              <p className="font-semibold text-sm text-foreground">{sellerName}</p>
-              <p className="text-xs text-muted-foreground">
-                {viewerCount} viendo ahora
-              </p>
-            </div>
+            <span className="text-white font-medium text-sm">{sellerName}</span>
           </div>
-          
-          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
-            <Heart className="w-4 h-4" />
-          </Button>
+          <h3 className="text-white font-bold text-sm leading-tight mb-1">{title}</h3>
+          <p className="text-blue-400 text-xs">{category}</p>
         </div>
       </div>
     </Card>
