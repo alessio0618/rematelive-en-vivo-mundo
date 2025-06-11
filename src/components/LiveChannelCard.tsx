@@ -51,7 +51,7 @@ const LiveChannelCard = ({
             <span className="text-white font-medium text-sm">{sellerName}</span>
           </div>
           <h3 className="text-white font-bold text-sm leading-tight mb-1">{title}</h3>
-          <p className="text-blue-400 text-xs">{category}</p>
+          <p className="text-white text-xs">{category}</p>
         </div>
       </div>
     </Card>
