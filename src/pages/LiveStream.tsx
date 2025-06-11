@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, MoreHorizontal, Users, Heart, MessageCircle, Share, Wallet, ShoppingBag, Zap, Camera } from 'lucide-react';
@@ -156,19 +155,18 @@ const LiveStream = () => {
               </div>
             </div>
             
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center justify-between">
               <Button
                 variant="outline"
-                className="px-6 py-2 rounded-full bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
+                size="sm"
+                className="px-4 py-1 rounded-full bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
               >
                 Custom
               </Button>
-              <div className="flex-1">
-                <SlideToBid
-                  currentBid={currentProduct.currentBid}
-                  onBid={(amount) => handleBid(currentProduct.id, amount)}
-                />
-              </div>
+              <SlideToBid
+                currentBid={currentProduct.currentBid}
+                onBid={(amount) => handleBid(currentProduct.id, amount)}
+              />
             </div>
           </Card>
         </div>
