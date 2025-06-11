@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Eye } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 
@@ -22,8 +23,17 @@ const LiveChannelCard = ({
   title,
   isLive = true 
 }: LiveChannelCardProps) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/live/${sellerName}`);
+  };
+
   return (
-    <Card className="bg-card border-none overflow-hidden hover:bg-card/80 transition-colors cursor-pointer rounded-lg">
+    <Card 
+      className="bg-card border-none overflow-hidden hover:bg-card/80 transition-colors cursor-pointer rounded-lg"
+      onClick={handleClick}
+    >
       {/* Thumbnail with live indicator */}
       <div className="relative aspect-[4/5]">
         <img 
