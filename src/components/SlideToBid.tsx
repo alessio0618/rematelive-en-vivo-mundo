@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronRight } from 'lucide-react';
 
@@ -86,7 +87,7 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
   };
 
   return (
-    <div style={{ width: '148px' }}>
+    <div style={{ width: '60px' }}>
       <div
         ref={containerRef}
         className="relative h-6 bg-gray-800 rounded-full overflow-hidden cursor-pointer select-none border border-yellow-400"
