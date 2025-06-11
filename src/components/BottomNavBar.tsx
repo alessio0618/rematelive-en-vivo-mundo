@@ -28,10 +28,10 @@ const BottomNavBar = () => {
             <Button
               key={item.id}
               variant="ghost"
-              className={`flex flex-col items-center space-y-1 h-auto py-2 px-3 min-w-0 flex-1 ${
+              className={`flex flex-col items-center space-y-1 h-auto py-2 px-3 min-w-0 flex-1 hover:bg-transparent ${
                 item.isActive 
-                  ? 'text-white border-t-2 border-white' 
-                  : 'text-gray-400 border-t-2 border-transparent'
+                  ? 'text-yellow-400 border-t-2 border-yellow-400' 
+                  : 'text-gray-300 border-t-2 border-transparent'
               }`}
             >
               <Icon className="w-6 h-6" />

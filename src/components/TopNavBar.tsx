@@ -31,10 +31,10 @@ const TopNavBar = () => {
         </div>
 
         <div className="flex items-center space-x-2 ml-3">
-          <Button variant="ghost" size="icon" className="text-foreground h-10 w-10">
+          <Button variant="ghost" size="icon" className="text-foreground h-10 w-10 hover:bg-transparent">
             <Bell className="w-5 h-5" />
           </Button>
-          <Button variant="ghost" size="icon" className="text-foreground h-10 w-10">
+          <Button variant="ghost" size="icon" className="text-foreground h-10 w-10 hover:bg-transparent">
             <Gift className="w-5 h-5" />
           </Button>
         </div>
@@ -48,10 +48,10 @@ const TopNavBar = () => {
               key={category}
               variant="ghost"
               size="sm"
-              className={`whitespace-nowrap text-sm font-medium ${
+              className={`whitespace-nowrap text-sm font-medium hover:bg-transparent ${
                 index === 0 
-                  ? 'text-white border-b-2 border-white' 
-                  : 'text-gray-400 border-b-2 border-transparent'
+                  ? 'text-yellow-400 border-b-2 border-yellow-400' 
+                  : 'text-gray-300 border-b-2 border-transparent'
               }`}
             >
               {category}
