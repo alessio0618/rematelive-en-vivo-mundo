@@ -50,8 +50,8 @@ const TopNavBar = () => {
               size="sm"
               className={`whitespace-nowrap text-sm font-medium ${
                 index === 0 
-                  ? 'bg-foreground text-background hover:bg-foreground/90' 
-                  : 'text-white hover:text-white/80'
+                  ? 'bg-foreground text-background hover:bg-foreground/90 border-b-2 border-white' 
+                  : 'text-white hover:text-white border-b-2 border-transparent'
               }`}
             >
               {category}
