@@ -87,7 +87,7 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
   };
 
   return (
-    <div className="w-32">
+    <div className="w-20">
       <div
         ref={containerRef}
         className="relative h-6 bg-gray-800 rounded-full overflow-hidden cursor-pointer select-none border border-yellow-400"
