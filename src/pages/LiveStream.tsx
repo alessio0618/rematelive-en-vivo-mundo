@@ -24,22 +24,16 @@ const LiveStream = () => {
     thumbnail: 'https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=400&h=500&fit=crop'
   };
 
-  const products = [
-    {
-      id: 1,
-      name: 'Golf Club Set Premium',
-      currentBid: 150,
-      timeLeft: '2:45',
-      image: 'https://images.unsplash.com/photo-1551524164-6cf6ac6928df?w=100&h=100&fit=crop'
-    },
-    {
-      id: 2,
-      name: 'Professional Golf Balls',
-      currentBid: 45,
-      timeLeft: '5:12',
-      image: 'https://images.unsplash.com/photo-1587174147853-e61b9d1e4d3a?w=100&h=100&fit=crop'
-    }
-  ];
+  // Only one product at a time in auction
+  const currentProduct = {
+    id: 1,
+    name: 'Enamel pins and buttons #1',
+    description: 'Single pin on screen ur bidding on! Unless stated during video',
+    currentBid: 5,
+    timeLeft: '00:05',
+    shipping: 4.74,
+    image: 'https://images.unsplash.com/photo-1551524164-6cf6ac6928df?w=100&h=100&fit=crop'
+  };
 
   const chatMessages = [
     { id: 1, user: 'user123', message: '¡Excelente producto!' },
@@ -138,33 +132,45 @@ const LiveStream = () => {
 
       {/* Bottom Section */}
       <div className="flex-1 flex flex-col">
-        {/* Products Section */}
+        {/* Current Product Section */}
         <div className="p-4 border-b border-border">
-          <h4 className="text-foreground font-semibold mb-3">Productos en Vivo</h4>
-          <div className="space-y-3">
-            {products.map((product) => (
-              <Card key={product.id} className="bg-card border-border p-3">
-                <div className="flex items-center space-x-3">
-                  <img 
-                    src={product.image} 
-                    alt={product.name}
-                    className="w-16 h-16 rounded-lg object-cover"
-                  />
-                  <div className="flex-1">
-                    <h5 className="text-foreground font-medium text-sm">{product.name}</h5>
-                    <div className="flex items-center justify-between mt-1 mb-2">
-                      <span className="text-green-400 font-bold">${product.currentBid}</span>
-                      <span className="text-yellow-400 text-sm">{product.timeLeft}</span>
-                    </div>
-                    <SlideToBid
-                      currentBid={product.currentBid}
-                      onBid={(amount) => handleBid(product.id, amount)}
-                    />
-                  </div>
-                </div>
-              </Card>
-            ))}
+          <div className="flex items-center justify-between mb-2">
+            <h4 className="text-foreground font-semibold">Current Auction</h4>
+            <div className="flex items-center space-x-2">
+              <span className="text-lg font-bold text-foreground">${currentProduct.currentBid}</span>
+              <span className="text-red-500 font-mono text-lg">{currentProduct.timeLeft}</span>
+            </div>
           </div>
+          
+          <Card className="bg-card border-border p-4">
+            <div className="flex items-start space-x-3 mb-3">
+              <img 
+                src={currentProduct.image} 
+                alt={currentProduct.name}
+                className="w-20 h-20 rounded-lg object-cover"
+              />
+              <div className="flex-1">
+                <h5 className="text-foreground font-bold text-lg mb-1">{currentProduct.name}</h5>
+                <p className="text-foreground/70 text-sm mb-2">{currentProduct.description}</p>
+                <p className="text-foreground/60 text-sm">${currentProduct.shipping.toFixed(2)} Shipping + Taxes</p>
+              </div>
+            </div>
+            
+            <div className="flex items-center space-x-3">
+              <Button
+                variant="outline"
+                className="px-6 py-2 rounded-full bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
+              >
+                Custom
+              </Button>
+              <div className="flex-1">
+                <SlideToBid
+                  currentBid={currentProduct.currentBid}
+                  onBid={(amount) => handleBid(currentProduct.id, amount)}
+                />
+              </div>
+            </div>
+          </Card>
         </div>
 
         {/* Chat Section */}
