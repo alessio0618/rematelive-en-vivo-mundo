@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronRight } from 'lucide-react';
 
@@ -10,20 +11,17 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
   const [isSliding, setIsSliding] = useState(false);
   const [slideProgress, setSlideProgress] = useState(0);
   const [hasBid, setHasBid] = useState(false);
+  const [lockedBidAmount, setLockedBidAmount] = useState<number | null>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const nextBidAmount = currentBid + 1; // Increment by $1
   
-  // Calculate dynamic bid amount based on slide progress
-  const getCurrentBidAmount = () => {
-    if (isSliding) {
-      // Show incremental bids as user slides (from current+1 to current+5)
-      const maxIncrease = 5;
-      const bidIncrease = Math.floor(slideProgress * maxIncrease);
-      return currentBid + Math.max(1, bidIncrease);
-    }
-    return nextBidAmount;
+  // Get the display price - locked when sliding starts
+  const getDisplayPrice = () => {
+    if (hasBid) return 'Bid!';
+    if (lockedBidAmount !== null) return `$${lockedBidAmount}`;
+    return `$${nextBidAmount}`;
   };
 
   useEffect(() => {
@@ -58,6 +56,7 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
       if (isSliding && slideProgress < 1) {
         // Reset if not slid to 100%
         setSlideProgress(0);
+        setLockedBidAmount(null);
       }
       setIsSliding(false);
     };
@@ -81,12 +80,13 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
     setHasBid(true);
     setSlideProgress(1);
     setIsSliding(false);
-    onBid(nextBidAmount);
+    onBid(lockedBidAmount || nextBidAmount);
     
     // Reset after 2 seconds to allow new bids
     setTimeout(() => {
       setHasBid(false);
       setSlideProgress(0);
+      setLockedBidAmount(null);
     }, 2000);
   };
 
@@ -94,6 +94,8 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
     if (hasBid) return;
     e.preventDefault();
     setIsSliding(true);
+    // Lock the bid amount when sliding starts
+    setLockedBidAmount(nextBidAmount);
   };
 
   // Calculate the maximum translation distance (container width minus button width)
@@ -108,15 +110,15 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
         onTouchStart={handleStart}
       >
         {/* Background track */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-foreground text-sm font-medium">
-            {hasBid ? '¡Bid!' : `$${getCurrentBidAmount()}`}
+        <div className="absolute inset-0 flex items-center justify-center z-20">
+          <span className="text-foreground text-sm font-medium drop-shadow-md">
+            {getDisplayPrice()}
           </span>
         </div>
 
         {/* Progress fill */}
         <div
-          className="absolute left-0 top-0 h-full transition-all duration-75 ease-out rounded-full"
+          className="absolute left-0 top-0 h-full transition-all duration-75 ease-out rounded-full z-10"
           style={{ 
             width: `${slideProgress * 100}%`,
             backgroundColor: slideProgress >= 1 ? 'rgb(255, 214, 0)' : 'rgb(85, 85, 85)'
@@ -126,7 +128,7 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
         {/* Slider button */}
         <div
           ref={sliderRef}
-          className="absolute left-0.5 top-0.5 w-9 h-9 rounded-full flex items-center justify-center shadow-md transition-all duration-75 ease-out border border-accent z-10"
+          className="absolute left-0.5 top-0.5 w-9 h-9 rounded-full flex items-center justify-center shadow-md transition-all duration-75 ease-out border border-accent z-30"
           style={{
             transform: `translateX(${slideProgress * maxTranslation}px)`,
             backgroundColor: hasBid ? 'rgb(255, 214, 0)' : slideProgress >= 1 ? 'rgb(255, 214, 0)' : 'rgb(115, 115, 115)'
@@ -141,7 +143,7 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
 
         {/* Success state overlay */}
         {hasBid && (
-          <div className="absolute inset-0 bg-yellow-400 rounded-full flex items-center justify-center">
+          <div className="absolute inset-0 bg-yellow-400 rounded-full flex items-center justify-center z-40">
             <span className="text-black text-sm font-medium">✓</span>
           </div>
         )}

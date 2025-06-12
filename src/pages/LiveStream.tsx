@@ -100,10 +100,10 @@ const LiveStream = () => {
             
             <button
               onClick={() => setIsFollowing(!isFollowing)}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors text-foreground hover:bg-accent/20 ${
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent/20 ${
                 isFollowing 
-                  ? 'border border-border' 
-                  : 'border border-transparent'
+                  ? 'text-yellow-400 border border-yellow-400' 
+                  : 'text-yellow-400 border border-transparent'
               }`}
             >
               {isFollowing ? 'Following' : 'Follow'}
