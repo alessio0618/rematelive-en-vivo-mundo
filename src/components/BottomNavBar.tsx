@@ -18,7 +18,7 @@ const BottomNavBar = () => {
   const navItems: NavItem[] = [
     { id: 'inicio', label: 'Inicio', icon: Home, route: '/' },
     { id: 'explorar', label: 'Explorar', icon: Search, route: '/explorar' },
-    { id: 'subir', label: 'Subir en Vivo', icon: Video, route: '/subir-en-vivo' },
+    { id: 'subir', label: 'En Vivo', icon: Video, route: '/subir-en-vivo' },
     { id: 'notificaciones', label: 'Notificaciones', icon: Bell, route: '/notificaciones' },
     { id: 'perfil', label: 'Perfil', icon: User, route: '/perfil' },
   ];
