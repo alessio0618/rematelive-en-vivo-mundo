@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { TrendingUp, Hash, Gamepad2, Shirt, Baby, Laptop, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -86,19 +85,17 @@ const Explorar = () => {
         {/* Filter tabs */}
         <div className="flex space-x-3 mb-6 mt-4 overflow-x-auto scrollbar-hide">
           {filters.map((filter) => (
-            <Button
+            <button
               key={filter}
-              variant={activeFilter === filter ? "default" : "ghost"}
-              size="sm"
               onClick={() => setActiveFilter(filter)}
-              className={`whitespace-nowrap text-sm font-medium transition-colors ${
+              className={`whitespace-nowrap text-sm font-medium transition-colors px-3 py-1.5 rounded-md ${
                 activeFilter === filter 
-                  ? 'bg-foreground text-background hover:bg-foreground/90' 
+                  ? 'bg-foreground text-background' 
                   : 'text-foreground bg-muted hover:bg-accent/20'
               }`}
             >
               {filter}
-            </Button>
+            </button>
           ))}
         </div>
 

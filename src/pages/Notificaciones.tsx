@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ShoppingBag, MessageSquare, Heart, BookmarkCheck, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -58,38 +57,34 @@ const Notificaciones = () => {
         {/* Tab navigation */}
         <div className="flex space-x-1 mb-4 mt-4 overflow-x-auto scrollbar-hide">
           {tabs.map((tab) => (
-            <Button
+            <button
               key={tab}
-              variant={activeTab === tab ? "default" : "ghost"}
-              size="sm"
               onClick={() => setActiveTab(tab)}
-              className={`whitespace-nowrap text-sm font-medium transition-colors ${
+              className={`whitespace-nowrap text-sm font-medium transition-colors px-3 py-1.5 rounded-md ${
                 activeTab === tab 
                   ? 'bg-foreground text-background' 
                   : 'text-foreground hover:bg-accent/20'
               }`}
             >
               {tab}
-            </Button>
+            </button>
           ))}
         </div>
 
         {/* Filter buttons */}
         <div className="flex space-x-2 mb-6 overflow-x-auto scrollbar-hide">
           {filters.map((filter) => (
-            <Button
+            <button
               key={filter}
-              variant={activeFilter === filter ? "secondary" : "ghost"}
-              size="sm"
               onClick={() => setActiveFilter(filter)}
-              className={`whitespace-nowrap text-xs transition-colors ${
+              className={`whitespace-nowrap text-xs transition-colors px-3 py-1.5 rounded-md ${
                 activeFilter === filter 
                   ? 'bg-secondary text-foreground' 
                   : 'text-foreground hover:bg-accent/20'
               }`}
             >
               {filter}
-            </Button>
+            </button>
           ))}
         </div>
 
