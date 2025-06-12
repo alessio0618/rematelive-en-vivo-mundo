@@ -98,7 +98,7 @@ const Perfil = () => {
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-muted rounded-full flex items-center justify-center">
                         <Icon className="w-5 h-5 text-muted-foreground" />
                       </div>
                       <div>

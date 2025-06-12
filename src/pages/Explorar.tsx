@@ -124,7 +124,7 @@ const Explorar = () => {
                 className="bg-card border-border p-4 card-hover cursor-pointer"
               >
                 <div className="flex flex-col items-center text-center space-y-3">
-                  <div className={`w-12 h-12 ${category.color} rounded-full flex items-center justify-center`}>
+                  <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center">
                     <Icon className="w-6 h-6 text-muted-foreground" />
                   </div>
                   <div>

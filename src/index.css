@@ -21,7 +21,7 @@
     --popover: 26 26 26;
     --popover-foreground: 255 255 255;
 
-    --primary: 239 68 68; /* Red accent for live indicators */
+    --primary: 115 115 115; /* Changed to gray instead of red */
     --primary-foreground: 255 255 255;
 
     --secondary: 64 64 64; /* Gris medio para elementos secundarios */
@@ -38,14 +38,14 @@
 
     --border: 51 51 51; /* Bordes sutiles grises oscuros */
     --input: 51 51 51; /* Input backgrounds */
-    --ring: 239 68 68; /* Focus rings match live red */
+    --ring: 115 115 115; /* Focus rings use gray */
 
     --radius: 0.75rem; /* Rounded corners */
 
-    /* Live streaming specific colors */
+    /* Live streaming specific colors - only red allowed */
     --live-red: 239 68 68;
-    --success-green: 34 197 94;
-    --warning-yellow: 234 179 8;
+    --success-green: 115 115 115; /* Changed to gray */
+    --warning-yellow: 115 115 115; /* Changed to gray */
   }
 }
 
@@ -60,7 +60,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold;
+    @apply font-bold text-foreground;
   }
 }
 
@@ -104,4 +104,14 @@
   .mobile-padding {
     @apply px-3 py-2;
   }
+}
+
+/* Force override any external color styles */
+* {
+  color: inherit !important;
+}
+
+/* Ensure all buttons use design system colors */
+button {
+  color: inherit !important;
 }
