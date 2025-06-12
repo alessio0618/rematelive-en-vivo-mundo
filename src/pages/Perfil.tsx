@@ -140,7 +140,7 @@ const Perfil = () => {
         {/* Logout button */}
         <Button 
           variant="outline" 
-          className="w-full border-border text-muted-foreground hover:bg-accent/20"
+          className="w-full border-border text-foreground hover:bg-accent/30"
         >
           <LogOut className="w-4 h-4 mr-2" />
           Cerrar Sesión

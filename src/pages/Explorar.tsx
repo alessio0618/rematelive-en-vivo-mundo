@@ -90,7 +90,7 @@ const Explorar = () => {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <Input 
               placeholder="Buscar categorías"
-              className="pl-10 bg-card border-border text-foreground placeholder:text-muted-foreground rounded-full h-10"
+              className="pl-10 bg-muted border-border text-foreground placeholder:text-muted-foreground rounded-full h-10"
             />
           </div>
         </div>
@@ -105,8 +105,8 @@ const Explorar = () => {
               onClick={() => setActiveFilter(filter)}
               className={`whitespace-nowrap text-sm font-medium transition-colors ${
                 activeFilter === filter 
-                  ? 'bg-foreground text-background' 
-                  : 'text-muted-foreground hover:bg-accent/20'
+                  ? 'bg-foreground text-background hover:bg-foreground/90' 
+                  : 'text-foreground bg-muted hover:bg-accent/30'
               }`}
             >
               {filter}

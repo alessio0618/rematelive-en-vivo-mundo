@@ -15,29 +15,29 @@
     --background: 0 0 0; /* Negro puro */
     --foreground: 255 255 255; /* Blanco puro */
 
-    --card: 26 26 26; /* Negro suave para cards */
+    --card: 45 45 45; /* Clean gray for cards - no more brown */
     --card-foreground: 255 255 255;
 
-    --popover: 26 26 26;
+    --popover: 45 45 45; /* Clean gray for popovers */
     --popover-foreground: 255 255 255;
 
-    --primary: 115 115 115; /* Changed to gray instead of red */
+    --primary: 115 115 115; /* Gray instead of red */
     --primary-foreground: 255 255 255;
 
-    --secondary: 64 64 64; /* Gris medio para elementos secundarios */
+    --secondary: 75 75 75; /* Lighter clean gray for secondary elements */
     --secondary-foreground: 255 255 255;
 
-    --muted: 64 64 64; /* Fondos muted */
-    --muted-foreground: 156 163 175; /* Texto gris claro */
+    --muted: 55 55 55; /* Clean gray for muted backgrounds */
+    --muted-foreground: 200 200 200; /* Light gray text for better contrast */
 
-    --accent: 115 115 115; /* Gris claro para highlights y hovers */
+    --accent: 85 85 85; /* Light gray for highlights and hovers */
     --accent-foreground: 255 255 255;
 
     --destructive: 239 68 68; /* Red para errores */
     --destructive-foreground: 255 255 255;
 
-    --border: 51 51 51; /* Bordes sutiles grises oscuros */
-    --input: 51 51 51; /* Input backgrounds */
+    --border: 75 75 75; /* Lighter borders for better definition */
+    --input: 55 55 55; /* Clean gray input backgrounds */
     --ring: 115 115 115; /* Focus rings use gray */
 
     --radius: 0.75rem; /* Rounded corners */
@@ -82,7 +82,7 @@
   }
 
   .card-hover {
-    @apply hover:bg-accent/10 transition-all duration-200 hover:shadow-lg hover:shadow-white/5;
+    @apply hover:bg-accent/20 transition-all duration-200 hover:shadow-lg hover:shadow-white/5;
   }
 
   /* Mobile-first responsive utilities */
@@ -106,12 +106,25 @@
   }
 }
 
-/* Force override any external color styles */
+/* Force proper text colors and visibility */
 * {
   color: inherit !important;
 }
 
-/* Ensure all buttons use design system colors */
-button {
+/* Ensure all text elements use proper foreground colors */
+button, span, p, h1, h2, h3, h4, h5, h6, div {
   color: inherit !important;
+}
+
+/* Override any external styles that might cause brown backgrounds */
+.bg-muted, [class*="bg-muted"] {
+  background-color: rgb(55 55 55) !important;
+}
+
+.bg-card, [class*="bg-card"] {
+  background-color: rgb(45 45 45) !important;
+}
+
+.bg-secondary, [class*="bg-secondary"] {
+  background-color: rgb(75 75 75) !important;
 }

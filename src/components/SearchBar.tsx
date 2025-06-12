@@ -17,17 +17,17 @@ const SearchBar = ({ placeholder }: SearchBarProps) => {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <Input 
               placeholder={placeholder}
-              className="pl-10 bg-card border-border text-foreground placeholder:text-muted-foreground rounded-full h-10 focus-visible:ring-accent focus-visible:border-accent"
+              className="pl-10 bg-muted border-border text-foreground placeholder:text-muted-foreground rounded-full h-10 focus-visible:ring-accent focus-visible:border-accent"
             />
           </div>
         </div>
 
         <div className="flex items-center space-x-2 ml-3">
-          <Button variant="ghost" size="icon" className="text-foreground h-10 w-10 hover:bg-accent/20">
-            <Bell className="w-5 h-5" />
+          <Button variant="ghost" size="icon" className="text-foreground h-10 w-10 hover:bg-accent/30">
+            <Bell className="w-5 h-5 text-foreground" />
           </Button>
-          <Button variant="ghost" size="icon" className="text-foreground h-10 w-10 hover:bg-accent/20">
-            <Video className="w-5 h-5" />
+          <Button variant="ghost" size="icon" className="text-foreground h-10 w-10 hover:bg-accent/30">
+            <Video className="w-5 h-5 text-foreground" />
           </Button>
         </div>
       </div>
