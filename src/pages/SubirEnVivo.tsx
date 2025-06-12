@@ -15,7 +15,7 @@ const SubirEnVivo = () => {
         {/* Header with action buttons */}
         <div className="flex flex-col space-y-3 mb-6 mt-4">
           <div className="flex space-x-3">
-            <Button className="flex-1 bg-foreground text-background hover:bg-foreground/90">
+            <Button className="flex-1 bg-foreground text-background hover:bg-accent/20 hover:text-foreground">
               <Plus className="w-4 h-4 mr-2" />
               Crear Producto
             </Button>
@@ -65,25 +65,25 @@ const SubirEnVivo = () => {
 
         {/* Quick actions */}
         <div className="grid grid-cols-2 gap-3">
-          <Card className="bg-card border-border card-hover cursor-pointer">
+          <Card className="bg-card border-border hover:bg-accent/20 transition-colors cursor-pointer">
             <CardContent className="p-4 text-center">
               <CreditCard className="w-8 h-8 text-foreground mx-auto mb-2" />
               <div className="text-sm font-medium text-foreground">Pagos</div>
             </CardContent>
           </Card>
-          <Card className="bg-card border-border card-hover cursor-pointer">
+          <Card className="bg-card border-border hover:bg-accent/20 transition-colors cursor-pointer">
             <CardContent className="p-4 text-center">
               <ShoppingBag className="w-8 h-8 text-foreground mx-auto mb-2" />
               <div className="text-sm font-medium text-foreground">Pedidos</div>
             </CardContent>
           </Card>
-          <Card className="bg-card border-border card-hover cursor-pointer">
+          <Card className="bg-card border-border hover:bg-accent/20 transition-colors cursor-pointer">
             <CardContent className="p-4 text-center">
               <Package className="w-8 h-8 text-foreground mx-auto mb-2" />
               <div className="text-sm font-medium text-foreground">Inventario</div>
             </CardContent>
           </Card>
-          <Card className="bg-card border-border card-hover cursor-pointer">
+          <Card className="bg-card border-border hover:bg-accent/20 transition-colors cursor-pointer">
             <CardContent className="p-4 text-center">
               <Play className="w-8 h-8 text-foreground mx-auto mb-2" />
               <div className="text-sm font-medium text-foreground">Modo Ensayo</div>

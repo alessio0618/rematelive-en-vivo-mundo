@@ -110,6 +110,24 @@
   .mobile-header {
     @apply pt-safe;
   }
+
+  /* Global hover standardization */
+  .tab-button {
+    @apply whitespace-nowrap text-sm font-medium transition-colors px-3 py-1.5 rounded-md hover:bg-accent/20;
+  }
+  
+  .tab-button-active {
+    @apply text-foreground border-b-2 border-foreground bg-muted;
+  }
+  
+  .tab-button-inactive {
+    @apply text-foreground bg-muted border-b-2 border-transparent;
+  }
+
+  /* Override Button component hover behavior for tabs */
+  .tab-override {
+    @apply hover:bg-accent/20 !important;
+  }
 }
 
 /* Mobile-specific optimizations */
@@ -134,4 +152,16 @@
 
 .bg-secondary, [class*="bg-secondary"] {
   background-color: rgb(75 75 75) !important;
+}
+
+/* Force consistent hover behavior globally */
+button:hover, .hover-effect:hover {
+  background-color: rgba(85, 85, 85, 0.2) !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Override Radix UI Button hovers */
+[data-radix-collection-item]:hover,
+button[data-state]:hover {
+  background-color: rgba(85, 85, 85, 0.2) !important;
 }

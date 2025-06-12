@@ -22,10 +22,10 @@ const CategoryBar = () => {
             <button
               key={category}
               onClick={() => setActiveCategory(category)}
-              className={`whitespace-nowrap text-sm font-medium hover:bg-accent/20 transition-colors px-3 py-1.5 rounded-md ${
+              className={`tab-button ${
                 activeCategory === category 
-                  ? 'text-foreground border-b-2 border-foreground' 
-                  : 'text-foreground border-b-2 border-transparent'
+                  ? 'tab-button-active' 
+                  : 'tab-button-inactive'
               }`}
             >
               {category}

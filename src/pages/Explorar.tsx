@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { TrendingUp, Hash, Gamepad2, Shirt, Baby, Laptop, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -82,16 +83,16 @@ const Explorar = () => {
       <SearchBar placeholder="Buscar categorías" />
       
       <main className="mobile-padding pb-24">
-        {/* Filter tabs */}
+        {/* Filter tabs with consistent styling */}
         <div className="flex space-x-3 mb-6 mt-4 overflow-x-auto scrollbar-hide">
           {filters.map((filter) => (
             <button
               key={filter}
               onClick={() => setActiveFilter(filter)}
-              className={`whitespace-nowrap text-sm font-medium transition-colors px-3 py-1.5 rounded-md hover:bg-accent/20 ${
+              className={`tab-button ${
                 activeFilter === filter 
-                  ? 'text-foreground border-b-2 border-foreground bg-muted' 
-                  : 'text-foreground bg-muted'
+                  ? 'tab-button-active' 
+                  : 'tab-button-inactive'
               }`}
             >
               {filter}

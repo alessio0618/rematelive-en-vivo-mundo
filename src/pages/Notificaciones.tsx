@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { ShoppingBag, MessageSquare, Heart, BookmarkCheck, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -54,16 +55,16 @@ const Notificaciones = () => {
       <SimpleHeader />
       
       <main className="mobile-padding pb-24">
-        {/* Tab navigation */}
+        {/* Tab navigation with consistent styling */}
         <div className="flex space-x-1 mb-4 mt-4 overflow-x-auto scrollbar-hide">
           {tabs.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`whitespace-nowrap text-sm font-medium transition-colors px-3 py-1.5 rounded-md hover:bg-accent/20 ${
+              className={`tab-button ${
                 activeTab === tab 
-                  ? 'text-foreground border-b-2 border-foreground bg-muted' 
-                  : 'text-foreground bg-muted'
+                  ? 'tab-button-active' 
+                  : 'tab-button-inactive'
               }`}
             >
               {tab}
@@ -71,7 +72,7 @@ const Notificaciones = () => {
           ))}
         </div>
 
-        {/* Filter buttons */}
+        {/* Filter buttons with consistent styling */}
         <div className="flex space-x-2 mb-6 overflow-x-auto scrollbar-hide">
           {filters.map((filter) => (
             <button
@@ -80,7 +81,7 @@ const Notificaciones = () => {
               className={`whitespace-nowrap text-xs transition-colors px-3 py-1.5 rounded-md hover:bg-accent/20 ${
                 activeFilter === filter 
                   ? 'text-foreground border-b-2 border-foreground bg-muted' 
-                  : 'text-foreground bg-muted'
+                  : 'text-foreground bg-muted border-b-2 border-transparent'
               }`}
             >
               {filter}

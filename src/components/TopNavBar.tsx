@@ -41,17 +41,17 @@ const TopNavBar = () => {
         </div>
       </div>
 
-      {/* Category filters */}
+      {/* Category filters with consistent styling */}
       <div className="px-3 pb-2">
         <div className="flex space-x-3 overflow-x-auto scrollbar-hide">
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => setActiveCategory(category)}
-              className={`whitespace-nowrap text-sm font-medium hover:bg-accent/20 transition-colors px-3 py-1.5 rounded-md ${
+              className={`tab-button ${
                 activeCategory === category 
-                  ? 'text-foreground border-b-2 border-foreground' 
-                  : 'text-muted-foreground border-b-2 border-transparent'
+                  ? 'tab-button-active' 
+                  : 'tab-button-inactive'
               }`}
             >
               {category}
