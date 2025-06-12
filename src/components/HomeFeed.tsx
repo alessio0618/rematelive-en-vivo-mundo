@@ -69,7 +69,7 @@ const HomeFeed = () => {
 
   return (
     <div className="mobile-padding pb-24 min-h-screen">
-      <div className="grid grid-cols-2 gap-2 mt-2">
+      <div className="grid grid-cols-2 gap-3 mt-2">
         {liveChannels.map((channel) => (
           <LiveChannelCard
             key={channel.id}

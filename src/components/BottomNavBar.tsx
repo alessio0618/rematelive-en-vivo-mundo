@@ -1,37 +1,47 @@
 
 import React from 'react';
-import { Home, Search, Gift, Heart, User } from 'lucide-react';
+import { Home, Search, Video, Bell, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface NavItem {
   id: string;
   label: string;
   icon: React.ComponentType<{ className?: string }>;
-  isActive?: boolean;
+  route: string;
 }
 
 const BottomNavBar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const navItems: NavItem[] = [
-    { id: 'inicio', label: 'Home', icon: Home, isActive: true },
-    { id: 'categorias', label: 'Categories', icon: Search },
-    { id: 'vendedor', label: 'Seller Hub', icon: Gift },
-    { id: 'actividad', label: 'Activity', icon: Heart },
-    { id: 'cuenta', label: 'Account', icon: User },
+    { id: 'inicio', label: 'Inicio', icon: Home, route: '/' },
+    { id: 'explorar', label: 'Explorar', icon: Search, route: '/explorar' },
+    { id: 'subir', label: 'Subir en Vivo', icon: Video, route: '/subir-en-vivo' },
+    { id: 'notificaciones', label: 'Notificaciones', icon: Bell, route: '/notificaciones' },
+    { id: 'perfil', label: 'Perfil', icon: User, route: '/perfil' },
   ];
+
+  const handleNavigation = (route: string) => {
+    navigate(route);
+  };
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border z-50 mobile-safe-area">
       <div className="flex items-center justify-around py-1">
         {navItems.map((item) => {
           const Icon = item.icon;
+          const isActive = location.pathname === item.route;
           return (
             <Button
               key={item.id}
               variant="ghost"
-              className={`flex flex-col items-center space-y-1 h-auto py-2 px-3 min-w-0 flex-1 hover:bg-transparent hover:border-white ${
-                item.isActive 
-                  ? 'text-yellow-400 border-t-2 border-yellow-400' 
-                  : 'text-gray-300 border-t-2 border-transparent'
+              onClick={() => handleNavigation(item.route)}
+              className={`flex flex-col items-center space-y-1 h-auto py-2 px-3 min-w-0 flex-1 hover:bg-accent/20 transition-colors ${
+                isActive 
+                  ? 'text-foreground border-t-2 border-foreground' 
+                  : 'text-muted-foreground border-t-2 border-transparent'
               }`}
             >
               <Icon className="w-6 h-6" />

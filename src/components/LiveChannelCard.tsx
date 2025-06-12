@@ -31,7 +31,7 @@ const LiveChannelCard = ({
 
   return (
     <Card 
-      className="bg-card border-none overflow-hidden hover:bg-card/80 transition-colors cursor-pointer rounded-lg"
+      className="bg-card border-border overflow-hidden cursor-pointer rounded-lg card-hover transition-all duration-200"
       onClick={handleClick}
     >
       {/* Thumbnail with live indicator */}
@@ -51,17 +51,17 @@ const LiveChannelCard = ({
         )}
 
         {/* Seller info overlay */}
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
           <div className="flex items-center space-x-2 mb-1">
             <img 
               src={sellerAvatar} 
               alt={sellerName}
-              className="w-6 h-6 rounded-full object-cover"
+              className="w-6 h-6 rounded-full object-cover border border-white/20"
             />
             <span className="text-white font-medium text-sm">{sellerName}</span>
           </div>
-          <h3 className="text-white font-bold text-sm leading-tight mb-1">{title}</h3>
-          <p className="text-white text-xs">{category}</p>
+          <h3 className="text-white font-bold text-sm leading-tight mb-1 line-clamp-2">{title}</h3>
+          <p className="text-white/80 text-xs">{category}</p>
         </div>
       </div>
     </Card>

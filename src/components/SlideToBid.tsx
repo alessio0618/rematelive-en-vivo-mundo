@@ -93,36 +93,36 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
     <div style={{ width: '180px' }}>
       <div
         ref={containerRef}
-        className="relative h-10 bg-gray-800 rounded-full overflow-hidden cursor-pointer select-none border border-yellow-400"
+        className="relative h-10 bg-secondary rounded-full overflow-hidden cursor-pointer select-none border border-accent"
         onMouseDown={handleStart}
         onTouchStart={handleStart}
       >
         {/* Background track */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-white text-sm font-medium">
+          <span className="text-foreground text-sm font-medium">
             {hasBid ? '¡Bid!' : `$${nextBidAmount}`}
           </span>
         </div>
 
         {/* Progress fill */}
         <div
-          className="absolute left-0 top-0 h-full bg-yellow-400 transition-all duration-75 ease-out rounded-full"
+          className="absolute left-0 top-0 h-full bg-accent transition-all duration-75 ease-out rounded-full"
           style={{ width: `${slideProgress * 100}%` }}
         />
 
         {/* Slider button */}
         <div
           ref={sliderRef}
-          className="absolute left-0.5 top-0.5 w-9 h-9 bg-yellow-400 rounded-full flex items-center justify-center shadow-md transition-all duration-75 ease-out border border-yellow-500 z-10"
+          className="absolute left-0.5 top-0.5 w-9 h-9 bg-accent rounded-full flex items-center justify-center shadow-md transition-all duration-75 ease-out border border-accent z-10"
           style={{
             transform: `translateX(${slideProgress * maxTranslation}px)`,
-            backgroundColor: hasBid ? '#22c55e' : '#fbbf24'
+            backgroundColor: hasBid ? '#22c55e' : 'rgb(115, 115, 115)'
           }}
         >
           {hasBid ? (
             <div className="w-2 h-2 bg-white rounded-full" />
           ) : (
-            <ChevronRight className="w-4 h-4 text-black" />
+            <ChevronRight className="w-4 h-4 text-background" />
           )}
         </div>
 
