@@ -15,14 +15,14 @@ const SubirEnVivo = () => {
         {/* Header with action buttons */}
         <div className="flex flex-col space-y-3 mb-6 mt-4">
           <div className="flex space-x-3">
-            <Button className="flex-1 bg-foreground text-background hover:bg-accent/20 hover:text-foreground">
+            <button className="flex-1 bg-muted text-foreground hover:bg-accent/20 transition-colors rounded-md h-10 px-4 py-2 text-sm font-medium flex items-center justify-center border border-border">
               <Plus className="w-4 h-4 mr-2" />
               Crear Producto
-            </Button>
-            <Button variant="outline" className="flex-1 border-border text-foreground hover:bg-accent/20">
+            </button>
+            <button className="flex-1 bg-card border border-border text-foreground hover:bg-accent/20 transition-colors rounded-md h-10 px-4 py-2 text-sm font-medium flex items-center justify-center">
               <Calendar className="w-4 h-4 mr-2" />
               Programar Show
-            </Button>
+            </button>
           </div>
         </div>
 
@@ -56,9 +56,9 @@ const SubirEnVivo = () => {
                 <Calendar className="w-8 h-8 text-foreground" />
               </div>
               <p className="text-foreground text-sm">No tienes shows programados</p>
-              <Button variant="outline" className="mt-3 border-border text-foreground hover:bg-accent/20">
+              <button className="mt-3 border border-border text-foreground hover:bg-accent/20 transition-colors rounded-md h-10 px-4 py-2 text-sm font-medium bg-card">
                 Programar tu primer show
-              </Button>
+              </button>
             </div>
           </CardContent>
         </Card>
