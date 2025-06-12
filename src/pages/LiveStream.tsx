@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, MoreHorizontal, Users, Heart, MessageCircle, Share, Wallet, ShoppingBag, Zap, Camera } from 'lucide-react';
@@ -5,12 +6,24 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { SlideToBid } from '@/components/SlideToBid';
+import { ShareModal } from '@/components/ShareModal';
+import { BoostModal } from '@/components/BoostModal';
+import { StreamOptionsSheet } from '@/components/StreamOptionsSheet';
+import { useToast } from '@/hooks/use-toast';
 
 const LiveStream = () => {
   const { sellerId } = useParams();
   const navigate = useNavigate();
+  const { toast } = useToast();
+  
+  // State management
   const [isFollowing, setIsFollowing] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(234);
   const [chatMessage, setChatMessage] = useState('');
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [showBoostModal, setShowBoostModal] = useState(false);
+  const [showOptionsSheet, setShowOptionsSheet] = useState(false);
 
   // Mock data - in real app this would come from API
   const streamData = {
@@ -40,10 +53,80 @@ const LiveStream = () => {
     { id: 3, user: 'maria_g', message: '¿Cuál es el precio final?' }
   ];
 
+  // Event handlers
   const handleBid = (productId: number, bidAmount: number) => {
     console.log(`Bid placed for product ${productId}: $${bidAmount}`);
-    // Handle bid logic here
+    toast({
+      title: "¡Puja realizada!",
+      description: `Has pujado $${bidAmount} por ${currentProduct.name}`
+    });
   };
+
+  const handleLike = () => {
+    setIsLiked(!isLiked);
+    setLikeCount(prev => isLiked ? prev - 1 : prev + 1);
+    toast({
+      title: isLiked ? "Like removido" : "¡Te gusta este stream!",
+      description: isLiked ? "Has removido tu like" : "Has dado like al stream"
+    });
+  };
+
+  const handleFollow = () => {
+    setIsFollowing(!isFollowing);
+    toast({
+      title: isFollowing ? "Dejaste de seguir" : "¡Ahora sigues a este vendedor!",
+      description: isFollowing ? `Ya no sigues a ${streamData.sellerName}` : `Ahora sigues a ${streamData.sellerName}`
+    });
+  };
+
+  const handleSendMessage = () => {
+    if (chatMessage.trim()) {
+      console.log('Sending message:', chatMessage);
+      toast({
+        title: "Mensaje enviado",
+        description: "Tu mensaje se ha enviado al chat"
+      });
+      setChatMessage('');
+    }
+  };
+
+  const handleClip = () => {
+    toast({
+      title: "Clip creado",
+      description: "Se ha creado un clip de este momento"
+    });
+  };
+
+  const handleWallet = () => {
+    navigate('/perfil');
+    toast({
+      title: "Navegando a wallet",
+      description: "Abriendo tu wallet..."
+    });
+  };
+
+  const handleShop = () => {
+    toast({
+      title: "Tienda del vendedor",
+      description: `Abriendo la tienda de ${streamData.sellerName}`
+    });
+  };
+
+  const handleFocusChat = () => {
+    const chatInput = document.querySelector('input[placeholder="Escribe un mensaje..."]') as HTMLInputElement;
+    if (chatInput) {
+      chatInput.focus();
+    }
+  };
+
+  const handleScreenshot = () => {
+    toast({
+      title: "Captura realizada",
+      description: "Se ha capturado una imagen del stream"
+    });
+  };
+
+  const currentUrl = `${window.location.origin}/live/${sellerId}`;
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
@@ -52,7 +135,7 @@ const LiveStream = () => {
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate('/')}
           className="text-foreground hover:bg-transparent"
         >
           <ArrowLeft className="w-6 h-6" />
@@ -65,7 +148,12 @@ const LiveStream = () => {
             <span className="text-sm font-medium">{streamData.viewerCount}</span>
           </div>
           
-          <Button variant="ghost" size="icon" className="text-foreground hover:bg-transparent">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="text-foreground hover:bg-transparent"
+            onClick={() => setShowOptionsSheet(true)}
+          >
             <MoreHorizontal className="w-6 h-6" />
           </Button>
         </div>
@@ -99,7 +187,7 @@ const LiveStream = () => {
             </div>
             
             <button
-              onClick={() => setIsFollowing(!isFollowing)}
+              onClick={handleFollow}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent/20 ${
                 isFollowing 
                   ? 'text-yellow-400 border border-yellow-400' 
@@ -113,19 +201,44 @@ const LiveStream = () => {
 
         {/* Action Buttons */}
         <div className="absolute bottom-4 right-4 flex flex-col space-y-3">
-          <Button variant="ghost" size="icon" className="bg-black/50 text-white hover:bg-black/70 rounded-full">
-            <Heart className="w-6 h-6" />
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className={`bg-black/50 hover:bg-black/70 rounded-full ${isLiked ? 'text-red-500' : 'text-white'}`}
+            onClick={handleLike}
+          >
+            <Heart className={`w-6 h-6 ${isLiked ? 'fill-current' : ''}`} />
           </Button>
-          <Button variant="ghost" size="icon" className="bg-black/50 text-white hover:bg-black/70 rounded-full">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="bg-black/50 text-white hover:bg-black/70 rounded-full"
+            onClick={handleFocusChat}
+          >
             <MessageCircle className="w-6 h-6" />
           </Button>
-          <Button variant="ghost" size="icon" className="bg-black/50 text-white hover:bg-black/70 rounded-full">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="bg-black/50 text-white hover:bg-black/70 rounded-full"
+            onClick={() => setShowShareModal(true)}
+          >
             <Share className="w-6 h-6" />
           </Button>
-          <Button variant="ghost" size="icon" className="bg-black/50 text-white hover:bg-black/70 rounded-full">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="bg-black/50 text-white hover:bg-black/70 rounded-full"
+            onClick={() => setShowBoostModal(true)}
+          >
             <Zap className="w-6 h-6" />
           </Button>
-          <Button variant="ghost" size="icon" className="bg-black/50 text-white hover:bg-black/70 rounded-full">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="bg-black/50 text-white hover:bg-black/70 rounded-full"
+            onClick={handleScreenshot}
+          >
             <Camera className="w-6 h-6" />
           </Button>
         </div>
@@ -191,11 +304,13 @@ const LiveStream = () => {
                 placeholder="Escribe un mensaje..."
                 value={chatMessage}
                 onChange={(e) => setChatMessage(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                 className="flex-1 bg-card border-border text-foreground placeholder:text-gray-400"
               />
               <Button 
                 size="icon"
                 className="bg-yellow-400 text-black hover:bg-yellow-500"
+                onClick={handleSendMessage}
               >
                 <MessageCircle className="w-4 h-4" />
               </Button>
@@ -206,33 +321,83 @@ const LiveStream = () => {
         {/* Bottom Action Bar */}
         <div className="p-4 border-t border-border bg-card">
           <div className="flex items-center justify-around">
-            <Button variant="ghost" size="sm" className="flex flex-col items-center text-foreground hover:bg-transparent">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="flex flex-col items-center text-foreground hover:bg-transparent"
+              onClick={() => setShowOptionsSheet(true)}
+            >
               <MoreHorizontal className="w-5 h-5 mb-1" />
               <span className="text-xs">More</span>
             </Button>
-            <Button variant="ghost" size="sm" className="flex flex-col items-center text-foreground hover:bg-transparent">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="flex flex-col items-center text-foreground hover:bg-transparent"
+              onClick={() => setShowBoostModal(true)}
+            >
               <Zap className="w-5 h-5 mb-1" />
               <span className="text-xs">Boost</span>
             </Button>
-            <Button variant="ghost" size="sm" className="flex flex-col items-center text-foreground hover:bg-transparent">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="flex flex-col items-center text-foreground hover:bg-transparent"
+              onClick={handleClip}
+            >
               <Camera className="w-5 h-5 mb-1" />
               <span className="text-xs">Clip</span>
             </Button>
-            <Button variant="ghost" size="sm" className="flex flex-col items-center text-foreground hover:bg-transparent">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="flex flex-col items-center text-foreground hover:bg-transparent"
+              onClick={() => setShowShareModal(true)}
+            >
               <Share className="w-5 h-5 mb-1" />
               <span className="text-xs">Share</span>
             </Button>
-            <Button variant="ghost" size="sm" className="flex flex-col items-center text-foreground hover:bg-transparent">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="flex flex-col items-center text-foreground hover:bg-transparent"
+              onClick={handleWallet}
+            >
               <Wallet className="w-5 h-5 mb-1" />
               <span className="text-xs">Wallet</span>
             </Button>
-            <Button variant="ghost" size="sm" className="flex flex-col items-center text-foreground hover:bg-transparent">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="flex flex-col items-center text-foreground hover:bg-transparent"
+              onClick={handleShop}
+            >
               <ShoppingBag className="w-5 h-5 mb-1" />
               <span className="text-xs">Shop</span>
             </Button>
           </div>
         </div>
       </div>
+
+      {/* Modals and Sheets */}
+      <ShareModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        streamUrl={currentUrl}
+        streamTitle={streamData.streamTitle}
+      />
+      
+      <BoostModal
+        isOpen={showBoostModal}
+        onClose={() => setShowBoostModal(false)}
+        sellerName={streamData.sellerName}
+      />
+      
+      <StreamOptionsSheet
+        isOpen={showOptionsSheet}
+        onClose={() => setShowOptionsSheet(false)}
+        sellerName={streamData.sellerName}
+      />
     </div>
   );
 };
