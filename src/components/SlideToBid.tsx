@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronRight } from 'lucide-react';
 
@@ -15,6 +14,17 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const nextBidAmount = currentBid + 1; // Increment by $1
+  
+  // Calculate dynamic bid amount based on slide progress
+  const getCurrentBidAmount = () => {
+    if (isSliding) {
+      // Show incremental bids as user slides (from current+1 to current+5)
+      const maxIncrease = 5;
+      const bidIncrease = Math.floor(slideProgress * maxIncrease);
+      return currentBid + Math.max(1, bidIncrease);
+    }
+    return nextBidAmount;
+  };
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -100,23 +110,26 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
         {/* Background track */}
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="text-foreground text-sm font-medium">
-            {hasBid ? '¡Bid!' : `$${nextBidAmount}`}
+            {hasBid ? '¡Bid!' : `$${getCurrentBidAmount()}`}
           </span>
         </div>
 
         {/* Progress fill */}
         <div
-          className="absolute left-0 top-0 h-full bg-accent transition-all duration-75 ease-out rounded-full"
-          style={{ width: `${slideProgress * 100}%` }}
+          className="absolute left-0 top-0 h-full transition-all duration-75 ease-out rounded-full"
+          style={{ 
+            width: `${slideProgress * 100}%`,
+            backgroundColor: slideProgress >= 1 ? 'rgb(255, 214, 0)' : 'rgb(85, 85, 85)'
+          }}
         />
 
         {/* Slider button */}
         <div
           ref={sliderRef}
-          className="absolute left-0.5 top-0.5 w-9 h-9 bg-accent rounded-full flex items-center justify-center shadow-md transition-all duration-75 ease-out border border-accent z-10"
+          className="absolute left-0.5 top-0.5 w-9 h-9 rounded-full flex items-center justify-center shadow-md transition-all duration-75 ease-out border border-accent z-10"
           style={{
             transform: `translateX(${slideProgress * maxTranslation}px)`,
-            backgroundColor: hasBid ? 'rgb(255, 214, 0)' : 'rgb(115, 115, 115)'
+            backgroundColor: hasBid ? 'rgb(255, 214, 0)' : slideProgress >= 1 ? 'rgb(255, 214, 0)' : 'rgb(115, 115, 115)'
           }}
         >
           {hasBid ? (
