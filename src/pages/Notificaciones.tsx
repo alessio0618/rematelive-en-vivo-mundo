@@ -96,7 +96,7 @@ const Notificaciones = () => {
         {/* Notifications list */}
         <div className="space-y-3">
           {notifications.map((notification) => (
-            <Card key={notification.id} className="bg-card border-border card-hover cursor-pointer">
+            <Card key={notification.id} className="bg-card border-border hover:bg-accent/20 transition-colors cursor-pointer">
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
                   <img 

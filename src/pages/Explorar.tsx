@@ -94,7 +94,7 @@ const Explorar = () => {
               className={`whitespace-nowrap text-sm font-medium transition-colors ${
                 activeFilter === filter 
                   ? 'bg-foreground text-background hover:bg-foreground/90' 
-                  : 'text-foreground bg-muted hover:bg-accent/30'
+                  : 'text-foreground bg-muted hover:bg-accent/20'
               }`}
             >
               {filter}
@@ -109,7 +109,7 @@ const Explorar = () => {
             return (
               <Card 
                 key={category.id}
-                className="bg-card border-border p-4 card-hover cursor-pointer"
+                className="bg-card border-border p-4 hover:bg-accent/20 transition-colors cursor-pointer"
               >
                 <div className="flex flex-col items-center text-center space-y-3">
                   <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center">
