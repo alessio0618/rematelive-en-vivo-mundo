@@ -1,10 +1,12 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Search, Bell, Video } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
 const TopNavBar = () => {
+  const [activeCategory, setActiveCategory] = useState('Para Ti');
+  
   const categories = [
     'Para Ti',
     'Cartas',
@@ -42,19 +44,18 @@ const TopNavBar = () => {
       {/* Category filters */}
       <div className="px-3 pb-2">
         <div className="flex space-x-3 overflow-x-auto scrollbar-hide">
-          {categories.map((category, index) => (
-            <Button
+          {categories.map((category) => (
+            <button
               key={category}
-              variant="ghost"
-              size="sm"
-              className={`whitespace-nowrap text-sm font-medium hover:bg-accent/20 transition-colors ${
-                index === 0 
+              onClick={() => setActiveCategory(category)}
+              className={`whitespace-nowrap text-sm font-medium hover:bg-accent/20 transition-colors px-3 py-1.5 rounded-md ${
+                activeCategory === category 
                   ? 'text-foreground border-b-2 border-foreground' 
                   : 'text-muted-foreground border-b-2 border-transparent'
               }`}
             >
               {category}
-            </Button>
+            </button>
           ))}
         </div>
       </div>

@@ -88,10 +88,10 @@ const Explorar = () => {
             <button
               key={filter}
               onClick={() => setActiveFilter(filter)}
-              className={`whitespace-nowrap text-sm font-medium transition-colors px-3 py-1.5 rounded-md ${
+              className={`whitespace-nowrap text-sm font-medium transition-colors px-3 py-1.5 rounded-md hover:bg-accent/20 ${
                 activeFilter === filter 
-                  ? 'bg-foreground text-background' 
-                  : 'text-foreground bg-muted hover:bg-accent/20'
+                  ? 'text-foreground border-b-2 border-foreground bg-muted' 
+                  : 'text-foreground bg-muted'
               }`}
             >
               {filter}
