@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from 'react';
-import { X, Send, Camera, Video, Paperclip, Smile } from 'lucide-react';
+import { X, Send, Camera, Video, Paperclip, Smile, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
