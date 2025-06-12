@@ -47,8 +47,7 @@ const Notificaciones = () => {
   ];
 
   const getStatusColor = (status: string) => {
-    // Cambiado: todos los estados usan solo gris claro, sin colores vibrantes
-    return 'text-muted-foreground';
+    return 'text-foreground';
   };
 
   return (
@@ -67,7 +66,7 @@ const Notificaciones = () => {
               className={`whitespace-nowrap text-sm font-medium transition-colors ${
                 activeTab === tab 
                   ? 'bg-foreground text-background' 
-                  : 'text-muted-foreground hover:bg-accent/20'
+                  : 'text-foreground hover:bg-accent/20'
               }`}
             >
               {tab}
@@ -86,7 +85,7 @@ const Notificaciones = () => {
               className={`whitespace-nowrap text-xs transition-colors ${
                 activeFilter === filter 
                   ? 'bg-secondary text-foreground' 
-                  : 'text-muted-foreground hover:bg-accent/20'
+                  : 'text-foreground hover:bg-accent/20'
               }`}
             >
               {filter}
@@ -110,12 +109,12 @@ const Notificaciones = () => {
                       <h3 className="text-foreground font-semibold text-sm">{notification.title}</h3>
                       <span className="text-foreground font-bold text-sm">{notification.amount}</span>
                     </div>
-                    <p className="text-muted-foreground text-sm mb-2 line-clamp-2">{notification.description}</p>
+                    <p className="text-foreground text-sm mb-2 line-clamp-2">{notification.description}</p>
                     <div className="flex items-center justify-between">
                       <span className={`text-xs font-medium ${getStatusColor(notification.status)}`}>
                         {notification.status}
                       </span>
-                      <span className="text-xs text-muted-foreground">{notification.time}</span>
+                      <span className="text-xs text-foreground">{notification.time}</span>
                     </div>
                   </div>
                 </div>
@@ -128,9 +127,9 @@ const Notificaciones = () => {
         {notifications.length === 0 && (
           <div className="text-center py-12">
             <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-              <ShoppingBag className="w-8 h-8 text-muted-foreground" />
+              <ShoppingBag className="w-8 h-8 text-foreground" />
             </div>
-            <p className="text-muted-foreground text-sm">No tienes notificaciones</p>
+            <p className="text-foreground text-sm">No tienes notificaciones</p>
           </div>
         )}
       </main>

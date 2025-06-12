@@ -57,10 +57,27 @@
   body {
     @apply bg-background text-foreground font-sans;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    color: rgb(255 255 255) !important; /* Force white text globally */
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold text-foreground;
+    color: rgb(255 255 255) !important;
+  }
+
+  /* Ensure all text elements use white color */
+  button, span, p, div, label, input::placeholder {
+    color: rgb(255 255 255) !important;
+  }
+
+  /* Specific overrides for muted text to be visible light gray */
+  .text-muted-foreground {
+    color: rgb(200 200 200) !important;
+  }
+
+  /* Ensure foreground text is always white */
+  .text-foreground {
+    color: rgb(255 255 255) !important;
   }
 }
 
@@ -104,16 +121,6 @@
   .mobile-padding {
     @apply px-3 py-2;
   }
-}
-
-/* Force proper text colors and visibility */
-* {
-  color: inherit !important;
-}
-
-/* Ensure all text elements use proper foreground colors */
-button, span, p, h1, h2, h3, h4, h5, h6, div {
-  color: inherit !important;
 }
 
 /* Override any external styles that might cause brown backgrounds */

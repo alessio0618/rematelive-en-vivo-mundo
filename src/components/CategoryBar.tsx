@@ -25,7 +25,7 @@ const CategoryBar = () => {
               className={`whitespace-nowrap text-sm font-medium hover:bg-accent/20 transition-colors ${
                 index === 0 
                   ? 'text-foreground border-b-2 border-foreground' 
-                  : 'text-muted-foreground border-b-2 border-transparent'
+                  : 'text-foreground border-b-2 border-transparent'
               }`}
             >
               {category}

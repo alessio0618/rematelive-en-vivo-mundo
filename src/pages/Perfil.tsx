@@ -58,11 +58,11 @@ const Perfil = () => {
           </div>
           <div className="flex-1">
             <h1 className="text-foreground text-xl font-bold">Usuario123</h1>
-            <p className="text-muted-foreground text-sm">Miembro desde 2024</p>
+            <p className="text-foreground text-sm">Miembro desde 2024</p>
             <div className="flex items-center space-x-1 mt-1">
-              <Star className="w-4 h-4 text-muted-foreground" />
+              <Star className="w-4 h-4 text-foreground" />
               <span className="text-foreground text-sm font-medium">4.8</span>
-              <span className="text-muted-foreground text-sm">(24 reseñas)</span>
+              <span className="text-foreground text-sm">(24 reseñas)</span>
             </div>
           </div>
         </div>
@@ -72,19 +72,19 @@ const Perfil = () => {
           <Card className="bg-card border-border">
             <CardContent className="p-4 text-center">
               <div className="flex items-center justify-center mb-2">
-                <Star className="w-6 h-6 text-muted-foreground" />
+                <Star className="w-6 h-6 text-foreground" />
               </div>
               <div className="text-foreground font-semibold">Referencias y Crédito</div>
-              <div className="text-muted-foreground text-sm">Ver detalles</div>
+              <div className="text-foreground text-sm">Ver detalles</div>
             </CardContent>
           </Card>
           <Card className="bg-card border-border">
             <CardContent className="p-4 text-center">
               <div className="flex items-center justify-center mb-2">
-                <Gift className="w-6 h-6 text-muted-foreground" />
+                <Gift className="w-6 h-6 text-foreground" />
               </div>
               <div className="text-foreground font-semibold">Mis Recompensas</div>
-              <div className="text-muted-foreground text-sm">3 disponibles</div>
+              <div className="text-foreground text-sm">3 disponibles</div>
             </CardContent>
           </Card>
         </div>
@@ -99,14 +99,14 @@ const Perfil = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-muted rounded-full flex items-center justify-center">
-                        <Icon className="w-5 h-5 text-muted-foreground" />
+                        <Icon className="w-5 h-5 text-foreground" />
                       </div>
                       <div>
                         <div className="text-foreground font-medium text-sm">{item.title}</div>
-                        <div className="text-muted-foreground text-xs">{item.description}</div>
+                        <div className="text-foreground text-xs">{item.description}</div>
                       </div>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                    <ChevronRight className="w-5 h-5 text-foreground" />
                   </div>
                 </CardContent>
               </Card>
@@ -125,10 +125,10 @@ const Perfil = () => {
                   <CardContent className="p-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <Icon className="w-5 h-5 text-muted-foreground" />
+                        <Icon className="w-5 h-5 text-foreground" />
                         <span className="text-foreground text-sm">{item.title}</span>
                       </div>
-                      <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                      <ChevronRight className="w-4 h-4 text-foreground" />
                     </div>
                   </CardContent>
                 </Card>

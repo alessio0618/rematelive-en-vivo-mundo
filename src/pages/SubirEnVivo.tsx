@@ -35,11 +35,11 @@ const SubirEnVivo = () => {
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center">
                 <div className="text-2xl font-bold text-foreground">$1,234</div>
-                <div className="text-sm text-muted-foreground">Ganancias del Mes</div>
+                <div className="text-sm text-foreground">Ganancias del Mes</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-foreground">156</div>
-                <div className="text-sm text-muted-foreground">Productos Vendidos</div>
+                <div className="text-sm text-foreground">Productos Vendidos</div>
               </div>
             </div>
           </CardContent>
@@ -53,9 +53,9 @@ const SubirEnVivo = () => {
           <CardContent>
             <div className="text-center py-8">
               <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-                <Calendar className="w-8 h-8 text-muted-foreground" />
+                <Calendar className="w-8 h-8 text-foreground" />
               </div>
-              <p className="text-muted-foreground text-sm">No tienes shows programados</p>
+              <p className="text-foreground text-sm">No tienes shows programados</p>
               <Button variant="outline" className="mt-3 border-border text-foreground hover:bg-accent/20">
                 Programar tu primer show
               </Button>
@@ -67,25 +67,25 @@ const SubirEnVivo = () => {
         <div className="grid grid-cols-2 gap-3">
           <Card className="bg-card border-border card-hover cursor-pointer">
             <CardContent className="p-4 text-center">
-              <CreditCard className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
+              <CreditCard className="w-8 h-8 text-foreground mx-auto mb-2" />
               <div className="text-sm font-medium text-foreground">Pagos</div>
             </CardContent>
           </Card>
           <Card className="bg-card border-border card-hover cursor-pointer">
             <CardContent className="p-4 text-center">
-              <ShoppingBag className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
+              <ShoppingBag className="w-8 h-8 text-foreground mx-auto mb-2" />
               <div className="text-sm font-medium text-foreground">Pedidos</div>
             </CardContent>
           </Card>
           <Card className="bg-card border-border card-hover cursor-pointer">
             <CardContent className="p-4 text-center">
-              <Package className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
+              <Package className="w-8 h-8 text-foreground mx-auto mb-2" />
               <div className="text-sm font-medium text-foreground">Inventario</div>
             </CardContent>
           </Card>
           <Card className="bg-card border-border card-hover cursor-pointer">
             <CardContent className="p-4 text-center">
-              <Play className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
+              <Play className="w-8 h-8 text-foreground mx-auto mb-2" />
               <div className="text-sm font-medium text-foreground">Modo Ensayo</div>
             </CardContent>
           </Card>
