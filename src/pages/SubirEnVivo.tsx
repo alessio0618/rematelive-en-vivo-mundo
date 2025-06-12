@@ -1,12 +1,51 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Plus, Calendar, DollarSign, Package, CreditCard, ShoppingBag, Settings, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import SimpleHeader from '@/components/SimpleHeader';
 import BottomNavBar from '@/components/BottomNavBar';
+import { CreateProductModal } from '@/components/CreateProductModal';
+import { ScheduleShowModal } from '@/components/ScheduleShowModal';
+import { PaymentsModal } from '@/components/PaymentsModal';
+import { OrdersModal } from '@/components/OrdersModal';
+import { InventoryModal } from '@/components/InventoryModal';
+import { StartLiveModal } from '@/components/StartLiveModal';
+import { useToast } from '@/hooks/use-toast';
 
 const SubirEnVivo = () => {
+  const [isCreateProductModalOpen, setIsCreateProductModalOpen] = useState(false);
+  const [isScheduleShowModalOpen, setIsScheduleShowModalOpen] = useState(false);
+  const [isPaymentsModalOpen, setIsPaymentsModalOpen] = useState(false);
+  const [isOrdersModalOpen, setIsOrdersModalOpen] = useState(false);
+  const [isInventoryModalOpen, setIsInventoryModalOpen] = useState(false);
+  const [isPracticeModalOpen, setIsPracticeModalOpen] = useState(false);
+  const { toast } = useToast();
+
+  const handleCreateProduct = () => {
+    setIsCreateProductModalOpen(true);
+  };
+
+  const handleScheduleShow = () => {
+    setIsScheduleShowModalOpen(true);
+  };
+
+  const handlePayments = () => {
+    setIsPaymentsModalOpen(true);
+  };
+
+  const handleOrders = () => {
+    setIsOrdersModalOpen(true);
+  };
+
+  const handleInventory = () => {
+    setIsInventoryModalOpen(true);
+  };
+
+  const handlePracticeMode = () => {
+    setIsPracticeModalOpen(true);
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SimpleHeader />
@@ -15,11 +54,17 @@ const SubirEnVivo = () => {
         {/* Header with action buttons */}
         <div className="flex flex-col space-y-3 mb-6 mt-4">
           <div className="flex space-x-3">
-            <button className="flex-1 bg-muted text-foreground hover:bg-accent/20 transition-colors rounded-md h-10 px-4 py-2 text-sm font-medium flex items-center justify-center border border-border">
+            <button 
+              onClick={handleCreateProduct}
+              className="flex-1 bg-muted text-foreground hover:bg-accent/20 transition-colors rounded-md h-10 px-4 py-2 text-sm font-medium flex items-center justify-center border border-border"
+            >
               <Plus className="w-4 h-4 mr-2" />
               Crear Producto
             </button>
-            <button className="flex-1 bg-card border border-border text-foreground hover:bg-accent/20 transition-colors rounded-md h-10 px-4 py-2 text-sm font-medium flex items-center justify-center">
+            <button 
+              onClick={handleScheduleShow}
+              className="flex-1 bg-card border border-border text-foreground hover:bg-accent/20 transition-colors rounded-md h-10 px-4 py-2 text-sm font-medium flex items-center justify-center"
+            >
               <Calendar className="w-4 h-4 mr-2" />
               Programar Show
             </button>
@@ -56,7 +101,10 @@ const SubirEnVivo = () => {
                 <Calendar className="w-8 h-8 text-foreground" />
               </div>
               <p className="text-foreground text-sm">No tienes shows programados</p>
-              <button className="mt-3 border border-border text-foreground hover:bg-accent/20 transition-colors rounded-md h-10 px-4 py-2 text-sm font-medium bg-card">
+              <button 
+                onClick={handleScheduleShow}
+                className="mt-3 border border-border text-foreground hover:bg-accent/20 transition-colors rounded-md h-10 px-4 py-2 text-sm font-medium bg-card"
+              >
                 Programar tu primer show
               </button>
             </div>
@@ -65,25 +113,37 @@ const SubirEnVivo = () => {
 
         {/* Quick actions */}
         <div className="grid grid-cols-2 gap-3">
-          <Card className="bg-card border-border hover:bg-accent/20 transition-colors cursor-pointer">
+          <Card 
+            className="bg-card border-border hover:bg-accent/20 transition-colors cursor-pointer"
+            onClick={handlePayments}
+          >
             <CardContent className="p-4 text-center">
               <CreditCard className="w-8 h-8 text-foreground mx-auto mb-2" />
               <div className="text-sm font-medium text-foreground">Pagos</div>
             </CardContent>
           </Card>
-          <Card className="bg-card border-border hover:bg-accent/20 transition-colors cursor-pointer">
+          <Card 
+            className="bg-card border-border hover:bg-accent/20 transition-colors cursor-pointer"
+            onClick={handleOrders}
+          >
             <CardContent className="p-4 text-center">
               <ShoppingBag className="w-8 h-8 text-foreground mx-auto mb-2" />
               <div className="text-sm font-medium text-foreground">Pedidos</div>
             </CardContent>
           </Card>
-          <Card className="bg-card border-border hover:bg-accent/20 transition-colors cursor-pointer">
+          <Card 
+            className="bg-card border-border hover:bg-accent/20 transition-colors cursor-pointer"
+            onClick={handleInventory}
+          >
             <CardContent className="p-4 text-center">
               <Package className="w-8 h-8 text-foreground mx-auto mb-2" />
               <div className="text-sm font-medium text-foreground">Inventario</div>
             </CardContent>
           </Card>
-          <Card className="bg-card border-border hover:bg-accent/20 transition-colors cursor-pointer">
+          <Card 
+            className="bg-card border-border hover:bg-accent/20 transition-colors cursor-pointer"
+            onClick={handlePracticeMode}
+          >
             <CardContent className="p-4 text-center">
               <Play className="w-8 h-8 text-foreground mx-auto mb-2" />
               <div className="text-sm font-medium text-foreground">Modo Ensayo</div>
@@ -93,6 +153,32 @@ const SubirEnVivo = () => {
       </main>
 
       <BottomNavBar />
+
+      {/* Modales */}
+      <CreateProductModal 
+        isOpen={isCreateProductModalOpen}
+        onClose={() => setIsCreateProductModalOpen(false)}
+      />
+      <ScheduleShowModal 
+        isOpen={isScheduleShowModalOpen}
+        onClose={() => setIsScheduleShowModalOpen(false)}
+      />
+      <PaymentsModal 
+        isOpen={isPaymentsModalOpen}
+        onClose={() => setIsPaymentsModalOpen(false)}
+      />
+      <OrdersModal 
+        isOpen={isOrdersModalOpen}
+        onClose={() => setIsOrdersModalOpen(false)}
+      />
+      <InventoryModal 
+        isOpen={isInventoryModalOpen}
+        onClose={() => setIsInventoryModalOpen(false)}
+      />
+      <StartLiveModal 
+        isOpen={isPracticeModalOpen}
+        onClose={() => setIsPracticeModalOpen(false)}
+      />
     </div>
   );
 };
