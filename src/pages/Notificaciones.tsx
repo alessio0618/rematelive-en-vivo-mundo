@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { ShoppingBag, MessageSquare, Heart, BookmarkCheck, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import TopNavBar from '@/components/TopNavBar';
+import SimpleHeader from '@/components/SimpleHeader';
 import BottomNavBar from '@/components/BottomNavBar';
 
 const Notificaciones = () => {
@@ -47,21 +47,13 @@ const Notificaciones = () => {
   ];
 
   const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Completado':
-        return 'text-green-500';
-      case 'En Progreso':
-        return 'text-yellow-500';
-      case 'Disponible':
-        return 'text-blue-500';
-      default:
-        return 'text-muted-foreground';
-    }
+    // Cambiado: todos los estados usan solo gris claro, sin colores vibrantes
+    return 'text-muted-foreground';
   };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <TopNavBar />
+      <SimpleHeader />
       
       <main className="mobile-padding pb-24">
         {/* Tab navigation */}

@@ -4,7 +4,7 @@ import { Search, TrendingUp, Hash, Gamepad2, Shirt, Baby, Laptop, Star } from 'l
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import TopNavBar from '@/components/TopNavBar';
+import SearchBar from '@/components/SearchBar';
 import BottomNavBar from '@/components/BottomNavBar';
 
 const Explorar = () => {
@@ -19,7 +19,7 @@ const Explorar = () => {
       icon: TrendingUp,
       viewerCount: 1240,
       liveCount: 23,
-      color: 'bg-blue-500'
+      color: 'bg-muted'
     },
     {
       id: 2,
@@ -27,7 +27,7 @@ const Explorar = () => {
       icon: Star,
       viewerCount: 890,
       liveCount: 15,
-      color: 'bg-green-500'
+      color: 'bg-muted'
     },
     {
       id: 3,
@@ -35,7 +35,7 @@ const Explorar = () => {
       icon: Hash,
       viewerCount: 756,
       liveCount: 12,
-      color: 'bg-pink-500'
+      color: 'bg-muted'
     },
     {
       id: 4,
@@ -43,7 +43,7 @@ const Explorar = () => {
       icon: Gamepad2,
       viewerCount: 634,
       liveCount: 18,
-      color: 'bg-purple-500'
+      color: 'bg-muted'
     },
     {
       id: 5,
@@ -51,7 +51,7 @@ const Explorar = () => {
       icon: Shirt,
       viewerCount: 523,
       liveCount: 9,
-      color: 'bg-yellow-500'
+      color: 'bg-muted'
     },
     {
       id: 6,
@@ -59,7 +59,7 @@ const Explorar = () => {
       icon: Baby,
       viewerCount: 412,
       liveCount: 7,
-      color: 'bg-orange-500'
+      color: 'bg-muted'
     },
     {
       id: 7,
@@ -67,7 +67,7 @@ const Explorar = () => {
       icon: Laptop,
       viewerCount: 398,
       liveCount: 11,
-      color: 'bg-indigo-500'
+      color: 'bg-muted'
     },
     {
       id: 8,
@@ -75,16 +75,16 @@ const Explorar = () => {
       icon: Star,
       viewerCount: 287,
       liveCount: 6,
-      color: 'bg-red-500'
+      color: 'bg-muted'
     }
   ];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <TopNavBar />
+      <SearchBar placeholder="Buscar categorías" />
       
       <main className="mobile-padding pb-24">
-        {/* Search bar */}
+        {/* Search bar adicional específica para categorías */}
         <div className="mb-4 mt-2">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
@@ -125,7 +125,7 @@ const Explorar = () => {
               >
                 <div className="flex flex-col items-center text-center space-y-3">
                   <div className={`w-12 h-12 ${category.color} rounded-full flex items-center justify-center`}>
-                    <Icon className="w-6 h-6 text-white" />
+                    <Icon className="w-6 h-6 text-muted-foreground" />
                   </div>
                   <div>
                     <h3 className="text-foreground font-semibold text-sm mb-1">{category.name}</h3>

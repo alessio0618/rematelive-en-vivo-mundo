@@ -3,7 +3,7 @@ import React from 'react';
 import { CreditCard, MapPin, Bell, HelpCircle, FileText, LogOut, Star, Gift, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import TopNavBar from '@/components/TopNavBar';
+import SimpleHeader from '@/components/SimpleHeader';
 import BottomNavBar from '@/components/BottomNavBar';
 
 const Perfil = () => {
@@ -48,19 +48,19 @@ const Perfil = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <TopNavBar />
+      <SimpleHeader />
       
       <main className="mobile-padding pb-24">
         {/* Profile header */}
         <div className="flex items-center space-x-4 mb-6 mt-4">
-          <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-            <span className="text-white text-2xl font-bold">U</span>
+          <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center">
+            <span className="text-foreground text-2xl font-bold">U</span>
           </div>
           <div className="flex-1">
             <h1 className="text-foreground text-xl font-bold">Usuario123</h1>
             <p className="text-muted-foreground text-sm">Miembro desde 2024</p>
             <div className="flex items-center space-x-1 mt-1">
-              <Star className="w-4 h-4 text-yellow-500 fill-current" />
+              <Star className="w-4 h-4 text-muted-foreground" />
               <span className="text-foreground text-sm font-medium">4.8</span>
               <span className="text-muted-foreground text-sm">(24 reseñas)</span>
             </div>
@@ -72,7 +72,7 @@ const Perfil = () => {
           <Card className="bg-card border-border">
             <CardContent className="p-4 text-center">
               <div className="flex items-center justify-center mb-2">
-                <Star className="w-6 h-6 text-blue-500" />
+                <Star className="w-6 h-6 text-muted-foreground" />
               </div>
               <div className="text-foreground font-semibold">Referencias y Crédito</div>
               <div className="text-muted-foreground text-sm">Ver detalles</div>
@@ -81,7 +81,7 @@ const Perfil = () => {
           <Card className="bg-card border-border">
             <CardContent className="p-4 text-center">
               <div className="flex items-center justify-center mb-2">
-                <Gift className="w-6 h-6 text-green-500" />
+                <Gift className="w-6 h-6 text-muted-foreground" />
               </div>
               <div className="text-foreground font-semibold">Mis Recompensas</div>
               <div className="text-muted-foreground text-sm">3 disponibles</div>
@@ -99,7 +99,7 @@ const Perfil = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center">
-                        <Icon className="w-5 h-5 text-foreground" />
+                        <Icon className="w-5 h-5 text-muted-foreground" />
                       </div>
                       <div>
                         <div className="text-foreground font-medium text-sm">{item.title}</div>
@@ -140,7 +140,7 @@ const Perfil = () => {
         {/* Logout button */}
         <Button 
           variant="outline" 
-          className="w-full border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
+          className="w-full border-border text-muted-foreground hover:bg-accent/20"
         >
           <LogOut className="w-4 h-4 mr-2" />
           Cerrar Sesión

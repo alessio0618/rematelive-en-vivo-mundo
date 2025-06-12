@@ -3,13 +3,13 @@ import React from 'react';
 import { Plus, Calendar, DollarSign, Package, CreditCard, ShoppingBag, Settings, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import TopNavBar from '@/components/TopNavBar';
+import SimpleHeader from '@/components/SimpleHeader';
 import BottomNavBar from '@/components/BottomNavBar';
 
 const SubirEnVivo = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <TopNavBar />
+      <SimpleHeader />
       
       <main className="mobile-padding pb-24">
         {/* Header with action buttons */}
@@ -67,25 +67,25 @@ const SubirEnVivo = () => {
         <div className="grid grid-cols-2 gap-3">
           <Card className="bg-card border-border card-hover cursor-pointer">
             <CardContent className="p-4 text-center">
-              <CreditCard className="w-8 h-8 text-foreground mx-auto mb-2" />
+              <CreditCard className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
               <div className="text-sm font-medium text-foreground">Pagos</div>
             </CardContent>
           </Card>
           <Card className="bg-card border-border card-hover cursor-pointer">
             <CardContent className="p-4 text-center">
-              <ShoppingBag className="w-8 h-8 text-foreground mx-auto mb-2" />
+              <ShoppingBag className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
               <div className="text-sm font-medium text-foreground">Pedidos</div>
             </CardContent>
           </Card>
           <Card className="bg-card border-border card-hover cursor-pointer">
             <CardContent className="p-4 text-center">
-              <Package className="w-8 h-8 text-foreground mx-auto mb-2" />
+              <Package className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
               <div className="text-sm font-medium text-foreground">Inventario</div>
             </CardContent>
           </Card>
           <Card className="bg-card border-border card-hover cursor-pointer">
             <CardContent className="p-4 text-center">
-              <Play className="w-8 h-8 text-foreground mx-auto mb-2" />
+              <Play className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
               <div className="text-sm font-medium text-foreground">Modo Ensayo</div>
             </CardContent>
           </Card>
