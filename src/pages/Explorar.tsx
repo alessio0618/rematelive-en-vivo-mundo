@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { TrendingUp, Hash, Gamepad2, Shirt, Baby, Laptop, Star } from 'lucide-react';
+import { TrendingUp, Hash, Gamepad2, Shirt, Baby, Laptop, Star, Sofa, Home, ChefHat, Diamond, Dumbbell, Smartphone, Palette, Book, Leaf, Heart, Wrench, Sparkles, Car } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import SearchBar from '@/components/SearchBar';
@@ -30,22 +29,118 @@ const Explorar = () => {
     },
     {
       id: 3,
-      name: 'Belleza',
-      icon: Hash,
+      name: 'Mueblería',
+      icon: Sofa,
       viewerCount: 756,
       liveCount: 12,
       color: 'bg-muted'
     },
     {
       id: 4,
-      name: 'Juguetes y Juegos',
-      icon: Gamepad2,
+      name: 'Hogar',
+      icon: Home,
       viewerCount: 634,
       liveCount: 18,
       color: 'bg-muted'
     },
     {
       id: 5,
+      name: 'Cocina',
+      icon: ChefHat,
+      viewerCount: 523,
+      liveCount: 9,
+      color: 'bg-muted'
+    },
+    {
+      id: 6,
+      name: 'Joyas',
+      icon: Diamond,
+      viewerCount: 612,
+      liveCount: 14,
+      color: 'bg-muted'
+    },
+    {
+      id: 7,
+      name: 'Deportes',
+      icon: Dumbbell,
+      viewerCount: 789,
+      liveCount: 21,
+      color: 'bg-muted'
+    },
+    {
+      id: 8,
+      name: 'Tecnología',
+      icon: Smartphone,
+      viewerCount: 945,
+      liveCount: 17,
+      color: 'bg-muted'
+    },
+    {
+      id: 9,
+      name: 'Arte y Antigüedades',
+      icon: Palette,
+      viewerCount: 456,
+      liveCount: 8,
+      color: 'bg-muted'
+    },
+    {
+      id: 10,
+      name: 'Libros',
+      icon: Book,
+      viewerCount: 334,
+      liveCount: 6,
+      color: 'bg-muted'
+    },
+    {
+      id: 11,
+      name: 'Plantas y Jardín',
+      icon: Leaf,
+      viewerCount: 298,
+      liveCount: 5,
+      color: 'bg-muted'
+    },
+    {
+      id: 12,
+      name: 'Mascotas',
+      icon: Heart,
+      viewerCount: 512,
+      liveCount: 11,
+      color: 'bg-muted'
+    },
+    {
+      id: 13,
+      name: 'Herramientas',
+      icon: Wrench,
+      viewerCount: 423,
+      liveCount: 9,
+      color: 'bg-muted'
+    },
+    {
+      id: 14,
+      name: 'Salud y Belleza',
+      icon: Sparkles,
+      viewerCount: 667,
+      liveCount: 13,
+      color: 'bg-muted'
+    },
+    {
+      id: 15,
+      name: 'Automotive',
+      icon: Car,
+      viewerCount: 578,
+      liveCount: 10,
+      color: 'bg-muted'
+    },
+    {
+      id: 16,
+      name: 'Sneakers',
+      icon: Shirt,
+      viewerCount: 834,
+      liveCount: 19,
+      color: 'bg-muted'
+    },
+    {
+      id: 17,
       name: 'Moda',
       icon: Shirt,
       viewerCount: 523,
@@ -53,7 +148,15 @@ const Explorar = () => {
       color: 'bg-muted'
     },
     {
-      id: 6,
+      id: 18,
+      name: 'Juguetes y Juegos',
+      icon: Gamepad2,
+      viewerCount: 634,
+      liveCount: 18,
+      color: 'bg-muted'
+    },
+    {
+      id: 19,
       name: 'Bebés y Niños',
       icon: Baby,
       viewerCount: 412,
@@ -61,7 +164,7 @@ const Explorar = () => {
       color: 'bg-muted'
     },
     {
-      id: 7,
+      id: 20,
       name: 'Electrónicos',
       icon: Laptop,
       viewerCount: 398,
@@ -69,14 +172,25 @@ const Explorar = () => {
       color: 'bg-muted'
     },
     {
-      id: 8,
+      id: 21,
       name: 'Coleccionables',
-      icon: Star,
+      icon: Hash,
       viewerCount: 287,
       liveCount: 6,
       color: 'bg-muted'
     }
   ];
+
+  // Sort categories based on active filter
+  const sortedCategories = [...categories].sort((a, b) => {
+    if (activeFilter === 'Popular') {
+      return b.viewerCount - a.viewerCount;
+    } else if (activeFilter === 'A-Z') {
+      return a.name.localeCompare(b.name);
+    }
+    // Default 'Recomendado' - keep original order
+    return 0;
+  });
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -102,7 +216,7 @@ const Explorar = () => {
 
         {/* Categories grid */}
         <div className="grid grid-cols-2 gap-3">
-          {categories.map((category) => {
+          {sortedCategories.map((category) => {
             const Icon = category.icon;
             return (
               <Card 
