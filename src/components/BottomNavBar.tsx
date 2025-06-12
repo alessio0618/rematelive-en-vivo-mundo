@@ -41,7 +41,7 @@ const BottomNavBar = () => {
               className={`flex flex-col items-center space-y-1 h-auto py-2 px-3 min-w-0 flex-1 hover:bg-accent/20 transition-colors ${
                 isActive 
                   ? 'text-foreground border-t-2 border-foreground' 
-                  : 'text-muted-foreground border-t-2 border-transparent'
+                  : 'text-foreground border-t-2 border-transparent'
               }`}
             >
               <Icon className="w-6 h-6" />
