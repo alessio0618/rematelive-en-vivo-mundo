@@ -16,8 +16,7 @@ const CategoryBar = () => {
     { name: 'Coleccionables', path: '/categoria/coleccionables' }
   ];
 
-  const handleCategoryClick = (path: string, categoryName: string) => {
-    console.log('Category clicked:', categoryName, 'Path:', path);
+  const handleCategoryClick = (path: string) => {
     navigate(path);
   };
 
@@ -30,13 +29,12 @@ const CategoryBar = () => {
             return (
               <button
                 key={category.name}
-                onClick={() => handleCategoryClick(category.path, category.name)}
-                className={`nav-button whitespace-nowrap text-sm font-medium transition-colors px-3 py-1.5 rounded-md touch-manipulation ${
+                onClick={() => handleCategoryClick(category.path)}
+                className={`nav-button whitespace-nowrap text-sm font-medium transition-colors px-3 py-1.5 rounded-md ${
                   isActive 
                     ? 'nav-button-active bg-muted' 
                     : 'nav-button-inactive'
                 }`}
-                style={{ minHeight: '36px', minWidth: '60px' }}
               >
                 {category.name}
               </button>

@@ -9,12 +9,9 @@ interface UseLongPressProps {
 export const useLongPress = ({ onLongPress, delay = 500 }: UseLongPressProps) => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isLongPress = useRef(false);
-  const startTime = useRef<number>(0);
 
   const start = useCallback((event: React.TouchEvent | React.MouseEvent) => {
     isLongPress.current = false;
-    startTime.current = Date.now();
-    
     timeoutRef.current = setTimeout(() => {
       isLongPress.current = true;
       onLongPress(event);
@@ -34,9 +31,7 @@ export const useLongPress = ({ onLongPress, delay = 500 }: UseLongPressProps) =>
   }, []);
 
   const clickHandler = useCallback((event: React.MouseEvent) => {
-    // Only prevent click if it was actually a long press
-    const pressDuration = Date.now() - startTime.current;
-    if (isLongPress.current || pressDuration >= 500) {
+    if (isLongPress.current) {
       event.preventDefault();
       event.stopPropagation();
     }
