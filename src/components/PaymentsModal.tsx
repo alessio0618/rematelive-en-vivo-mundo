@@ -19,7 +19,7 @@ export const PaymentsModal: React.FC<PaymentsModalProps> = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <CreditCard className="w-5 h-5 text-blue-500" />
+            <CreditCard className="w-5 h-5 text-foreground" />
             Métodos de Pago
           </DialogTitle>
         </DialogHeader>
@@ -27,7 +27,7 @@ export const PaymentsModal: React.FC<PaymentsModalProps> = ({
         <div className="space-y-4">
           <div className="text-center py-4">
             <div className="text-lg font-semibold text-foreground mb-2">Balance Disponible</div>
-            <div className="text-3xl font-bold text-green-600">$1,234.56</div>
+            <div className="text-3xl font-bold text-foreground">$1,234.56</div>
           </div>
 
           <Card className="bg-card border-border">

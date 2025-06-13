@@ -109,7 +109,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
           <Button 
             type="submit" 
-            className="w-full bg-yellow-400 text-black hover:bg-yellow-500"
+            className="w-full bg-foreground text-background hover:bg-foreground/90"
             disabled={isLoading}
           >
             {isLoading ? 'Cargando...' : mode === 'login' ? 'Iniciar Sesión' : 'Crear Cuenta'}

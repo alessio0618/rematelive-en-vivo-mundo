@@ -18,7 +18,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-yellow-400"></div>
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-foreground"></div>
       </div>
     );
   }
@@ -37,7 +37,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
           </p>
           <button
             onClick={() => setShowAuthModal(true)}
-            className="bg-yellow-400 text-black px-6 py-2 rounded-md font-medium hover:bg-yellow-500 transition-colors"
+            className="bg-foreground text-background px-6 py-2 rounded-md font-medium hover:bg-foreground/90 transition-colors"
           >
             Iniciar Sesión
           </button>
