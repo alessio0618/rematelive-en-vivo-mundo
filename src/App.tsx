@@ -12,6 +12,13 @@ import SubirEnVivo from "./pages/SubirEnVivo";
 import Notificaciones from "./pages/Notificaciones";
 import Perfil from "./pages/Perfil";
 import NotFound from "./pages/NotFound";
+// Category pages
+import Cartas from "./pages/categories/Cartas";
+import Sneakers from "./pages/categories/Sneakers";
+import Moda from "./pages/categories/Moda";
+import Juguetes from "./pages/categories/Juguetes";
+import Electronicos from "./pages/categories/Electronicos";
+import Coleccionables from "./pages/categories/Coleccionables";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +36,13 @@ const App = () => (
             <Route path="/notificaciones" element={<Notificaciones />} />
             <Route path="/perfil" element={<Perfil />} />
             <Route path="/live/:sellerId" element={<LiveStream />} />
+            {/* Category routes */}
+            <Route path="/categoria/cartas" element={<Cartas />} />
+            <Route path="/categoria/sneakers" element={<Sneakers />} />
+            <Route path="/categoria/moda" element={<Moda />} />
+            <Route path="/categoria/juguetes" element={<Juguetes />} />
+            <Route path="/categoria/electronicos" element={<Electronicos />} />
+            <Route path="/categoria/coleccionables" element={<Coleccionables />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
