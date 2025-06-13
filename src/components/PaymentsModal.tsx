@@ -47,7 +47,7 @@ export const PaymentsModal: React.FC<PaymentsModalProps> = ({
             Agregar Método de Pago
           </Button>
 
-          <Button className="w-full">
+          <Button variant="outline" className="w-full">
             <DollarSign className="w-4 h-4 mr-2" />
             Retirar Fondos
           </Button>
