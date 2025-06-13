@@ -179,7 +179,7 @@ const LiveStream = () => {
               <div>
                 <h3 className="text-white font-bold text-lg">{streamData.sellerName}</h3>
                 <div className="flex items-center space-x-2">
-                  <span className="text-yellow-400 text-sm">★ {streamData.rating}</span>
+                  <span className="text-foreground text-sm">★ {streamData.rating}</span>
                   <span className="text-white text-sm">•</span>
                   <span className="text-white text-sm">Live</span>
                 </div>
@@ -190,8 +190,8 @@ const LiveStream = () => {
               onClick={handleFollow}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent/20 ${
                 isFollowing 
-                  ? 'text-yellow-400 border border-yellow-400' 
-                  : 'text-yellow-400 border border-transparent'
+                  ? 'text-foreground border border-foreground' 
+                  : 'text-foreground border border-transparent'
               }`}
             >
               {isFollowing ? 'Following' : 'Follow'}
@@ -274,7 +274,7 @@ const LiveStream = () => {
               <Button
                 variant="outline"
                 size="sm"
-                className="px-4 py-1 rounded-full bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
+                className="px-4 py-1 rounded-full bg-muted border-border text-foreground hover:bg-accent"
               >
                 Custom
               </Button>
@@ -291,7 +291,7 @@ const LiveStream = () => {
           <div className="flex-1 p-4 space-y-2 overflow-y-auto">
             {chatMessages.map((msg) => (
               <div key={msg.id} className="flex space-x-2">
-                <span className="text-yellow-400 font-medium text-sm">{msg.user}:</span>
+                <span className="text-muted-foreground font-medium text-sm">{msg.user}:</span>
                 <span className="text-foreground text-sm">{msg.message}</span>
               </div>
             ))}
@@ -309,7 +309,7 @@ const LiveStream = () => {
               />
               <Button 
                 size="icon"
-                className="bg-yellow-400 text-black hover:bg-yellow-500"
+                className="bg-foreground text-background hover:bg-foreground/90"
                 onClick={handleSendMessage}
               >
                 <MessageCircle className="w-4 h-4" />

@@ -121,7 +121,7 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
           className="absolute left-0 top-0 h-full transition-all duration-75 ease-out rounded-full z-10"
           style={{ 
             width: `${slideProgress * 100}%`,
-            backgroundColor: slideProgress >= 1 ? 'rgb(255, 214, 0)' : 'rgb(85, 85, 85)'
+            backgroundColor: slideProgress >= 1 ? '#ffc107' : 'rgb(85, 85, 85)'
           }}
         />
 
@@ -131,7 +131,7 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
           className="absolute left-0.5 top-0.5 w-9 h-9 rounded-full flex items-center justify-center shadow-md transition-all duration-75 ease-out border border-accent z-30"
           style={{
             transform: `translateX(${slideProgress * maxTranslation}px)`,
-            backgroundColor: hasBid ? 'rgb(255, 214, 0)' : slideProgress >= 1 ? 'rgb(255, 214, 0)' : 'rgb(115, 115, 115)'
+            backgroundColor: hasBid ? '#ffc107' : slideProgress >= 1 ? '#ffc107' : 'rgb(115, 115, 115)'
           }}
         >
           {hasBid ? (
@@ -143,7 +143,7 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
 
         {/* Success state overlay */}
         {hasBid && (
-          <div className="absolute inset-0 bg-yellow-400 rounded-full flex items-center justify-center z-40">
+          <div className="absolute inset-0 rounded-full flex items-center justify-center z-40" style={{ backgroundColor: '#ffc107' }}>
             <span className="text-black text-sm font-medium">✓</span>
           </div>
         )}
