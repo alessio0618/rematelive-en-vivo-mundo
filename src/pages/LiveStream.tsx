@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useSwipeNavigation } from '@/hooks/useSwipeNavigation';
 import { useLiveStreamData } from '@/hooks/useLiveStreamData';
 import { LiveStreamSlide } from '@/components/LiveStreamSlide';
+import BottomNavBar from '@/components/BottomNavBar';
 
 const LiveStream = () => {
   const { sellerId } = useParams<{ sellerId: string }>();
@@ -30,22 +31,26 @@ const LiveStream = () => {
   }
 
   return (
-    <div 
-      ref={containerRef}
-      className={`relative overflow-hidden ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
-      style={{ height: '100vh', touchAction: 'none' }}
-    >
-      <LiveStreamSlide 
-        streamData={currentStream}
-        isActive={true}
-      />
-      
-      {/* Swipe indicator */}
-      <div className="absolute top-1/2 right-4 transform -translate-y-1/2 flex flex-col items-center space-y-2 opacity-50 pointer-events-none">
-        <div className="w-1 h-8 bg-white/30 rounded-full"></div>
-        <div className="text-white/50 text-xs rotate-90 whitespace-nowrap">Swipe up</div>
-        <div className="w-1 h-8 bg-white/30 rounded-full"></div>
+    <div className="flex flex-col h-screen">
+      <div 
+        ref={containerRef}
+        className={`flex-1 relative overflow-hidden ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+        style={{ touchAction: 'none' }}
+      >
+        <LiveStreamSlide 
+          streamData={currentStream}
+          isActive={true}
+        />
+        
+        {/* Swipe indicator */}
+        <div className="absolute top-1/2 right-4 transform -translate-y-1/2 flex flex-col items-center space-y-2 opacity-50 pointer-events-none">
+          <div className="w-1 h-8 bg-white/30 rounded-full"></div>
+          <div className="text-white/50 text-xs rotate-90 whitespace-nowrap">Swipe up</div>
+          <div className="w-1 h-8 bg-white/30 rounded-full"></div>
+        </div>
       </div>
+      
+      <BottomNavBar />
     </div>
   );
 };

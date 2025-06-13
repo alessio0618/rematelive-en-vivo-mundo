@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ArrowLeft, MoreHorizontal, Users, Heart, MessageCircle, Share, Wallet, ShoppingBag, Zap, Camera } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -132,7 +131,7 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
   const currentUrl = `${window.location.origin}/live/${streamData.id}`;
 
   return (
-    <div className="h-screen bg-background text-foreground flex flex-col">
+    <div className="h-full bg-background text-foreground flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-border">
         <Button
@@ -163,7 +162,7 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
       </div>
 
       {/* Video Stream Area */}
-      <div className="relative aspect-[9/16] bg-black">
+      <div className="relative flex-1 bg-black">
         <img 
           src={streamData.thumbnail} 
           alt="Live stream"
@@ -247,8 +246,8 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
         </div>
       </div>
 
-      {/* Bottom Section */}
-      <div className="flex-1 flex flex-col">
+      {/* Bottom Section - Fixed height to prevent overflow */}
+      <div className="h-80 flex flex-col bg-background">
         {/* Current Product Section */}
         <div className="p-4 border-b border-border">
           <div className="flex items-center justify-between mb-2">
@@ -290,7 +289,7 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
         </div>
 
         {/* Chat Section */}
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col min-h-0">
           <div className="flex-1 p-4 space-y-2 overflow-y-auto">
             {chatMessages.map((msg) => (
               <div key={msg.id} className="flex space-x-2">
@@ -318,66 +317,6 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
                 <MessageCircle className="w-4 h-4" />
               </Button>
             </div>
-          </div>
-        </div>
-
-        {/* Bottom Action Bar */}
-        <div className="p-4 border-t border-border bg-card">
-          <div className="flex items-center justify-around">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="flex flex-col items-center text-foreground hover:bg-transparent"
-              onClick={() => setShowOptionsSheet(true)}
-            >
-              <MoreHorizontal className="w-5 h-5 mb-1" />
-              <span className="text-xs">More</span>
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="flex flex-col items-center text-foreground hover:bg-transparent"
-              onClick={() => setShowBoostModal(true)}
-            >
-              <Zap className="w-5 h-5 mb-1" />
-              <span className="text-xs">Boost</span>
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="flex flex-col items-center text-foreground hover:bg-transparent"
-              onClick={handleClip}
-            >
-              <Camera className="w-5 h-5 mb-1" />
-              <span className="text-xs">Clip</span>
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="flex flex-col items-center text-foreground hover:bg-transparent"
-              onClick={() => setShowShareModal(true)}
-            >
-              <Share className="w-5 h-5 mb-1" />
-              <span className="text-xs">Share</span>
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="flex flex-col items-center text-foreground hover:bg-transparent"
-              onClick={handleWallet}
-            >
-              <Wallet className="w-5 h-5 mb-1" />
-              <span className="text-xs">Wallet</span>
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="flex flex-col items-center text-foreground hover:bg-transparent"
-              onClick={handleShop}
-            >
-              <ShoppingBag className="w-5 h-5 mb-1" />
-              <span className="text-xs">Shop</span>
-            </Button>
           </div>
         </div>
       </div>
