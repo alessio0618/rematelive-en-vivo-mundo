@@ -1,6 +1,5 @@
-
-import React, { useState, useRef } from 'react';
-import { X, Send, Camera, Video, Paperclip, Smile, MessageSquare } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { X, Send, Camera, Video, Paperclip, Smile, MessageSquare, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
@@ -33,10 +32,32 @@ export const DMWindow: React.FC<DMWindowProps> = ({ isOpen, onClose }) => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [showChat, setShowChat] = useState(false); // For mobile navigation
   const { toast } = useToast();
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const videoInputRef = useRef<HTMLInputElement>(null);
+
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Reset mobile state when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setShowChat(false);
+      setSelectedContact(null);
+    }
+  }, [isOpen]);
 
   const contacts: Contact[] = [
     {
@@ -92,6 +113,16 @@ export const DMWindow: React.FC<DMWindowProps> = ({ isOpen, onClose }) => {
   const handleContactSelect = (contact: Contact) => {
     setSelectedContact(contact);
     setMessages(sampleMessages);
+    
+    // On mobile, navigate to chat view
+    if (isMobile) {
+      setShowChat(true);
+    }
+  };
+
+  const handleBackToContacts = () => {
+    setShowChat(false);
+    setSelectedContact(null);
   };
 
   const handleSendMessage = () => {
@@ -160,6 +191,206 @@ export const DMWindow: React.FC<DMWindowProps> = ({ isOpen, onClose }) => {
 
   if (!isOpen) return null;
 
+  // Mobile layout
+  if (isMobile) {
+    return (
+      <div className="fixed inset-0 z-50 bg-background">
+        {/* Mobile Contacts List */}
+        {!showChat && (
+          <div className="flex flex-col h-full">
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b border-border bg-card">
+              <h2 className="text-lg font-semibold text-foreground">Mensajes</h2>
+              <Button variant="ghost" size="icon" onClick={onClose}>
+                <X className="w-5 h-5 text-foreground" />
+              </Button>
+            </div>
+            
+            {/* Contacts */}
+            <div className="flex-1 overflow-y-auto bg-background">
+              {contacts.map((contact) => (
+                <div
+                  key={contact.id}
+                  onClick={() => handleContactSelect(contact)}
+                  className="p-4 border-b border-border cursor-pointer hover:bg-accent/20 transition-colors bg-background"
+                >
+                  <div className="flex items-center space-x-3">
+                    <div className="relative">
+                      <img
+                        src={contact.avatar}
+                        alt={contact.name}
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
+                      {contact.unread && (
+                        <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></div>
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between mb-1">
+                        <h3 className="font-medium text-sm text-foreground">{contact.name}</h3>
+                        <span className="text-xs text-muted-foreground">{contact.timestamp}</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground truncate">{contact.lastMessage}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Mobile Chat View */}
+        {showChat && selectedContact && (
+          <div className="flex flex-col h-full">
+            {/* Chat Header */}
+            <div className="flex items-center space-x-3 p-4 border-b border-border bg-card">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={handleBackToContacts}
+                className="text-foreground hover:bg-accent/20"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </Button>
+              <img
+                src={selectedContact.avatar}
+                alt={selectedContact.name}
+                className="w-10 h-10 rounded-full object-cover"
+              />
+              <div className="flex-1">
+                <h3 className="font-medium text-foreground">{selectedContact.name}</h3>
+                <p className="text-sm text-muted-foreground">En línea</p>
+              </div>
+            </div>
+
+            {/* Messages */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-background">
+              {messages.map((msg) => (
+                <div
+                  key={msg.id}
+                  className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div
+                    className={`max-w-xs px-4 py-2 rounded-lg ${
+                      msg.sender === 'user'
+                        ? 'bg-muted text-foreground border border-border'
+                        : 'bg-card text-foreground border border-border'
+                    }`}
+                  >
+                    {msg.type === 'text' && <p className="text-sm text-foreground">{msg.content}</p>}
+                    {msg.type === 'image' && msg.fileUrl && (
+                      <div>
+                        <img
+                          src={msg.fileUrl}
+                          alt="Uploaded"
+                          className="rounded-lg max-w-full h-auto mb-2"
+                        />
+                        <p className="text-sm text-foreground">{msg.content}</p>
+                      </div>
+                    )}
+                    {msg.type === 'video' && msg.fileUrl && (
+                      <div>
+                        <video
+                          src={msg.fileUrl}
+                          controls
+                          className="rounded-lg max-w-full h-auto mb-2"
+                        />
+                        <p className="text-sm text-foreground">{msg.content}</p>
+                      </div>
+                    )}
+                    <p className="text-xs text-muted-foreground mt-1">{msg.timestamp}</p>
+                  </div>
+                </div>
+              ))}
+
+              {/* Upload Progress */}
+              {uploadProgress > 0 && (
+                <div className="flex justify-end">
+                  <div className="bg-card border border-border rounded-lg p-3 max-w-xs">
+                    <div className="text-sm mb-2 text-foreground">Subiendo archivo...</div>
+                    <div className="w-full bg-muted rounded-full h-2">
+                      <div
+                        className="bg-accent h-2 rounded-full transition-all duration-300"
+                        style={{ width: `${uploadProgress}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Message Input */}
+            <div className="p-4 border-t border-border bg-card">
+              <div className="flex items-center space-x-2">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handlePhotoUpload}
+                  className="text-muted-foreground hover:text-foreground hover:bg-accent/20"
+                >
+                  <Camera className="w-5 h-5" />
+                </Button>
+                
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleVideoUpload}
+                  className="text-muted-foreground hover:text-foreground hover:bg-accent/20"
+                >
+                  <Video className="w-5 h-5" />
+                </Button>
+
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-muted-foreground hover:text-foreground hover:bg-accent/20"
+                >
+                  <Paperclip className="w-5 h-5" />
+                </Button>
+
+                <div className="flex-1 relative">
+                  <input
+                    type="text"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                    placeholder="Escribe un mensaje..."
+                    className="w-full px-4 py-2 bg-muted text-foreground placeholder:text-muted-foreground rounded-full border border-border outline-none focus:ring-2 focus:ring-accent"
+                  />
+                </div>
+
+                <Button
+                  onClick={handleSendMessage}
+                  disabled={!message.trim()}
+                  className="rounded-full bg-accent hover:bg-accent/80 text-foreground"
+                >
+                  <Send className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Hidden file inputs */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={(e) => handleFileUpload(e, 'image')}
+          className="hidden"
+        />
+        <input
+          ref={videoInputRef}
+          type="file"
+          accept="video/*"
+          onChange={(e) => handleFileUpload(e, 'video')}
+          className="hidden"
+        />
+      </div>
+    );
+  }
+
+  // Desktop layout (unchanged)
   return (
     <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
       <div className="bg-card rounded-lg w-full max-w-4xl h-[80vh] flex overflow-hidden">
