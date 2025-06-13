@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Eye, Users } from 'lucide-react';
 import { Card } from '@/components/ui/card';
@@ -29,19 +28,24 @@ export const StreamPreview: React.FC<StreamPreviewProps> = ({ stream, onPreview 
     onPreview?.(stream);
   };
 
-  const handleClick = (event: React.MouseEvent) => {
+  const handleClick = () => {
     console.log('Card clicked for:', stream.sellerName);
     console.log('Navigating to:', `/live/${stream.sellerName}`);
     
-    // Ensure we don't navigate if the preview modal is open
+    // Only navigate if preview is not open
     if (!isPreviewOpen) {
       navigate(`/live/${stream.sellerName}`);
     }
   };
 
+  const handleJoinStream = () => {
+    setIsPreviewOpen(false);
+    navigate(`/live/${stream.sellerName}`);
+  };
+
   const longPressHandlers = useLongPress({
     onLongPress: handleLongPress,
-    delay: 500
+    delay: 600 // Slightly longer delay to avoid conflicts
   });
 
   return (
@@ -90,7 +94,7 @@ export const StreamPreview: React.FC<StreamPreviewProps> = ({ stream, onPreview 
         </div>
       </Card>
 
-      {/* Preview Modal - would be implemented as a bottom sheet */}
+      {/* Preview Modal */}
       {isPreviewOpen && (
         <div 
           className="fixed inset-0 bg-black/50 z-50 flex items-end"
@@ -116,7 +120,7 @@ export const StreamPreview: React.FC<StreamPreviewProps> = ({ stream, onPreview 
             </div>
             <p className="text-sm mb-4">{stream.title}</p>
             <button 
-              onClick={handleClick}
+              onClick={handleJoinStream}
               className="w-full bg-red-500 text-white py-3 rounded-lg font-medium"
             >
               Join Stream
