@@ -22,31 +22,22 @@ const CategoryBar = () => {
   };
 
   return (
-    <div className="bg-background border-b border-border relative z-10">
+    <div className="bg-background border-b border-border relative z-20">
       <div className="px-3 pb-2">
-        <div className="flex space-x-3 overflow-x-auto scrollbar-hide touch-pan-x">
+        <div className="flex space-x-3 overflow-x-auto scrollbar-hide">
           {categories.map((category) => {
             const isActive = location.pathname === category.path;
             return (
               <button
                 key={category.name}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleCategoryClick(category.path, category.name);
-                }}
-                onTouchEnd={(e) => {
-                  e.preventDefault();
-                  handleCategoryClick(category.path, category.name);
-                }}
+                onClick={() => handleCategoryClick(category.path, category.name)}
                 className={`
-                  whitespace-nowrap text-sm font-medium transition-colors 
+                  whitespace-nowrap text-sm font-medium transition-all duration-200
                   px-4 py-2 rounded-md cursor-pointer select-none
-                  min-h-[44px] flex items-center justify-center
-                  touch-manipulation active:scale-95
+                  min-h-[44px] min-w-[44px] flex items-center justify-center
                   ${isActive 
                     ? 'bg-muted text-foreground border-b-2 border-foreground' 
-                    : 'text-foreground hover:bg-accent/20 border-b-2 border-transparent'
+                    : 'text-foreground bg-transparent border-b-2 border-transparent hover:bg-accent hover:text-foreground'
                   }
                 `}
                 style={{ 

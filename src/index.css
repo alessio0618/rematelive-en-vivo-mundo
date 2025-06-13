@@ -111,76 +111,6 @@
     @apply pt-safe;
   }
 
-  /* ENHANCED TAB AND BUTTON SYSTEM FOR BETTER TOUCH */
-  .tab-button {
-    @apply whitespace-nowrap text-sm font-medium transition-colors px-4 py-2 rounded-md;
-    @apply cursor-pointer select-none min-h-[44px] flex items-center justify-center;
-    @apply touch-manipulation active:scale-95;
-    pointer-events: auto !important;
-    touch-action: manipulation !important;
-    user-select: none !important;
-  }
-  
-  .tab-button-active {
-    @apply text-foreground border-b-2 border-foreground bg-muted;
-  }
-  
-  .tab-button-inactive {
-    @apply text-foreground bg-transparent border-b-2 border-transparent hover:bg-accent/20;
-  }
-
-  /* ENHANCED NAVIGATION BUTTONS FOR BETTER TOUCH */
-  .nav-button {
-    @apply text-foreground transition-colors cursor-pointer select-none;
-    @apply min-h-[44px] flex items-center justify-center touch-manipulation;
-    pointer-events: auto !important;
-    touch-action: manipulation !important;
-  }
-
-  .nav-button-active {
-    @apply text-foreground border-b-2 border-foreground;
-  }
-
-  .nav-button-inactive {
-    @apply text-foreground border-b-2 border-transparent hover:bg-accent/20;
-  }
-
-  /* ENHANCED INTERACTIVE ELEMENTS */
-  .interactive-element {
-    @apply hover:bg-accent/20 transition-colors duration-200 cursor-pointer;
-    pointer-events: auto !important;
-    touch-action: manipulation !important;
-  }
-
-  .rating-star {
-    @apply text-foreground;
-  }
-
-  .rating-star-filled {
-    @apply text-foreground fill-current;
-  }
-
-  .rating-star-empty {
-    @apply text-muted-foreground;
-  }
-
-  /* Enhanced Button component hover behavior for consistency */
-  .consistent-hover {
-    @apply hover:bg-accent/20 cursor-pointer !important;
-    pointer-events: auto !important;
-  }
-
-  /* Action buttons with consistent styling */
-  .action-button {
-    @apply bg-foreground text-background hover:bg-foreground/90 transition-colors cursor-pointer;
-    pointer-events: auto !important;
-  }
-
-  .secondary-action-button {
-    @apply bg-muted text-foreground hover:bg-accent/20 transition-colors cursor-pointer;
-    pointer-events: auto !important;
-  }
-
   /* SCROLLBAR UTILITIES FOR HORIZONTAL SCROLLING */
   .scrollbar-hide {
     -ms-overflow-style: none;  /* Internet Explorer 10+ */
@@ -191,11 +121,7 @@
     display: none;  /* Safari and Chrome */
   }
 
-  /* TOUCH OPTIMIZATIONS */
-  .touch-pan-x {
-    touch-action: pan-x !important;
-  }
-  
+  /* TOUCH OPTIMIZATIONS - REMOVED CONFLICTING TOUCH ACTIONS */
   .touch-manipulation {
     touch-action: manipulation !important;
   }
@@ -204,7 +130,7 @@
     touch-action: none !important;
   }
 
-  /* NEW ANIMATIONS FOR HEARTS AND COMMENTS */
+  /* ANIMATIONS */
   @keyframes floatHeart {
     0% {
       transform: scale(0) rotate(0deg);
@@ -306,13 +232,37 @@
   }
 
   /* Enhanced touch targets for mobile */
-  button, .tab-button, .nav-button {
+  button {
     min-height: 44px !important;
     min-width: 44px !important;
   }
 }
 
-/* Override any external styles that might cause wrong colors */
+/* ENSURE PROPER BUTTON HOVER BEHAVIOR */
+button:hover {
+  background-color: rgba(85, 85, 85, 1) !important;
+  transition: all 0.2s ease !important;
+}
+
+button:active {
+  transform: scale(0.98) !important;
+  transition: transform 0.1s ease !important;
+}
+
+/* Category bar specific styles */
+.category-bar {
+  position: relative;
+  z-index: 20;
+}
+
+.category-bar button {
+  position: relative;
+  z-index: 21;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+/* Override any conflicting styles */
 .bg-muted, [class*="bg-muted"] {
   background-color: rgb(55 55 55) !important;
 }
@@ -323,23 +273,6 @@
 
 .bg-secondary, [class*="bg-secondary"] {
   background-color: rgb(75 75 75) !important;
-}
-
-/* FORCE CONSISTENT HOVER BEHAVIOR GLOBALLY */
-button:hover, .hover-effect:hover {
-  background-color: rgba(85, 85, 85, 0.2) !important;
-  transition: all 0.2s ease !important;
-}
-
-button:active, .active-effect:active {
-  transform: scale(0.95) !important;
-  transition: transform 0.1s ease !important;
-}
-
-/* Override Radix UI Button hovers */
-[data-radix-collection-item]:hover,
-button[data-state]:hover {
-  background-color: rgba(85, 85, 85, 0.2) !important;
 }
 
 /* ELIMINATE ALL YELLOW COLORS */
@@ -357,21 +290,4 @@ button[data-state]:hover {
 /* Boost button override */
 .boost-button {
   @apply bg-accent text-foreground hover:bg-accent/80 !important;
-}
-
-/* ENSURE PROPER POINTER EVENTS FOR ALL INTERACTIVE ELEMENTS */
-button, .interactive, .clickable, .tab-button, .nav-button {
-  pointer-events: auto !important;
-  cursor: pointer !important;
-}
-
-/* Fix any z-index issues that might block clicks */
-.category-bar {
-  position: relative;
-  z-index: 10;
-}
-
-.category-bar button {
-  position: relative;
-  z-index: 11;
 }
