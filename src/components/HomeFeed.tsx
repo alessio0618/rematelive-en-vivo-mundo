@@ -1,6 +1,9 @@
 
 import React from 'react';
-import LiveChannelCard from './LiveChannelCard';
+import { StreamPreview } from './StreamPreview';
+import { PullToRefresh } from './PullToRefresh';
+import { FloatingActionButton } from './FloatingActionButton';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 
 const HomeFeed = () => {
   // Mock data for live channels with Spanish content
@@ -67,22 +70,58 @@ const HomeFeed = () => {
     }
   ];
 
+  const loadMoreStreams = async (page: number) => {
+    // Simulate API call delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Return paginated mock data
+    const startIndex = (page - 1) * 6;
+    const endIndex = startIndex + 6;
+    return liveChannels.slice(startIndex, endIndex);
+  };
+
+  const { data: streams, loading, hasMore, loadingRef, refresh } = useInfiniteScroll({
+    loadMore: loadMoreStreams,
+    initialData: liveChannels.slice(0, 6)
+  });
+
+  const handleRefresh = async () => {
+    await refresh();
+  };
+
+  const handleStreamPreview = (stream: any) => {
+    console.log('Previewing stream:', stream.sellerName);
+  };
+
   return (
-    <div className="mobile-padding pb-24 min-h-screen">
-      <div className="grid grid-cols-2 gap-3 mt-2">
-        {liveChannels.map((channel) => (
-          <LiveChannelCard
-            key={channel.id}
-            sellerName={channel.sellerName}
-            sellerAvatar={channel.sellerAvatar}
-            viewerCount={channel.viewerCount}
-            category={channel.category}
-            title={channel.title}
-            thumbnail={channel.thumbnail}
-            isLive={channel.isLive}
-          />
-        ))}
-      </div>
+    <div className="relative">
+      <PullToRefresh onRefresh={handleRefresh}>
+        <div className="mobile-padding pb-24 min-h-screen">
+          <div className="grid grid-cols-2 gap-3 mt-2">
+            {streams.map((channel) => (
+              <StreamPreview
+                key={channel.id}
+                stream={channel}
+                onPreview={handleStreamPreview}
+              />
+            ))}
+          </div>
+
+          {/* Loading indicator for infinite scroll */}
+          {hasMore && (
+            <div ref={loadingRef} className="flex justify-center py-4">
+              {loading && (
+                <div className="flex items-center space-x-2 text-muted-foreground">
+                  <div className="w-4 h-4 animate-spin rounded-full border-2 border-foreground border-r-transparent"></div>
+                  <span className="text-sm">Loading more streams...</span>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </PullToRefresh>
+
+      <FloatingActionButton />
     </div>
   );
 };

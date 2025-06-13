@@ -10,6 +10,7 @@ import { BoostModal } from '@/components/BoostModal';
 import { StreamOptionsSheet } from '@/components/StreamOptionsSheet';
 import { DoubleTapHandler } from '@/components/DoubleTapHandler';
 import { CommentOverlay } from '@/components/CommentOverlay';
+import { usePinchZoom } from '@/hooks/usePinchZoom';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -42,6 +43,12 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
   const [showOptionsSheet, setShowOptionsSheet] = useState(false);
   const [showComments, setShowComments] = useState(true);
 
+  // Pinch zoom for video
+  const { containerRef: zoomRef, scale, resetZoom, transform } = usePinchZoom({
+    minZoom: 1,
+    maxZoom: 3
+  });
+
   // Mock product data
   const currentProduct = {
     id: 1,
@@ -66,11 +73,22 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
       title: "¡Puja realizada!",
       description: `Has pujado $${bidAmount} por ${currentProduct.name}`
     });
+    
+    // Add haptic feedback
+    if ('vibrate' in navigator) {
+      navigator.vibrate([50, 50, 50]);
+    }
   };
 
   const handleLike = () => {
     setIsLiked(!isLiked);
     setLikeCount(prev => isLiked ? prev - 1 : prev + 1);
+    
+    // Add haptic feedback
+    if ('vibrate' in navigator) {
+      navigator.vibrate(25);
+    }
+    
     toast({
       title: isLiked ? "Like removido" : "¡Te gusta este stream!",
       description: isLiked ? "Has removido tu like" : "Has dado like al stream"
@@ -82,10 +100,21 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
       setIsLiked(true);
     }
     setLikeCount(prev => prev + 1);
+    
+    // Add stronger haptic feedback for double tap
+    if ('vibrate' in navigator) {
+      navigator.vibrate([50, 30, 50]);
+    }
   };
 
   const handleFollow = () => {
     setIsFollowing(!isFollowing);
+    
+    // Add haptic feedback
+    if ('vibrate' in navigator) {
+      navigator.vibrate(50);
+    }
+    
     toast({
       title: isFollowing ? "Dejaste de seguir" : "¡Ahora sigues a este vendedor!",
       description: isFollowing ? `Ya no sigues a ${streamData.sellerName}` : `Ahora sigues a ${streamData.sellerName}`
@@ -173,15 +202,40 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
         </div>
       </div>
 
-      {/* Video Stream Area with Double Tap */}
-      <div className="relative flex-1 bg-black">
-        <DoubleTapHandler onLike={handleDoubleTapLike}>
-          <img 
-            src={streamData.thumbnail} 
-            alt="Live stream"
-            className="w-full h-full object-cover"
-          />
-        </DoubleTapHandler>
+      {/* Video Stream Area with Pinch Zoom and Double Tap */}
+      <div className="relative flex-1 bg-black overflow-hidden">
+        <div ref={zoomRef} className="w-full h-full">
+          <DoubleTapHandler onLike={handleDoubleTapLike}>
+            <div 
+              className="w-full h-full transition-transform duration-200 origin-center"
+              style={{ transform }}
+            >
+              <img 
+                src={streamData.thumbnail} 
+                alt="Live stream"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </DoubleTapHandler>
+        </div>
+
+        {/* Zoom indicator */}
+        {scale > 1 && (
+          <div className="absolute top-4 right-4 bg-black/50 text-white px-2 py-1 rounded text-sm">
+            {scale.toFixed(1)}x
+          </div>
+        )}
+
+        {/* Reset zoom button */}
+        {scale > 1 && (
+          <Button
+            onClick={resetZoom}
+            className="absolute bottom-4 left-4 bg-black/50 text-white hover:bg-black/70"
+            size="sm"
+          >
+            Reset Zoom
+          </Button>
+        )}
         
         {/* Seller Profile Overlay */}
         <div className="absolute top-4 left-4 right-4">
