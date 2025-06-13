@@ -31,12 +31,12 @@ const CategoryBar = () => {
               <button
                 key={category.name}
                 onClick={() => handleCategoryClick(category.path, category.name)}
-                className={`nav-button whitespace-nowrap text-sm font-medium transition-colors px-3 py-1.5 rounded-md ${
+                className={`nav-button whitespace-nowrap text-sm font-medium transition-colors px-3 py-1.5 rounded-md touch-manipulation ${
                   isActive 
-                    ? 'nav-button-active bg-muted text-foreground' 
-                    : 'nav-button-inactive text-muted-foreground hover:text-foreground'
+                    ? 'nav-button-active bg-muted' 
+                    : 'nav-button-inactive'
                 }`}
-                style={{ minHeight: '44px', minWidth: '60px' }}
+                style={{ minHeight: '36px', minWidth: '60px' }}
               >
                 {category.name}
               </button>

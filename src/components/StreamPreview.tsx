@@ -46,7 +46,7 @@ export const StreamPreview: React.FC<StreamPreviewProps> = ({ stream, onPreview 
     <>
       <Card 
         className={`bg-card border-border overflow-hidden cursor-pointer rounded-lg transition-all duration-200 hover:scale-105 active:scale-95 ${
-          isPreviewOpen ? 'ring-2 ring-destructive' : ''
+          isPreviewOpen ? 'ring-2 ring-red-500' : ''
         }`}
         onClick={handleClick}
         {...longPressHandlers}
@@ -60,30 +60,30 @@ export const StreamPreview: React.FC<StreamPreviewProps> = ({ stream, onPreview 
           
           {/* Live indicator */}
           {stream.isLive && (
-            <div className="absolute top-2 left-2 bg-destructive text-destructive-foreground text-xs font-bold px-2 py-1 rounded flex items-center">
-              <div className="w-1.5 h-1.5 bg-destructive-foreground rounded-full mr-1 animate-pulse"></div>
+            <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded flex items-center">
+              <div className="w-1.5 h-1.5 bg-white rounded-full mr-1 animate-pulse"></div>
               Live • {stream.viewerCount}
             </div>
           )}
 
           {/* Preview indicator */}
-          <div className="absolute top-2 right-2 bg-background/80 text-foreground text-xs px-2 py-1 rounded flex items-center">
+          <div className="absolute top-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded flex items-center">
             <Eye className="w-3 h-3 mr-1" />
             Hold
           </div>
 
           {/* Seller info overlay */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/90 to-transparent p-3">
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
             <div className="flex items-center space-x-2 mb-1">
               <img 
                 src={stream.sellerAvatar} 
                 alt={stream.sellerName}
-                className="w-6 h-6 rounded-full object-cover border border-border"
+                className="w-6 h-6 rounded-full object-cover border border-white/20"
               />
-              <span className="text-foreground font-medium text-sm">{stream.sellerName}</span>
+              <span className="text-white font-medium text-sm">{stream.sellerName}</span>
             </div>
-            <h3 className="text-foreground font-bold text-sm leading-tight mb-1 line-clamp-2">{stream.title}</h3>
-            <p className="text-muted-foreground text-xs">{stream.category}</p>
+            <h3 className="text-white font-bold text-sm leading-tight mb-1 line-clamp-2">{stream.title}</h3>
+            <p className="text-white/80 text-xs">{stream.category}</p>
           </div>
         </div>
       </Card>
@@ -91,10 +91,10 @@ export const StreamPreview: React.FC<StreamPreviewProps> = ({ stream, onPreview 
       {/* Preview Modal */}
       {isPreviewOpen && (
         <div 
-          className="fixed inset-0 bg-background/80 z-50 flex items-end"
+          className="fixed inset-0 bg-black/50 z-50 flex items-end"
           onClick={() => setIsPreviewOpen(false)}
         >
-          <div className="w-full bg-card rounded-t-lg p-4 animate-slide-in-bottom border-t border-border">
+          <div className="w-full bg-background rounded-t-lg p-4 animate-slide-in-bottom">
             <div className="w-12 h-1 bg-muted rounded mx-auto mb-4"></div>
             <div className="flex items-center space-x-3 mb-3">
               <img 
@@ -103,7 +103,7 @@ export const StreamPreview: React.FC<StreamPreviewProps> = ({ stream, onPreview 
                 className="w-12 h-12 rounded-full"
               />
               <div>
-                <h3 className="font-bold text-lg text-card-foreground">{stream.sellerName}</h3>
+                <h3 className="font-bold text-lg">{stream.sellerName}</h3>
                 <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                   <Users className="w-4 h-4" />
                   <span>{stream.viewerCount} viewers</span>
@@ -112,13 +112,13 @@ export const StreamPreview: React.FC<StreamPreviewProps> = ({ stream, onPreview 
                 </div>
               </div>
             </div>
-            <p className="text-sm mb-4 text-card-foreground">{stream.title}</p>
+            <p className="text-sm mb-4">{stream.title}</p>
             <button 
               onClick={() => {
                 setIsPreviewOpen(false);
                 navigate(`/live/${stream.sellerName}`);
               }}
-              className="w-full bg-destructive text-destructive-foreground py-3 rounded-lg font-medium hover:bg-destructive/90 transition-colors"
+              className="w-full bg-red-500 text-white py-3 rounded-lg font-medium"
             >
               Join Stream
             </button>

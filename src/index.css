@@ -107,7 +107,7 @@
   @apply whitespace-nowrap text-sm font-medium transition-colors px-3 py-1.5 rounded-md cursor-pointer select-none;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
-  min-height: 44px;
+  min-height: 36px;
 }
 
 .tab-button-active {
