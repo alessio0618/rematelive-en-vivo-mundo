@@ -167,6 +167,54 @@
   .secondary-action-button {
     @apply bg-muted text-foreground hover:bg-accent/20 transition-colors;
   }
+
+  /* NEW ANIMATIONS FOR HEARTS AND COMMENTS */
+  @keyframes floatHeart {
+    0% {
+      transform: scale(0) rotate(0deg);
+      opacity: 1;
+    }
+    15% {
+      transform: scale(1.2) rotate(-5deg);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0.8) rotate(10deg) translateY(-100px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes slideInFromBottom {
+    0% {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes bounceCount {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+  }
+
+  .animate-floatHeart {
+    animation: floatHeart 2s ease-out forwards;
+  }
+
+  .animate-slideInFromBottom {
+    animation: slideInFromBottom 0.3s ease-out;
+  }
+
+  .animate-bounceCount {
+    animation: bounceCount 0.3s ease-in-out;
+  }
 }
 
 /* Mobile-specific optimizations */

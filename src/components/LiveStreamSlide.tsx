@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { ArrowLeft, MoreHorizontal, Users, Heart, MessageCircle, Share, Wallet, ShoppingBag, Zap, Camera } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -7,6 +8,8 @@ import { SlideToBid } from '@/components/SlideToBid';
 import { ShareModal } from '@/components/ShareModal';
 import { BoostModal } from '@/components/BoostModal';
 import { StreamOptionsSheet } from '@/components/StreamOptionsSheet';
+import { DoubleTapHandler } from '@/components/DoubleTapHandler';
+import { CommentOverlay } from '@/components/CommentOverlay';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -37,6 +40,7 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
   const [showShareModal, setShowShareModal] = useState(false);
   const [showBoostModal, setShowBoostModal] = useState(false);
   const [showOptionsSheet, setShowOptionsSheet] = useState(false);
+  const [showComments, setShowComments] = useState(true);
 
   // Mock product data
   const currentProduct = {
@@ -50,9 +54,9 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
   };
 
   const chatMessages = [
-    { id: 1, user: 'user123', message: '¡Excelente producto!' },
-    { id: 2, user: 'golfpro', message: 'Me interesa el set completo' },
-    { id: 3, user: 'maria_g', message: '¿Cuál es el precio final?' }
+    { id: 1, user: 'user123', message: '¡Excelente producto!', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop', timestamp: Date.now() - 5000 },
+    { id: 2, user: 'golfpro', message: 'Me interesa el set completo', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b112b008?w=32&h=32&fit=crop', timestamp: Date.now() - 3000 },
+    { id: 3, user: 'maria_g', message: '¿Cuál es el precio final?', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop', timestamp: Date.now() - 1000 }
   ];
 
   // Event handlers
@@ -71,6 +75,13 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
       title: isLiked ? "Like removido" : "¡Te gusta este stream!",
       description: isLiked ? "Has removido tu like" : "Has dado like al stream"
     });
+  };
+
+  const handleDoubleTapLike = () => {
+    if (!isLiked) {
+      setIsLiked(true);
+    }
+    setLikeCount(prev => prev + 1);
   };
 
   const handleFollow = () => {
@@ -115,6 +126,7 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
   };
 
   const handleFocusChat = () => {
+    setShowComments(true);
     const chatInput = document.querySelector('input[placeholder="Escribe un mensaje..."]') as HTMLInputElement;
     if (chatInput) {
       chatInput.focus();
@@ -161,13 +173,15 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
         </div>
       </div>
 
-      {/* Video Stream Area */}
+      {/* Video Stream Area with Double Tap */}
       <div className="relative flex-1 bg-black">
-        <img 
-          src={streamData.thumbnail} 
-          alt="Live stream"
-          className="w-full h-full object-cover"
-        />
+        <DoubleTapHandler onLike={handleDoubleTapLike}>
+          <img 
+            src={streamData.thumbnail} 
+            alt="Live stream"
+            className="w-full h-full object-cover"
+          />
+        </DoubleTapHandler>
         
         {/* Seller Profile Overlay */}
         <div className="absolute top-4 left-4 right-4">
@@ -201,16 +215,25 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
           </div>
         </div>
 
+        {/* Comment Overlay */}
+        <CommentOverlay comments={chatMessages} isVisible={showComments} />
+
         {/* Action Buttons */}
         <div className="absolute bottom-4 right-4 flex flex-col space-y-3">
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className={`bg-black/50 hover:bg-black/70 rounded-full ${isLiked ? 'text-red-500' : 'text-white'}`}
-            onClick={handleLike}
-          >
-            <Heart className={`w-6 h-6 ${isLiked ? 'fill-current' : ''}`} />
-          </Button>
+          <div className="flex flex-col items-center">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className={`bg-black/50 hover:bg-black/70 rounded-full ${isLiked ? 'text-red-500' : 'text-white'}`}
+              onClick={handleLike}
+            >
+              <Heart className={`w-6 h-6 ${isLiked ? 'fill-current' : ''}`} />
+            </Button>
+            <span className={`text-white text-xs mt-1 ${likeCount !== 234 ? 'animate-bounceCount' : ''}`}>
+              {likeCount}
+            </span>
+          </div>
+          
           <Button 
             variant="ghost" 
             size="icon" 
@@ -246,7 +269,7 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
         </div>
       </div>
 
-      {/* Bottom Section - Fixed height to prevent overflow */}
+      {/* Bottom Section - Auction and Chat Input */}
       <div className="h-80 flex flex-col bg-background">
         {/* Current Product Section */}
         <div className="p-4 border-b border-border">
@@ -288,18 +311,8 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
           </Card>
         </div>
 
-        {/* Chat Section */}
+        {/* Chat Input */}
         <div className="flex-1 flex flex-col min-h-0">
-          <div className="flex-1 p-4 space-y-2 overflow-y-auto">
-            {chatMessages.map((msg) => (
-              <div key={msg.id} className="flex space-x-2">
-                <span className="text-muted-foreground font-medium text-sm">{msg.user}:</span>
-                <span className="text-foreground text-sm">{msg.message}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* Chat Input */}
           <div className="p-4 border-t border-border">
             <div className="flex space-x-2">
               <Input
@@ -308,6 +321,7 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
                 onChange={(e) => setChatMessage(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                 className="flex-1 bg-card border-border text-foreground placeholder:text-gray-400"
+                onFocus={() => setShowComments(true)}
               />
               <Button 
                 size="icon"
