@@ -10,14 +10,12 @@ export const useLongPress = ({ onLongPress, delay = 500 }: UseLongPressProps) =>
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isLongPressRef = useRef(false);
   const startPositionRef = useRef({ x: 0, y: 0 });
-  const startTimeRef = useRef<number>(0);
   const hasMovedRef = useRef(false);
 
   const start = useCallback((event: React.TouchEvent | React.MouseEvent) => {
     // Reset states
     isLongPressRef.current = false;
     hasMovedRef.current = false;
-    startTimeRef.current = Date.now();
     
     // Store initial position to detect movement
     const clientX = 'touches' in event ? event.touches[0].clientX : event.clientX;
@@ -64,20 +62,12 @@ export const useLongPress = ({ onLongPress, delay = 500 }: UseLongPressProps) =>
 
   const end = useCallback(() => {
     clear();
-    // Don't reset isLongPressRef immediately to allow click handler to check it
-    setTimeout(() => {
-      isLongPressRef.current = false;
-    }, 100);
+    // Reset state immediately
+    isLongPressRef.current = false;
   }, [clear]);
 
-  // Only prevent click if it was actually a completed long press
-  const clickHandler = useCallback((event: React.MouseEvent) => {
-    if (isLongPressRef.current) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-  }, []);
-
+  // Return only the event handlers needed for long press detection
+  // Do NOT include onClick to avoid blocking component's click handling
   return {
     onMouseDown: start,
     onTouchStart: start,
@@ -85,7 +75,6 @@ export const useLongPress = ({ onLongPress, delay = 500 }: UseLongPressProps) =>
     onTouchMove: move,
     onMouseUp: end,
     onMouseLeave: clear,
-    onTouchEnd: end,
-    onClick: clickHandler
+    onTouchEnd: end
   };
 };

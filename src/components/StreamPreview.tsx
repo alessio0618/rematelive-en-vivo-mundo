@@ -45,7 +45,7 @@ export const StreamPreview: React.FC<StreamPreviewProps> = ({ stream, onPreview 
 
   const longPressHandlers = useLongPress({
     onLongPress: handleLongPress,
-    delay: 600 // Slightly longer delay to avoid conflicts
+    delay: 600
   });
 
   return (
@@ -94,7 +94,6 @@ export const StreamPreview: React.FC<StreamPreviewProps> = ({ stream, onPreview 
         </div>
       </Card>
 
-      {/* Preview Modal */}
       {isPreviewOpen && (
         <div 
           className="fixed inset-0 bg-black/50 z-50 flex items-end"
