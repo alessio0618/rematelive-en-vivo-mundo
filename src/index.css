@@ -111,7 +111,7 @@
     @apply pt-safe;
   }
 
-  /* Global hover standardization */
+  /* STANDARDIZED TAB AND BUTTON SYSTEM */
   .tab-button {
     @apply whitespace-nowrap text-sm font-medium transition-colors px-3 py-1.5 rounded-md hover:bg-accent/20;
   }
@@ -124,9 +124,48 @@
     @apply text-foreground bg-muted border-b-2 border-transparent;
   }
 
-  /* Override Button component hover behavior for tabs */
-  .tab-override {
+  /* STANDARDIZED NAVIGATION BUTTONS */
+  .nav-button {
+    @apply text-foreground hover:bg-accent/20 transition-colors;
+  }
+
+  .nav-button-active {
+    @apply text-foreground border-b-2 border-foreground;
+  }
+
+  .nav-button-inactive {
+    @apply text-foreground border-b-2 border-transparent;
+  }
+
+  /* STANDARDIZED INTERACTIVE ELEMENTS */
+  .interactive-element {
+    @apply hover:bg-accent/20 transition-colors duration-200;
+  }
+
+  .rating-star {
+    @apply text-foreground;
+  }
+
+  .rating-star-filled {
+    @apply text-foreground fill-current;
+  }
+
+  .rating-star-empty {
+    @apply text-muted-foreground;
+  }
+
+  /* Override Button component hover behavior for consistency */
+  .consistent-hover {
     @apply hover:bg-accent/20 !important;
+  }
+
+  /* Action buttons with consistent styling */
+  .action-button {
+    @apply bg-foreground text-background hover:bg-foreground/90 transition-colors;
+  }
+
+  .secondary-action-button {
+    @apply bg-muted text-foreground hover:bg-accent/20 transition-colors;
   }
 }
 
@@ -141,7 +180,7 @@
   }
 }
 
-/* Override any external styles that might cause brown backgrounds */
+/* Override any external styles that might cause wrong colors */
 .bg-muted, [class*="bg-muted"] {
   background-color: rgb(55 55 55) !important;
 }
@@ -154,7 +193,7 @@
   background-color: rgb(75 75 75) !important;
 }
 
-/* Force consistent hover behavior globally */
+/* FORCE CONSISTENT HOVER BEHAVIOR GLOBALLY */
 button:hover, .hover-effect:hover {
   background-color: rgba(85, 85, 85, 0.2) !important;
   transition: all 0.2s ease !important;
@@ -164,4 +203,21 @@ button:hover, .hover-effect:hover {
 [data-radix-collection-item]:hover,
 button[data-state]:hover {
   background-color: rgba(85, 85, 85, 0.2) !important;
+}
+
+/* ELIMINATE ALL YELLOW COLORS */
+.text-yellow-400, .text-yellow-500, .text-yellow-600,
+.bg-yellow-400, .bg-yellow-500, .bg-yellow-600,
+.border-yellow-400, .border-yellow-500, .border-yellow-600 {
+  @apply text-foreground bg-accent border-border !important;
+}
+
+/* Ensure star ratings use system colors */
+.text-yellow-500 {
+  @apply text-foreground !important;
+}
+
+/* Boost button override */
+.boost-button {
+  @apply bg-accent text-foreground hover:bg-accent/80 !important;
 }

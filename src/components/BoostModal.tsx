@@ -49,7 +49,7 @@ export const BoostModal: React.FC<BoostModalProps> = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Zap className="w-5 h-5 text-yellow-400" />
+            <Zap className="w-5 h-5 text-foreground" />
             Boost a {sellerName}
           </DialogTitle>
         </DialogHeader>
@@ -61,7 +61,7 @@ export const BoostModal: React.FC<BoostModalProps> = ({
                 key={amount}
                 onClick={() => handleBoost(amount)}
                 variant="outline"
-                className="flex flex-col items-center py-3 h-auto"
+                className="flex flex-col items-center py-3 h-auto interactive-element"
               >
                 <DollarSign className="w-4 h-4 mb-1" />
                 ${amount}
@@ -78,7 +78,7 @@ export const BoostModal: React.FC<BoostModalProps> = ({
               min="1"
               step="0.01"
             />
-            <Button onClick={handleCustomBoost} className="bg-yellow-400 text-black hover:bg-yellow-500">
+            <Button onClick={handleCustomBoost} className="action-button">
               <Zap className="w-4 h-4" />
             </Button>
           </div>

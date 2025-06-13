@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Card, CardContent } from '@/components/ui/card';
@@ -127,7 +126,7 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({ isOpen, onC
                       <h3 className="text-foreground font-medium text-sm">{sale.item}</h3>
                       <p className="text-muted-foreground text-xs">Vendido a {sale.buyer}</p>
                       <p className="text-muted-foreground text-xs">{sale.date}</p>
-                      <p className="text-green-600 font-semibold text-sm">{sale.price}</p>
+                      <p className="text-foreground font-semibold text-sm">{sale.price}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -176,7 +175,7 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({ isOpen, onC
                           <Star
                             key={i}
                             className={`w-3 h-3 ${
-                              i < review.rating ? 'text-yellow-500 fill-current' : 'text-gray-300'
+                              i < review.rating ? 'rating-star-filled' : 'rating-star-empty'
                             }`}
                           />
                         ))}
@@ -203,17 +202,20 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({ isOpen, onC
         </DialogHeader>
         
         <div className="space-y-4">
-          {/* Custom Navigation */}
+          {/* Custom Navigation using BottomNavBar pattern */}
           <div className="flex space-x-1 bg-muted rounded-lg p-1">
             {navigationItems.map((item) => {
               const IconComponent = item.icon;
+              const isActive = activeSection === item.id;
               return (
                 <Button
                   key={item.id}
-                  variant={activeSection === item.id ? "default" : "ghost"}
+                  variant="ghost"
                   size="sm"
                   onClick={() => setActiveSection(item.id)}
-                  className="flex-1 text-xs"
+                  className={`flex-1 text-xs nav-button ${
+                    isActive ? 'nav-button-active bg-background' : 'nav-button-inactive'
+                  }`}
                 >
                   <IconComponent className="w-3 h-3 mr-1" />
                   {item.label}
