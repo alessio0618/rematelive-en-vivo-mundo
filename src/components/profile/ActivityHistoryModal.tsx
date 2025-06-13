@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ShoppingBag, Video, MessageSquare, Star } from 'lucide-react';
+import { ShoppingBag, Video, MessageSquare, Star, ArrowLeft } from 'lucide-react';
 
 interface ActivityHistoryModalProps {
   isOpen: boolean;
@@ -194,7 +194,52 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({ isOpen, onC
     }
   };
 
-  return (
+  // Mobile full-screen component
+  const MobileView = () => (
+    <div className="fixed inset-0 z-50 bg-background flex flex-col">
+      {/* Mobile Header */}
+      <div className="flex items-center p-4 border-b border-border">
+        <Button variant="ghost" size="sm" onClick={onClose} className="mr-3 p-2">
+          <ArrowLeft className="w-5 h-5" />
+        </Button>
+        <h1 className="text-foreground text-lg font-semibold">Mi Actividad</h1>
+      </div>
+
+      {/* Mobile Navigation Tabs */}
+      <div className="p-4 border-b border-border">
+        <div className="grid grid-cols-2 gap-2">
+          {navigationItems.map((item) => {
+            const IconComponent = item.icon;
+            const isActive = activeSection === item.id;
+            return (
+              <Button
+                key={item.id}
+                variant="ghost"
+                size="sm"
+                onClick={() => setActiveSection(item.id)}
+                className={`h-12 text-xs nav-button ${
+                  isActive ? 'nav-button-active bg-muted' : 'nav-button-inactive'
+                }`}
+              >
+                <div className="flex flex-col items-center space-y-1">
+                  <IconComponent className="w-4 h-4" />
+                  <span>{item.label}</span>
+                </div>
+              </Button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Mobile Content */}
+      <div className="flex-1 overflow-y-auto p-4">
+        {renderContent()}
+      </div>
+    </div>
+  );
+
+  // Desktop modal component
+  const DesktopView = () => (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md max-h-[80vh] overflow-y-auto">
         <DialogHeader>
@@ -202,7 +247,7 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({ isOpen, onC
         </DialogHeader>
         
         <div className="space-y-4">
-          {/* Custom Navigation using BottomNavBar pattern */}
+          {/* Desktop Navigation */}
           <div className="flex space-x-1 bg-muted rounded-lg p-1">
             {navigationItems.map((item) => {
               const IconComponent = item.icon;
@@ -224,13 +269,29 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({ isOpen, onC
             })}
           </div>
 
-          {/* Content */}
+          {/* Desktop Content */}
           <div className="mt-4">
             {renderContent()}
           </div>
         </div>
       </DialogContent>
     </Dialog>
+  );
+
+  if (!isOpen) return null;
+
+  return (
+    <>
+      {/* Mobile View */}
+      <div className="block md:hidden">
+        <MobileView />
+      </div>
+      
+      {/* Desktop View */}
+      <div className="hidden md:block">
+        <DesktopView />
+      </div>
+    </>
   );
 };
 
