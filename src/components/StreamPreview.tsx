@@ -24,17 +24,24 @@ export const StreamPreview: React.FC<StreamPreviewProps> = ({ stream, onPreview 
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   const handleLongPress = () => {
+    console.log('Long press detected for:', stream.sellerName);
     setIsPreviewOpen(true);
     onPreview?.(stream);
   };
 
-  const handleClick = () => {
-    navigate(`/live/${stream.sellerName}`);
+  const handleClick = (event: React.MouseEvent) => {
+    console.log('Card clicked for:', stream.sellerName);
+    console.log('Navigating to:', `/live/${stream.sellerName}`);
+    
+    // Ensure we don't navigate if the preview modal is open
+    if (!isPreviewOpen) {
+      navigate(`/live/${stream.sellerName}`);
+    }
   };
 
   const longPressHandlers = useLongPress({
     onLongPress: handleLongPress,
-    delay: 300
+    delay: 500
   });
 
   return (
