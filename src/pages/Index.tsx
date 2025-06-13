@@ -9,7 +9,9 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SearchBar placeholder="Buscar RemateLive" />
-      <CategoryBar />
+      <div className="category-bar">
+        <CategoryBar />
+      </div>
       <main className="relative">
         <HomeFeed />
       </main>
