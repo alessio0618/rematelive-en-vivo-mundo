@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -12,6 +12,19 @@ interface ActivityHistoryModalProps {
 
 const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({ isOpen, onClose }) => {
   const [activeSection, setActiveSection] = useState('purchases');
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile viewport
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const purchases = [
     {
@@ -194,52 +207,56 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({ isOpen, onC
     }
   };
 
-  // Mobile full-screen component
-  const MobileView = () => (
-    <div className="fixed inset-0 z-50 bg-background flex flex-col">
-      {/* Mobile Header */}
-      <div className="flex items-center p-4 border-b border-border">
-        <Button variant="ghost" size="sm" onClick={onClose} className="mr-3 p-2">
-          <ArrowLeft className="w-5 h-5" />
-        </Button>
-        <h1 className="text-foreground text-lg font-semibold">Mi Actividad</h1>
-      </div>
+  if (!isOpen) return null;
 
-      {/* Mobile Navigation Tabs */}
-      <div className="p-4 border-b border-border">
-        <div className="grid grid-cols-2 gap-2">
-          {navigationItems.map((item) => {
-            const IconComponent = item.icon;
-            const isActive = activeSection === item.id;
-            return (
-              <Button
-                key={item.id}
-                variant="ghost"
-                size="sm"
-                onClick={() => setActiveSection(item.id)}
-                className={`h-12 text-xs nav-button ${
-                  isActive ? 'nav-button-active bg-muted' : 'nav-button-inactive'
-                }`}
-              >
-                <div className="flex flex-col items-center space-y-1">
-                  <IconComponent className="w-4 h-4" />
-                  <span>{item.label}</span>
-                </div>
-              </Button>
-            );
-          })}
+  // Mobile full-screen view
+  if (isMobile) {
+    return (
+      <div className="fixed inset-0 z-[100] bg-background flex flex-col">
+        {/* Mobile Header */}
+        <div className="flex items-center p-4 border-b border-border bg-background">
+          <Button variant="ghost" size="sm" onClick={onClose} className="mr-3 p-2">
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+          <h1 className="text-foreground text-lg font-semibold">Mi Actividad</h1>
+        </div>
+
+        {/* Mobile Navigation Tabs */}
+        <div className="p-4 border-b border-border bg-background">
+          <div className="grid grid-cols-2 gap-2">
+            {navigationItems.map((item) => {
+              const IconComponent = item.icon;
+              const isActive = activeSection === item.id;
+              return (
+                <Button
+                  key={item.id}
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setActiveSection(item.id)}
+                  className={`h-12 text-xs ${
+                    isActive ? 'bg-muted text-foreground' : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  <div className="flex flex-col items-center space-y-1">
+                    <IconComponent className="w-4 h-4" />
+                    <span>{item.label}</span>
+                  </div>
+                </Button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Mobile Content */}
+        <div className="flex-1 overflow-y-auto p-4 bg-background">
+          {renderContent()}
         </div>
       </div>
+    );
+  }
 
-      {/* Mobile Content */}
-      <div className="flex-1 overflow-y-auto p-4">
-        {renderContent()}
-      </div>
-    </div>
-  );
-
-  // Desktop modal component
-  const DesktopView = () => (
+  // Desktop modal view
+  return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md max-h-[80vh] overflow-y-auto">
         <DialogHeader>
@@ -258,8 +275,8 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({ isOpen, onC
                   variant="ghost"
                   size="sm"
                   onClick={() => setActiveSection(item.id)}
-                  className={`flex-1 text-xs nav-button ${
-                    isActive ? 'nav-button-active bg-background' : 'nav-button-inactive'
+                  className={`flex-1 text-xs ${
+                    isActive ? 'bg-background text-foreground' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   <IconComponent className="w-3 h-3 mr-1" />
@@ -276,22 +293,6 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({ isOpen, onC
         </div>
       </DialogContent>
     </Dialog>
-  );
-
-  if (!isOpen) return null;
-
-  return (
-    <>
-      {/* Mobile View */}
-      <div className="block md:hidden">
-        <MobileView />
-      </div>
-      
-      {/* Desktop View */}
-      <div className="hidden md:block">
-        <DesktopView />
-      </div>
-    </>
   );
 };
 
