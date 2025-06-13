@@ -1,51 +1,62 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* RemateLive Design System - Minimalista Negro/Blanco */
-
 @layer base {
   :root {
-    /* RemateLive Brand Colors (Logo only) */
-    --rl-blue: 0 119 255;
-    --rl-yellow: 255 214 0;
-    
-    /* Minimalista Negro/Blanco App UI Colors */
-    --background: 0 0 0; /* Negro puro */
-    --foreground: 255 255 255; /* Blanco puro */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 9% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
 
-    --card: 45 45 45; /* Clean gray for cards - no more brown */
-    --card-foreground: 255 255 255;
-
-    --popover: 45 45 45; /* Clean gray for popovers */
-    --popover-foreground: 255 255 255;
-
-    --primary: 115 115 115; /* Gray instead of red */
-    --primary-foreground: 255 255 255;
-
-    --secondary: 75 75 75; /* Lighter clean gray for secondary elements */
-    --secondary-foreground: 255 255 255;
-
-    --muted: 55 55 55; /* Clean gray for muted backgrounds */
-    --muted-foreground: 200 200 200; /* Light gray text for better contrast */
-
-    --accent: 85 85 85; /* Light gray for highlights and hovers */
-    --accent-foreground: 255 255 255;
-
-    --destructive: 239 68 68; /* Red para errores */
-    --destructive-foreground: 255 255 255;
-
-    --border: 75 75 75; /* Lighter borders for better definition */
-    --input: 55 55 55; /* Clean gray input backgrounds */
-    --ring: 115 115 115; /* Focus rings use gray */
-
-    --radius: 0.75rem; /* Rounded corners */
-
-    /* Live streaming specific colors - only red allowed */
-    --live-red: 239 68 68;
-    --success-green: 115 115 115; /* Changed to gray */
-    --warning-yellow: 115 115 115; /* Changed to gray */
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 }
 
@@ -53,270 +64,90 @@
   * {
     @apply border-border;
   }
-
   body {
-    @apply bg-background text-foreground font-sans;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-    color: rgb(255 255 255) !important; /* Force white text globally */
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-bold text-foreground;
-    color: rgb(255 255 255) !important;
-  }
-
-  /* Ensure all text elements use white color */
-  button, span, p, div, label, input::placeholder {
-    color: rgb(255 255 255) !important;
-  }
-
-  /* Specific overrides for muted text to be visible light gray */
-  .text-muted-foreground {
-    color: rgb(200 200 200) !important;
-  }
-
-  /* Ensure foreground text is always white */
-  .text-foreground {
-    color: rgb(255 255 255) !important;
+    @apply bg-background text-foreground;
   }
 }
 
-/* Custom utilities for RemateLive */
-@layer utilities {
-  .rl-gradient-text {
-    background: linear-gradient(45deg, rgb(var(--rl-blue)), rgb(var(--rl-yellow)));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .live-indicator {
-    @apply bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full;
-  }
-  
-  .viewer-count {
-    @apply bg-black/70 text-white text-sm font-medium px-2 py-1 rounded-full;
-  }
-
-  .card-hover {
-    @apply hover:bg-accent/20 transition-all duration-200 hover:shadow-lg hover:shadow-white/5;
-  }
-
-  /* Mobile-first responsive utilities */
-  .mobile-safe-area {
-    @apply pb-safe;
-  }
-  
-  .mobile-header {
-    @apply pt-safe;
-  }
-
-  /* STANDARDIZED TAB AND BUTTON SYSTEM */
-  .tab-button {
-    @apply whitespace-nowrap text-sm font-medium transition-colors px-3 py-1.5 rounded-md hover:bg-accent/20;
-  }
-  
-  .tab-button-active {
-    @apply text-foreground border-b-2 border-foreground bg-muted;
-  }
-  
-  .tab-button-inactive {
-    @apply text-foreground bg-muted border-b-2 border-transparent;
-  }
-
-  /* STANDARDIZED NAVIGATION BUTTONS */
-  .nav-button {
-    @apply text-foreground hover:bg-accent/20 transition-colors;
-  }
-
-  .nav-button-active {
-    @apply text-foreground border-b-2 border-foreground;
-  }
-
-  .nav-button-inactive {
-    @apply text-foreground border-b-2 border-transparent;
-  }
-
-  /* STANDARDIZED INTERACTIVE ELEMENTS */
-  .interactive-element {
-    @apply hover:bg-accent/20 transition-colors duration-200;
-  }
-
-  .rating-star {
-    @apply text-foreground;
-  }
-
-  .rating-star-filled {
-    @apply text-foreground fill-current;
-  }
-
-  .rating-star-empty {
-    @apply text-muted-foreground;
-  }
-
-  /* Override Button component hover behavior for consistency */
-  .consistent-hover {
-    @apply hover:bg-accent/20 !important;
-  }
-
-  /* Action buttons with consistent styling */
-  .action-button {
-    @apply bg-foreground text-background hover:bg-foreground/90 transition-colors;
-  }
-
-  .secondary-action-button {
-    @apply bg-muted text-foreground hover:bg-accent/20 transition-colors;
-  }
-
-  /* NEW ANIMATIONS FOR HEARTS AND COMMENTS */
-  @keyframes floatHeart {
-    0% {
-      transform: scale(0) rotate(0deg);
-      opacity: 1;
-    }
-    15% {
-      transform: scale(1.2) rotate(-5deg);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(0.8) translateY(-150px) rotate(15deg);
-      opacity: 0;
-    }
-  }
-
-  @keyframes slideInFromBottom {
-    0% {
-      transform: translateY(100%);
-      opacity: 0;
-    }
-    100% {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-
-  @keyframes bounceCount {
-    0%, 100% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.2);
-    }
-  }
-
-  @keyframes slide-in-bottom {
-    0% {
-      transform: translateY(100%);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes pulse-gentle {
-    0%, 100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.7;
-    }
-  }
-
-  @keyframes shake {
-    0%, 100% {
-      transform: translateX(0);
-    }
-    10%, 30%, 50%, 70%, 90% {
-      transform: translateX(-2px);
-    }
-    20%, 40%, 60%, 80% {
-      transform: translateX(2px);
-    }
-  }
-
-  .animate-floatHeart {
-    animation: floatHeart 2s ease-out forwards;
-  }
-
-  .animate-slideInFromBottom {
-    animation: slideInFromBottom 0.3s ease-out;
-  }
-
-  .animate-bounceCount {
-    animation: bounceCount 0.3s ease-in-out;
-  }
-
-  .animate-slide-in-bottom {
-    animation: slide-in-bottom 0.3s ease-out;
-  }
-
-  .animate-pulse-gentle {
-    animation: pulse-gentle 2s ease-in-out infinite;
-  }
-
-  .animate-shake {
-    animation: shake 0.5s ease-in-out;
-  }
+/* Mobile optimizations */
+.mobile-padding {
+  @apply px-3;
 }
 
-/* Mobile-specific optimizations */
-@media (max-width: 768px) {
-  .grid-mobile-cards {
-    @apply grid-cols-2 gap-2;
-  }
-  
-  .mobile-padding {
-    @apply px-3 py-2;
-  }
+.mobile-header {
+  @apply sticky top-0 z-30;
 }
 
-/* Override any external styles that might cause wrong colors */
-.bg-muted, [class*="bg-muted"] {
-  background-color: rgb(55 55 55) !important;
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-.bg-card, [class*="bg-card"] {
-  background-color: rgb(45 45 45) !important;
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
-.bg-secondary, [class*="bg-secondary"] {
-  background-color: rgb(75 75 75) !important;
-}
-
-/* FORCE CONSISTENT HOVER BEHAVIOR GLOBALLY */
-button:hover, .hover-effect:hover {
-  background-color: rgba(85, 85, 85, 0.2) !important;
-  transition: all 0.2s ease !important;
-}
-
-/* Override Radix UI Button hovers */
-[data-radix-collection-item]:hover,
-button[data-state]:hover {
-  background-color: rgba(85, 85, 85, 0.2) !important;
-}
-
-/* ELIMINATE ALL YELLOW COLORS */
-.text-yellow-400, .text-yellow-500, .text-yellow-600,
-.bg-yellow-400, .bg-yellow-500, .bg-yellow-600,
-.border-yellow-400, .border-yellow-500, .border-yellow-600 {
-  @apply text-foreground bg-accent border-border !important;
-}
-
-/* Ensure star ratings use system colors */
-.text-yellow-500 {
-  @apply text-foreground !important;
-}
-
-/* Boost button override */
-.boost-button {
-  @apply bg-accent text-foreground hover:bg-accent/80 !important;
-}
-
-/* Touch improvements */
-.touch-action-manipulation {
+/* Navigation buttons */
+.nav-button {
+  @apply cursor-pointer select-none;
   touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.touch-action-none {
-  touch-action: none;
+.nav-button-active {
+  @apply text-foreground;
+}
+
+.nav-button-inactive {
+  @apply text-muted-foreground hover:text-foreground;
+}
+
+/* Tab buttons */
+.tab-button {
+  @apply whitespace-nowrap text-sm font-medium transition-colors px-3 py-1.5 rounded-md cursor-pointer select-none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 36px;
+}
+
+.tab-button-active {
+  @apply bg-muted text-foreground;
+}
+
+.tab-button-inactive {
+  @apply text-muted-foreground hover:text-foreground hover:bg-accent/20;
+}
+
+/* Card hover effects */
+.card-hover {
+  @apply hover:shadow-lg;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Animations */
+@keyframes slide-in-bottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in-bottom {
+  animation: slide-in-bottom 0.3s ease-out;
+}
+
+/* Touch targets */
+button, [role="button"], .cursor-pointer {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Ensure clickable elements are not blocked */
+.clickable {
+  pointer-events: auto !important;
+  z-index: 10;
 }

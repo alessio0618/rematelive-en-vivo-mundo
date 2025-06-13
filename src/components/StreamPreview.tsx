@@ -24,12 +24,17 @@ export const StreamPreview: React.FC<StreamPreviewProps> = ({ stream, onPreview 
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   const handleLongPress = () => {
+    console.log('Long press triggered for:', stream.sellerName);
     setIsPreviewOpen(true);
     onPreview?.(stream);
   };
 
-  const handleClick = () => {
-    navigate(`/live/${stream.sellerName}`);
+  const handleClick = (event: React.MouseEvent) => {
+    // Only navigate if it wasn't a long press
+    if (!isPreviewOpen) {
+      console.log('Navigating to stream:', stream.sellerName);
+      navigate(`/live/${stream.sellerName}`);
+    }
   };
 
   const longPressHandlers = useLongPress({
@@ -83,7 +88,7 @@ export const StreamPreview: React.FC<StreamPreviewProps> = ({ stream, onPreview 
         </div>
       </Card>
 
-      {/* Preview Modal - would be implemented as a bottom sheet */}
+      {/* Preview Modal */}
       {isPreviewOpen && (
         <div 
           className="fixed inset-0 bg-black/50 z-50 flex items-end"
@@ -109,7 +114,10 @@ export const StreamPreview: React.FC<StreamPreviewProps> = ({ stream, onPreview 
             </div>
             <p className="text-sm mb-4">{stream.title}</p>
             <button 
-              onClick={handleClick}
+              onClick={() => {
+                setIsPreviewOpen(false);
+                navigate(`/live/${stream.sellerName}`);
+              }}
               className="w-full bg-red-500 text-white py-3 rounded-lg font-medium"
             >
               Join Stream
