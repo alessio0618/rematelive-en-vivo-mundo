@@ -221,3 +221,61 @@ button[data-state]:hover {
 .boost-button {
   @apply bg-accent text-foreground hover:bg-accent/80 !important;
 }
+
+/* FORCE PAYMENT MODAL BUTTONS TO USE CORRECT COLORS */
+[data-radix-dialog-content] button,
+.payment-modal button,
+button[class*="bg-foreground"] {
+  background-color: rgb(255 255 255) !important;
+  color: rgb(0 0 0) !important;
+}
+
+[data-radix-dialog-content] button:hover,
+.payment-modal button:hover,
+button[class*="bg-foreground"]:hover {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  color: rgb(0 0 0) !important;
+}
+
+/* SPECIFIC FIX FOR RETIRAR FONDOS BUTTON */
+button:has(.lucide-dollar-sign),
+button:contains("Retirar"),
+button:contains("Retirar Fondos") {
+  background-color: rgb(255 255 255) !important;
+  color: rgb(0 0 0) !important;
+}
+
+button:has(.lucide-dollar-sign):hover,
+button:contains("Retirar"):hover,
+button:contains("Retirar Fondos"):hover {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  color: rgb(0 0 0) !important;
+}
+
+/* ANTI-YELLOW RULES FOR ALL ELEMENTS */
+* {
+  /* Force override any yellow backgrounds */
+  background-color: var(--background) !important;
+}
+
+/* Restore specific backgrounds for elements that need them */
+.bg-card, [class*="bg-card"] {
+  background-color: rgb(45 45 45) !important;
+}
+
+.bg-muted, [class*="bg-muted"] {
+  background-color: rgb(55 55 55) !important;
+}
+
+.bg-foreground, [class*="bg-foreground"] {
+  background-color: rgb(255 255 255) !important;
+  color: rgb(0 0 0) !important;
+}
+
+.bg-secondary, [class*="bg-secondary"] {
+  background-color: rgb(75 75 75) !important;
+}
+
+.bg-accent, [class*="bg-accent"] {
+  background-color: rgb(85 85 85) !important;
+}
