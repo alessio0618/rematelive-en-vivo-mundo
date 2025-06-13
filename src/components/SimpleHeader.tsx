@@ -3,18 +3,18 @@ import React, { useState } from 'react';
 import { Bell, Video } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import { StartLiveModal } from '@/components/StartLiveModal';
+import { StartLiveDrawer } from '@/components/StartLiveDrawer';
 
 const SimpleHeader = () => {
   const navigate = useNavigate();
-  const [isStartLiveModalOpen, setIsStartLiveModalOpen] = useState(false);
+  const [isStartLiveDrawerOpen, setIsStartLiveDrawerOpen] = useState(false);
 
   const handleNotificationsClick = () => {
     navigate('/notificaciones');
   };
 
   const handleVideoClick = () => {
-    setIsStartLiveModalOpen(true);
+    setIsStartLiveDrawerOpen(true);
   };
 
   return (
@@ -42,9 +42,9 @@ const SimpleHeader = () => {
         </div>
       </div>
 
-      <StartLiveModal 
-        isOpen={isStartLiveModalOpen}
-        onClose={() => setIsStartLiveModalOpen(false)}
+      <StartLiveDrawer 
+        isOpen={isStartLiveDrawerOpen}
+        onClose={() => setIsStartLiveDrawerOpen(false)}
       />
     </>
   );
