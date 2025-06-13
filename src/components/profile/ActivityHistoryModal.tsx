@@ -1,9 +1,9 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
 import { ShoppingBag, Video, MessageSquare, Star } from 'lucide-react';
 
 interface ActivityHistoryModalProps {
@@ -12,6 +12,8 @@ interface ActivityHistoryModalProps {
 }
 
 const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({ isOpen, onClose }) => {
+  const [activeSection, setActiveSection] = useState('purchases');
+
   const purchases = [
     {
       id: 1,
@@ -73,22 +75,18 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({ isOpen, onC
     }
   ];
 
-  return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>Mi Actividad</DialogTitle>
-        </DialogHeader>
-        
-        <Tabs defaultValue="purchases" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="purchases">Compras</TabsTrigger>
-            <TabsTrigger value="sales">Ventas</TabsTrigger>
-            <TabsTrigger value="streams">Shows</TabsTrigger>
-            <TabsTrigger value="reviews">Reseñas</TabsTrigger>
-          </TabsList>
+  const navigationItems = [
+    { id: 'purchases', label: 'Compras', icon: ShoppingBag },
+    { id: 'sales', label: 'Ventas', icon: ShoppingBag },
+    { id: 'streams', label: 'Shows', icon: Video },
+    { id: 'reviews', label: 'Reseñas', icon: Star }
+  ];
 
-          <TabsContent value="purchases" className="space-y-3 mt-4">
+  const renderContent = () => {
+    switch (activeSection) {
+      case 'purchases':
+        return (
+          <div className="space-y-3">
             {purchases.map((purchase) => (
               <Card key={purchase.id} className="bg-card border-border">
                 <CardContent className="p-4">
@@ -113,9 +111,11 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({ isOpen, onC
                 </CardContent>
               </Card>
             ))}
-          </TabsContent>
-
-          <TabsContent value="sales" className="space-y-3 mt-4">
+          </div>
+        );
+      case 'sales':
+        return (
+          <div className="space-y-3">
             {sales.map((sale) => (
               <Card key={sale.id} className="bg-card border-border">
                 <CardContent className="p-4">
@@ -133,9 +133,11 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({ isOpen, onC
                 </CardContent>
               </Card>
             ))}
-          </TabsContent>
-
-          <TabsContent value="streams" className="space-y-3 mt-4">
+          </div>
+        );
+      case 'streams':
+        return (
+          <div className="space-y-3">
             {liveStreams.map((stream) => (
               <Card key={stream.id} className="bg-card border-border">
                 <CardContent className="p-4">
@@ -155,9 +157,11 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({ isOpen, onC
                 </CardContent>
               </Card>
             ))}
-          </TabsContent>
-
-          <TabsContent value="reviews" className="space-y-3 mt-4">
+          </div>
+        );
+      case 'reviews':
+        return (
+          <div className="space-y-3">
             {reviews.map((review) => (
               <Card key={review.id} className="bg-card border-border">
                 <CardContent className="p-4">
@@ -184,8 +188,45 @@ const ActivityHistoryModal: React.FC<ActivityHistoryModalProps> = ({ isOpen, onC
                 </CardContent>
               </Card>
             ))}
-          </TabsContent>
-        </Tabs>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-md max-h-[80vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Mi Actividad</DialogTitle>
+        </DialogHeader>
+        
+        <div className="space-y-4">
+          {/* Custom Navigation */}
+          <div className="flex space-x-1 bg-muted rounded-lg p-1">
+            {navigationItems.map((item) => {
+              const IconComponent = item.icon;
+              return (
+                <Button
+                  key={item.id}
+                  variant={activeSection === item.id ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => setActiveSection(item.id)}
+                  className="flex-1 text-xs"
+                >
+                  <IconComponent className="w-3 h-3 mr-1" />
+                  {item.label}
+                </Button>
+              );
+            })}
+          </div>
+
+          {/* Content */}
+          <div className="mt-4">
+            {renderContent()}
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );
