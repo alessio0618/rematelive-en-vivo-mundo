@@ -1,6 +1,5 @@
-
 import React from 'react';
-import SearchBar from '@/components/SearchBar';
+import CategoryHeader from '@/components/CategoryHeader';
 import BottomNavBar from '@/components/BottomNavBar';
 import LiveChannelCard from '@/components/LiveChannelCard';
 
@@ -41,9 +40,8 @@ const Cartas = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <SearchBar placeholder="Buscar en Cartas" />
+      <CategoryHeader title="Cartas" />
       <div className="p-3 border-b border-border">
-        <h1 className="text-xl font-semibold">Cartas</h1>
         <p className="text-sm text-muted-foreground">Descubre las mejores subastas de cartas coleccionables</p>
       </div>
       <main className="mobile-padding pb-24">

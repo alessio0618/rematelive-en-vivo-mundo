@@ -1,6 +1,5 @@
-
 import React from 'react';
-import SearchBar from '@/components/SearchBar';
+import CategoryHeader from '@/components/CategoryHeader';
 import BottomNavBar from '@/components/BottomNavBar';
 import LiveChannelCard from '@/components/LiveChannelCard';
 
@@ -31,9 +30,8 @@ const Juguetes = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <SearchBar placeholder="Buscar en Juguetes" />
+      <CategoryHeader title="Juguetes" />
       <div className="p-3 border-b border-border">
-        <h1 className="text-xl font-semibold">Juguetes</h1>
         <p className="text-sm text-muted-foreground">Encuentra juguetes únicos y coleccionables</p>
       </div>
       <main className="mobile-padding pb-24">
