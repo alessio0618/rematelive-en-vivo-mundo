@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/card';
 import { SlideToBid } from '@/components/SlideToBid';
 import { AutoBidModal } from '@/components/AutoBidModal';
 import { CustomBidModal } from '@/components/CustomBidModal';
+import { AuctionCountdownTimer } from '@/components/AuctionCountdownTimer';
 import { ShareModal } from '@/components/ShareModal';
 import { BoostModal } from '@/components/BoostModal';
 import { StreamOptionsSheet } from '@/components/StreamOptionsSheet';
@@ -53,16 +54,17 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
     maxZoom: 3
   });
 
-  // Mock product data
-  const currentProduct = {
+  // Mock product data with enhanced auction state
+  const [currentProduct, setCurrentProduct] = useState({
     id: 1,
     name: 'Enamel pins and buttons #1',
     description: 'Single pin on screen ur bidding on! Unless stated during video',
     currentBid: 5,
-    timeLeft: '00:05',
+    timeLeft: 25, // seconds instead of string
     shipping: 4.74,
-    image: 'https://images.unsplash.com/photo-1551524164-6cf6ac6928df?w=100&h=100&fit=crop'
-  };
+    image: 'https://images.unsplash.com/photo-1551524164-6cf6ac6928df?w=100&h=100&fit=crop',
+    auctionStatus: 'active' as 'active' | 'ending' | 'extended' | 'sold'
+  });
 
   const chatMessages = [
     { id: 1, user: 'user123', message: '¡Excelente producto!', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop', timestamp: Date.now() - 5000 },
@@ -78,12 +80,34 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
       description: `Has pujado $${bidAmount} por ${currentProduct.name}`
     });
     
-    // Update the current bid in the product (in real app, this would update via API)
-    currentProduct.currentBid = bidAmount;
+    // Update the current bid and trigger time extension if needed
+    setCurrentProduct(prev => ({
+      ...prev,
+      currentBid: bidAmount,
+      auctionStatus: prev.timeLeft <= 10 ? 'extended' : 'active'
+    }));
     
     // Add haptic feedback
     if ('vibrate' in navigator) {
       navigator.vibrate([50, 50, 50]);
+    }
+  };
+
+  const handleAuctionEnd = () => {
+    setCurrentProduct(prev => ({
+      ...prev,
+      auctionStatus: 'sold',
+      timeLeft: 0
+    }));
+    
+    toast({
+      title: "¡Subasta finalizada!",
+      description: `${currentProduct.name} vendido por $${currentProduct.currentBid}`
+    });
+    
+    // Strong haptic feedback for auction end
+    if ('vibrate' in navigator) {
+      navigator.vibrate([100, 50, 100, 50, 100]);
     }
   };
 
@@ -340,17 +364,25 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
 
       {/* Bottom Section - Auction and Chat Input */}
       <div className="h-80 flex flex-col bg-background">
-        {/* Current Product Section */}
+        {/* Enhanced Current Product Section */}
         <div className="p-4 border-b border-border">
           <div className="flex items-center justify-between mb-2">
             <h4 className="text-foreground font-semibold">Current Auction</h4>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
               <span className="text-lg font-bold text-foreground">${currentProduct.currentBid}</span>
-              <span className="text-red-500 font-mono text-lg">{currentProduct.timeLeft}</span>
+              <AuctionCountdownTimer
+                initialTime={currentProduct.timeLeft}
+                onTimeUp={handleAuctionEnd}
+                onBidPlaced={currentProduct.auctionStatus === 'extended' ? () => {} : undefined}
+              />
             </div>
           </div>
           
-          <Card className="bg-card border-border p-4">
+          <Card className={`bg-card border-border p-4 transition-all duration-300 ${
+            currentProduct.auctionStatus === 'ending' ? 'ring-2 ring-orange-500 ring-opacity-50' :
+            currentProduct.auctionStatus === 'extended' ? 'ring-2 ring-yellow-500 ring-opacity-50' :
+            currentProduct.auctionStatus === 'sold' ? 'ring-2 ring-green-500 ring-opacity-50' : ''
+          }`}>
             <div className="flex items-start space-x-3 mb-3">
               <img 
                 src={currentProduct.image} 
@@ -361,7 +393,22 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
                 <h5 className="text-foreground font-bold text-lg mb-1">{currentProduct.name}</h5>
                 <p className="text-foreground/70 text-sm mb-2">{currentProduct.description}</p>
                 <p className="text-foreground/60 text-sm">${currentProduct.shipping.toFixed(2)} Shipping + Taxes</p>
-                {autoBidMaxAmount && (
+                
+                {/* Auction Status Indicators */}
+                {currentProduct.auctionStatus === 'extended' && (
+                  <div className="mt-2 flex items-center space-x-2">
+                    <Zap className="w-4 h-4 text-yellow-500" />
+                    <span className="text-sm text-yellow-600 font-medium">Auction Extended!</span>
+                  </div>
+                )}
+                
+                {currentProduct.auctionStatus === 'sold' && (
+                  <div className="mt-2 flex items-center space-x-2">
+                    <span className="text-sm text-green-600 font-bold">SOLD!</span>
+                  </div>
+                )}
+                
+                {autoBidMaxAmount && currentProduct.auctionStatus === 'active' && (
                   <div className="mt-2 flex items-center space-x-2">
                     <Zap className="w-4 h-4 text-yellow-500" />
                     <span className="text-sm text-yellow-600">Auto-bid: up to ${autoBidMaxAmount}</span>
@@ -371,12 +418,18 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
             </div>
             
             <div className="flex items-center justify-center">
-              <SlideToBid
-                currentBid={currentProduct.currentBid}
-                onBid={(amount) => handleBid(currentProduct.id, amount)}
-                onOpenAutoBid={() => setShowAutoBidModal(true)}
-                onOpenCustomBid={() => setShowCustomBidModal(true)}
-              />
+              {currentProduct.auctionStatus !== 'sold' ? (
+                <SlideToBid
+                  currentBid={currentProduct.currentBid}
+                  onBid={(amount) => handleBid(currentProduct.id, amount)}
+                  onOpenAutoBid={() => setShowAutoBidModal(true)}
+                  onOpenCustomBid={() => setShowCustomBidModal(true)}
+                />
+              ) : (
+                <div className="w-full text-center py-4">
+                  <span className="text-green-600 font-bold text-lg">Auction Complete!</span>
+                </div>
+              )}
             </div>
           </Card>
         </div>

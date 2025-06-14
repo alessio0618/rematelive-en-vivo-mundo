@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronRight, Zap, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -29,6 +28,13 @@ export const SlideToBid = ({ currentBid, onBid, onOpenAutoBid, onOpenCustomBid }
     if (hasBid) return 'Bid!';
     if (lockedBidAmount !== null) return `$${lockedBidAmount}`;
     return `$${nextBidAmount}`;
+  };
+
+  // Enhanced visual effects based on urgency
+  const getSliderGlowEffect = () => {
+    if (hasBid) return '';
+    // Add glow effect during final moments (this would be passed as prop in real implementation)
+    return 'hover:shadow-lg hover:shadow-blue-500/20 transition-shadow duration-300';
   };
 
   useEffect(() => {
@@ -146,11 +152,11 @@ export const SlideToBid = ({ currentBid, onBid, onOpenAutoBid, onOpenCustomBid }
         </Button>
       </div>
 
-      {/* Main Slide to Bid */}
+      {/* Enhanced Main Slide to Bid */}
       <div style={{ width: '180px' }}>
         <div
           ref={containerRef}
-          className="relative h-10 bg-secondary rounded-full overflow-hidden cursor-pointer select-none border border-accent"
+          className={`relative h-10 bg-secondary rounded-full overflow-hidden cursor-pointer select-none border border-accent ${getSliderGlowEffect()}`}
           onMouseDown={handleStart}
           onTouchStart={handleStart}
         >
