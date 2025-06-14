@@ -1,10 +1,11 @@
-
 import React, { useState } from 'react';
 import { ArrowLeft, MoreHorizontal, Users, Heart, MessageCircle, Share, Wallet, ShoppingBag, Zap, Camera } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { SlideToBid } from '@/components/SlideToBid';
+import { AutoBidModal } from '@/components/AutoBidModal';
+import { CustomBidModal } from '@/components/CustomBidModal';
 import { ShareModal } from '@/components/ShareModal';
 import { BoostModal } from '@/components/BoostModal';
 import { StreamOptionsSheet } from '@/components/StreamOptionsSheet';
@@ -42,6 +43,9 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
   const [showBoostModal, setShowBoostModal] = useState(false);
   const [showOptionsSheet, setShowOptionsSheet] = useState(false);
   const [showComments, setShowComments] = useState(true);
+  const [showAutoBidModal, setShowAutoBidModal] = useState(false);
+  const [showCustomBidModal, setShowCustomBidModal] = useState(false);
+  const [autoBidMaxAmount, setAutoBidMaxAmount] = useState<number | null>(null);
 
   // Pinch zoom for video
   const { containerRef: zoomRef, scale, resetZoom, transform } = usePinchZoom({
@@ -74,10 +78,21 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
       description: `Has pujado $${bidAmount} por ${currentProduct.name}`
     });
     
+    // Update the current bid in the product (in real app, this would update via API)
+    currentProduct.currentBid = bidAmount;
+    
     // Add haptic feedback
     if ('vibrate' in navigator) {
       navigator.vibrate([50, 50, 50]);
     }
+  };
+
+  const handleSetAutoBid = (maxAmount: number) => {
+    setAutoBidMaxAmount(maxAmount);
+    toast({
+      title: "Auto-Bid Activado",
+      description: `Auto-bid configurado hasta $${maxAmount}`
+    });
   };
 
   const handleLike = () => {
@@ -346,20 +361,21 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
                 <h5 className="text-foreground font-bold text-lg mb-1">{currentProduct.name}</h5>
                 <p className="text-foreground/70 text-sm mb-2">{currentProduct.description}</p>
                 <p className="text-foreground/60 text-sm">${currentProduct.shipping.toFixed(2)} Shipping + Taxes</p>
+                {autoBidMaxAmount && (
+                  <div className="mt-2 flex items-center space-x-2">
+                    <Zap className="w-4 h-4 text-yellow-500" />
+                    <span className="text-sm text-yellow-600">Auto-bid: up to ${autoBidMaxAmount}</span>
+                  </div>
+                )}
               </div>
             </div>
             
-            <div className="flex items-center justify-between">
-              <Button
-                variant="outline"
-                size="sm"
-                className="px-4 py-1 rounded-full bg-muted border-border text-foreground hover:bg-accent"
-              >
-                Custom
-              </Button>
+            <div className="flex items-center justify-center">
               <SlideToBid
                 currentBid={currentProduct.currentBid}
                 onBid={(amount) => handleBid(currentProduct.id, amount)}
+                onOpenAutoBid={() => setShowAutoBidModal(true)}
+                onOpenCustomBid={() => setShowCustomBidModal(true)}
               />
             </div>
           </Card>
@@ -407,6 +423,20 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
         isOpen={showOptionsSheet}
         onClose={() => setShowOptionsSheet(false)}
         sellerName={streamData.sellerName}
+      />
+
+      <AutoBidModal
+        isOpen={showAutoBidModal}
+        onClose={() => setShowAutoBidModal(false)}
+        currentBid={currentProduct.currentBid}
+        onSetAutoBid={handleSetAutoBid}
+      />
+
+      <CustomBidModal
+        isOpen={showCustomBidModal}
+        onClose={() => setShowCustomBidModal(false)}
+        currentBid={currentProduct.currentBid}
+        onBid={(amount) => handleBid(currentProduct.id, amount)}
       />
     </div>
   );
