@@ -47,6 +47,8 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
   const [showAutoBidModal, setShowAutoBidModal] = useState(false);
   const [showCustomBidModal, setShowCustomBidModal] = useState(false);
   const [autoBidMaxAmount, setAutoBidMaxAmount] = useState<number | null>(null);
+  const [currentWinningBidder, setCurrentWinningBidder] = useState<string | null>(null);
+  const [isUserWinning, setIsUserWinning] = useState(false);
 
   // Pinch zoom for video
   const { containerRef: zoomRef, scale, resetZoom, transform } = usePinchZoom({
@@ -71,6 +73,34 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
     { id: 2, user: 'golfpro', message: 'Me interesa el set completo', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b112b008?w=32&h=32&fit=crop', timestamp: Date.now() - 3000 },
     { id: 3, user: 'maria_g', message: '¿Cuál es el precio final?', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop', timestamp: Date.now() - 1000 }
   ];
+
+  // Simulate competing bidders
+  React.useEffect(() => {
+    if (currentProduct.auctionStatus === 'active') {
+      const simulateBids = () => {
+        if (Math.random() > 0.7) { // 30% chance of competing bid
+          const competingBidders = ['user123', 'golfpro', 'maria_g', 'sneaker_king', 'collector_pro'];
+          const randomBidder = competingBidders[Math.floor(Math.random() * competingBidders.length)];
+          
+          setCurrentProduct(prev => ({
+            ...prev,
+            currentBid: prev.currentBid + 2
+          }));
+          
+          setCurrentWinningBidder(randomBidder);
+          setIsUserWinning(false);
+          
+          toast({
+            title: "Nueva puja",
+            description: `${randomBidder} ha pujado $${currentProduct.currentBid + 2}`
+          });
+        }
+      };
+
+      const interval = setInterval(simulateBids, 8000 + Math.random() * 12000);
+      return () => clearInterval(interval);
+    }
+  }, [currentProduct.auctionStatus, currentProduct.currentBid, toast]);
 
   // Event handlers
   const handleBid = (productId: number, bidAmount: number) => {
@@ -100,9 +130,11 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
       timeLeft: 0
     }));
     
+    const winnerMessage = isUserWinning ? '¡Has ganado la subasta!' : `Subasta ganada por ${currentWinningBidder}`;
+    
     toast({
       title: "¡Subasta finalizada!",
-      description: `${currentProduct.name} vendido por $${currentProduct.currentBid}`
+      description: winnerMessage
     });
     
     // Strong haptic feedback for auction end
@@ -210,8 +242,34 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
 
   const currentUrl = `${window.location.origin}/live/${streamData.id}`;
 
+  const getBidderStatus = () => {
+    if (currentProduct.auctionStatus === 'sold') {
+      return isUserWinning ? '🏆 ¡HAS GANADO!' : '😞 Subasta perdida';
+    }
+    if (isUserWinning) {
+      return '🥇 ¡ESTÁS GANANDO!';
+    }
+    if (currentWinningBidder && currentWinningBidder !== 'you') {
+      return `😰 ${currentWinningBidder} está ganando`;
+    }
+    return '🎯 ¡Haz tu primera puja!';
+  };
+
+  const getBidderStatusColor = () => {
+    if (currentProduct.auctionStatus === 'sold') {
+      return isUserWinning ? 'text-green-600' : 'text-red-600';
+    }
+    if (isUserWinning) {
+      return 'text-green-600';
+    }
+    if (currentWinningBidder && currentWinningBidder !== 'you') {
+      return 'text-red-600';
+    }
+    return 'text-blue-600';
+  };
+
   return (
-    <div className="h-full bg-background text-foreground flex flex-col">
+    <div className="h-screen bg-background text-foreground flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-border">
         <Button
@@ -362,11 +420,11 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
         </div>
       </div>
 
-      {/* Bottom Section - Auction and Chat Input */}
-      <div className="h-80 flex flex-col bg-background">
+      {/* Bottom Section - Enhanced with proper sizing and safe areas */}
+      <div className="bg-background border-t border-border pb-safe-bottom">
         {/* Enhanced Current Product Section */}
-        <div className="p-4 border-b border-border">
-          <div className="flex items-center justify-between mb-2">
+        <div className="p-4">
+          <div className="flex items-center justify-between mb-3">
             <h4 className="text-foreground font-semibold">Current Auction</h4>
             <div className="flex items-center space-x-3">
               <span className="text-lg font-bold text-foreground">${currentProduct.currentBid}</span>
@@ -376,6 +434,13 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
                 onBidPlaced={currentProduct.auctionStatus === 'extended' ? () => {} : undefined}
               />
             </div>
+          </div>
+
+          {/* Bidder Status Banner */}
+          <div className={`text-center py-2 px-4 rounded-lg mb-3 font-bold text-sm ${getBidderStatusColor()} ${
+            isUserWinning ? 'bg-green-50' : currentWinningBidder && currentWinningBidder !== 'you' ? 'bg-red-50' : 'bg-blue-50'
+          }`}>
+            {getBidderStatus()}
           </div>
           
           <Card className={`bg-card border-border p-4 transition-all duration-300 ${
@@ -387,31 +452,31 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
               <img 
                 src={currentProduct.image} 
                 alt={currentProduct.name}
-                className="w-20 h-20 rounded-lg object-cover"
+                className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
               />
-              <div className="flex-1">
-                <h5 className="text-foreground font-bold text-lg mb-1">{currentProduct.name}</h5>
-                <p className="text-foreground/70 text-sm mb-2">{currentProduct.description}</p>
-                <p className="text-foreground/60 text-sm">${currentProduct.shipping.toFixed(2)} Shipping + Taxes</p>
+              <div className="flex-1 min-w-0">
+                <h5 className="text-foreground font-bold text-sm mb-1 truncate">{currentProduct.name}</h5>
+                <p className="text-foreground/70 text-xs mb-2 line-clamp-2">{currentProduct.description}</p>
+                <p className="text-foreground/60 text-xs">${currentProduct.shipping.toFixed(2)} Shipping + Taxes</p>
                 
                 {/* Auction Status Indicators */}
                 {currentProduct.auctionStatus === 'extended' && (
                   <div className="mt-2 flex items-center space-x-2">
-                    <Zap className="w-4 h-4 text-yellow-500" />
-                    <span className="text-sm text-yellow-600 font-medium">Auction Extended!</span>
+                    <Zap className="w-3 h-3 text-yellow-500" />
+                    <span className="text-xs text-yellow-600 font-medium">Auction Extended!</span>
                   </div>
                 )}
                 
                 {currentProduct.auctionStatus === 'sold' && (
                   <div className="mt-2 flex items-center space-x-2">
-                    <span className="text-sm text-green-600 font-bold">SOLD!</span>
+                    <span className="text-xs text-green-600 font-bold">SOLD!</span>
                   </div>
                 )}
                 
                 {autoBidMaxAmount && currentProduct.auctionStatus === 'active' && (
                   <div className="mt-2 flex items-center space-x-2">
-                    <Zap className="w-4 h-4 text-yellow-500" />
-                    <span className="text-sm text-yellow-600">Auto-bid: up to ${autoBidMaxAmount}</span>
+                    <Zap className="w-3 h-3 text-yellow-500" />
+                    <span className="text-xs text-yellow-600">Auto-bid: up to ${autoBidMaxAmount}</span>
                   </div>
                 )}
               </div>
@@ -435,25 +500,23 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
         </div>
 
         {/* Chat Input */}
-        <div className="flex-1 flex flex-col min-h-0">
-          <div className="p-4 border-t border-border">
-            <div className="flex space-x-2">
-              <Input
-                placeholder="Escribe un mensaje..."
-                value={chatMessage}
-                onChange={(e) => setChatMessage(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                className="flex-1 bg-card border-border text-foreground placeholder:text-gray-400"
-                onFocus={() => setShowComments(true)}
-              />
-              <Button 
-                size="icon"
-                className="bg-foreground text-background hover:bg-foreground/90"
-                onClick={handleSendMessage}
-              >
-                <MessageCircle className="w-4 h-4" />
-              </Button>
-            </div>
+        <div className="px-4 pb-4">
+          <div className="flex space-x-2">
+            <Input
+              placeholder="Escribe un mensaje..."
+              value={chatMessage}
+              onChange={(e) => setChatMessage(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+              className="flex-1 bg-card border-border text-foreground placeholder:text-gray-400"
+              onFocus={() => setShowComments(true)}
+            />
+            <Button 
+              size="icon"
+              className="bg-foreground text-background hover:bg-foreground/90"
+              onClick={handleSendMessage}
+            >
+              <MessageCircle className="w-4 h-4" />
+            </Button>
           </div>
         </div>
       </div>

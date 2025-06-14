@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronRight, Zap, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -25,7 +26,7 @@ export const SlideToBid = ({ currentBid, onBid, onOpenAutoBid, onOpenCustomBid }
   
   // Get the display price - locked when sliding starts
   const getDisplayPrice = () => {
-    if (hasBid) return 'Bid!';
+    if (hasBid) return '✓ Bid!';
     if (lockedBidAmount !== null) return `$${lockedBidAmount}`;
     return `$${nextBidAmount}`;
   };
@@ -33,7 +34,6 @@ export const SlideToBid = ({ currentBid, onBid, onOpenAutoBid, onOpenCustomBid }
   // Enhanced visual effects based on urgency
   const getSliderGlowEffect = () => {
     if (hasBid) return '';
-    // Add glow effect during final moments (this would be passed as prop in real implementation)
     return 'hover:shadow-lg hover:shadow-blue-500/20 transition-shadow duration-300';
   };
 
@@ -53,6 +53,7 @@ export const SlideToBid = ({ currentBid, onBid, onOpenAutoBid, onOpenCustomBid }
 
     const handleTouchMove = (e: TouchEvent) => {
       if (!isSliding || !containerRef.current) return;
+      e.preventDefault(); // Prevent scrolling
 
       const rect = containerRef.current.getBoundingClientRect();
       const touch = e.touches[0];
@@ -77,7 +78,7 @@ export const SlideToBid = ({ currentBid, onBid, onOpenAutoBid, onOpenCustomBid }
     if (isSliding) {
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
-      document.addEventListener('touchmove', handleTouchMove);
+      document.addEventListener('touchmove', handleTouchMove, { passive: false });
       document.addEventListener('touchend', handleMouseUp);
     }
 
@@ -90,10 +91,11 @@ export const SlideToBid = ({ currentBid, onBid, onOpenAutoBid, onOpenCustomBid }
   }, [isSliding, slideProgress]);
 
   const completeBid = () => {
+    const bidAmount = lockedBidAmount || nextBidAmount;
     setHasBid(true);
     setSlideProgress(1);
     setIsSliding(false);
-    onBid(lockedBidAmount || nextBidAmount);
+    onBid(bidAmount);
     
     // Reset after 2 seconds to allow new bids
     setTimeout(() => {
@@ -122,11 +124,8 @@ export const SlideToBid = ({ currentBid, onBid, onOpenAutoBid, onOpenCustomBid }
     }, 2000);
   };
 
-  // Calculate the maximum translation distance (container width minus button width)
-  const maxTranslation = containerRef.current ? containerRef.current.offsetWidth - 40 : 140;
-
   return (
-    <div className="space-y-3">
+    <div className="w-full max-w-sm mx-auto space-y-3">
       {/* Quick Bid Options */}
       <div className="flex space-x-2">
         {quickBidOptions.slice(1).map((amount, index) => (
@@ -153,10 +152,10 @@ export const SlideToBid = ({ currentBid, onBid, onOpenAutoBid, onOpenCustomBid }
       </div>
 
       {/* Enhanced Main Slide to Bid */}
-      <div style={{ width: '180px' }}>
+      <div className="w-full">
         <div
           ref={containerRef}
-          className={`relative h-10 bg-secondary rounded-full overflow-hidden cursor-pointer select-none border border-accent ${getSliderGlowEffect()}`}
+          className={`relative h-12 bg-secondary rounded-full overflow-hidden cursor-pointer select-none border border-accent touch-none ${getSliderGlowEffect()}`}
           onMouseDown={handleStart}
           onTouchStart={handleStart}
         >
@@ -172,30 +171,30 @@ export const SlideToBid = ({ currentBid, onBid, onOpenAutoBid, onOpenCustomBid }
             className="absolute left-0 top-0 h-full transition-all duration-75 ease-out rounded-full z-10"
             style={{ 
               width: `${slideProgress * 100}%`,
-              backgroundColor: slideProgress >= 1 ? '#ffc107' : 'rgb(85, 85, 85)'
+              backgroundColor: slideProgress >= 1 ? '#22c55e' : hasBid ? '#22c55e' : 'rgb(99, 102, 241)'
             }}
           />
 
           {/* Slider button */}
           <div
             ref={sliderRef}
-            className="absolute left-0.5 top-0.5 w-9 h-9 rounded-full flex items-center justify-center shadow-md transition-all duration-75 ease-out border border-accent z-30"
+            className="absolute left-1 top-1 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all duration-75 ease-out border-2 border-white z-30"
             style={{
-              transform: `translateX(${slideProgress * maxTranslation}px)`,
-              backgroundColor: hasBid ? '#ffc107' : slideProgress >= 1 ? '#ffc107' : 'rgb(115, 115, 115)'
+              transform: `translateX(${slideProgress * (containerRef.current ? containerRef.current.offsetWidth - 48 : 200)}px)`,
+              backgroundColor: hasBid ? '#22c55e' : slideProgress >= 1 ? '#22c55e' : '#6366f1'
             }}
           >
             {hasBid ? (
-              <div className="w-2 h-2 bg-black rounded-full" />
+              <span className="text-white font-bold text-lg">✓</span>
             ) : (
-              <ChevronRight className="w-4 h-4 text-background" />
+              <ChevronRight className="w-5 h-5 text-white" />
             )}
           </div>
 
           {/* Success state overlay */}
           {hasBid && (
-            <div className="absolute inset-0 rounded-full flex items-center justify-center z-40" style={{ backgroundColor: '#ffc107' }}>
-              <span className="text-black text-sm font-medium">✓</span>
+            <div className="absolute inset-0 rounded-full flex items-center justify-center z-40 bg-green-500">
+              <span className="text-white text-sm font-bold">✓ Bid Placed!</span>
             </div>
           )}
         </div>
