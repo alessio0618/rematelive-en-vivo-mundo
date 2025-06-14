@@ -442,20 +442,20 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
           </Card>
         </div>
 
-        {/* Chat Input */}
-        <div className="px-4 pb-4">
+        {/* Chat Input - Fixed visibility and padding */}
+        <div className="px-4 pb-6 pt-2">
           <div className="flex space-x-2">
             <Input
               placeholder="Escribe un mensaje..."
               value={chatMessage}
               onChange={(e) => setChatMessage(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-              className="flex-1 bg-card border-border text-foreground placeholder:text-gray-400"
+              className="flex-1 bg-card border-border text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-foreground/20"
               onFocus={() => setShowComments(true)}
             />
             <Button 
               size="icon"
-              className="bg-foreground text-background hover:bg-foreground/90"
+              className="bg-foreground text-background hover:bg-foreground/90 flex-shrink-0"
               onClick={handleSendMessage}
             >
               <MessageCircle className="w-4 h-4" />
