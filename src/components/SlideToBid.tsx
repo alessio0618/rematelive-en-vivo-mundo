@@ -1,16 +1,14 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronRight, Zap } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { ChevronRight } from 'lucide-react';
 import { useBidIncrement } from '@/hooks/useBidIncrement';
 
 interface SlideToBidProps {
   currentBid: number;
   onBid: (amount: number) => void;
-  onOpenAutoBid?: () => void;
 }
 
-export const SlideToBid = ({ currentBid, onBid, onOpenAutoBid }: SlideToBidProps) => {
+export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
   const [isSliding, setIsSliding] = useState(false);
   const [slideProgress, setSlideProgress] = useState(0);
   const [hasBid, setHasBid] = useState(false);
@@ -106,8 +104,8 @@ export const SlideToBid = ({ currentBid, onBid, onOpenAutoBid }: SlideToBidProps
   };
 
   return (
-    <div className="w-full max-w-sm mx-auto space-y-4">
-      {/* Main Slide to Bid - Enhanced with consistent colors */}
+    <div className="w-full max-w-sm mx-auto">
+      {/* Main Slide to Bid */}
       <div className="w-full">
         <div
           ref={containerRef}
@@ -127,47 +125,33 @@ export const SlideToBid = ({ currentBid, onBid, onOpenAutoBid }: SlideToBidProps
             className="absolute left-0 top-0 h-full transition-all duration-75 ease-out rounded-full z-10"
             style={{ 
               width: `${slideProgress * 100}%`,
-              backgroundColor: slideProgress >= 1 ? 'rgb(34, 197, 94)' : hasBid ? 'rgb(34, 197, 94)' : 'hsl(var(--foreground))'
+              backgroundColor: slideProgress >= 1 ? 'hsl(var(--foreground))' : hasBid ? 'hsl(var(--foreground))' : 'hsl(var(--foreground))'
             }}
           />
 
           {/* Slider button with app-consistent styling */}
           <div
             ref={sliderRef}
-            className="absolute left-1 top-1 w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all duration-75 ease-out border-2 border-background z-30"
+            className="absolute left-1 top-1 w-12 h-12 bg-background rounded-full flex items-center justify-center shadow-lg transition-all duration-75 ease-out border-2 border-border z-30"
             style={{
-              transform: `translateX(${slideProgress * (containerRef.current ? containerRef.current.offsetWidth - 56 : 200)}px)`,
-              backgroundColor: hasBid ? 'rgb(34, 197, 94)' : slideProgress >= 1 ? 'rgb(34, 197, 94)' : 'hsl(var(--foreground))'
+              transform: `translateX(${slideProgress * (containerRef.current ? containerRef.current.offsetWidth - 56 : 200)}px)`
             }}
           >
             {hasBid ? (
-              <span className="text-white font-bold text-lg">✓</span>
+              <span className="text-foreground font-bold text-lg">✓</span>
             ) : (
-              <ChevronRight className="w-6 h-6 text-background" />
+              <ChevronRight className="w-6 h-6 text-foreground" />
             )}
           </div>
 
           {/* Success state overlay */}
           {hasBid && (
-            <div className="absolute inset-0 rounded-full flex items-center justify-center z-40 bg-green-500">
-              <span className="text-white text-sm font-bold">✓ Bid Placed!</span>
+            <div className="absolute inset-0 rounded-full flex items-center justify-center z-40 bg-foreground">
+              <span className="text-background text-sm font-bold">✓ Bid Placed!</span>
             </div>
           )}
         </div>
       </div>
-
-      {/* Auto-Bid Button with improved styling */}
-      {onOpenAutoBid && (
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onOpenAutoBid}
-          className="w-full h-10 text-sm bg-background border-border text-foreground hover:bg-muted transition-colors"
-        >
-          <Zap className="w-4 h-4 mr-2" />
-          Auto-Bid
-        </Button>
-      )}
     </div>
   );
 };

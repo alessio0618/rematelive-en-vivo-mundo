@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { ArrowLeft, MoreHorizontal, Users, Heart, MessageCircle, Share, Wallet, ShoppingBag, Zap, Camera } from 'lucide-react';
+import { ArrowLeft, MoreHorizontal, Users, Heart, MessageCircle, Share, Zap, Camera } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { SlideToBid } from '@/components/SlideToBid';
-import { AutoBidModal } from '@/components/AutoBidModal';
 import { AuctionCountdownTimer } from '@/components/AuctionCountdownTimer';
 import { ShareModal } from '@/components/ShareModal';
 import { BoostModal } from '@/components/BoostModal';
@@ -44,9 +43,6 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
   const [showBoostModal, setShowBoostModal] = useState(false);
   const [showOptionsSheet, setShowOptionsSheet] = useState(false);
   const [showComments, setShowComments] = useState(true);
-  const [showAutoBidModal, setShowAutoBidModal] = useState(false);
-  const [showCustomBidModal, setShowCustomBidModal] = useState(false);
-  const [autoBidMaxAmount, setAutoBidMaxAmount] = useState<number | null>(null);
   const [currentWinningBidder, setCurrentWinningBidder] = useState<string | null>(null);
   const [isUserWinning, setIsUserWinning] = useState(false);
   const [showAuctionResult, setShowAuctionResult] = useState(false);
@@ -144,14 +140,6 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
     }
   };
 
-  const handleSetAutoBid = (maxAmount: number) => {
-    setAutoBidMaxAmount(maxAmount);
-    toast({
-      title: "Auto-Bid Activado",
-      description: `Auto-bid configurado hasta $${maxAmount}`
-    });
-  };
-
   const handleLike = () => {
     setIsLiked(!isLiked);
     setLikeCount(prev => isLiked ? prev - 1 : prev + 1);
@@ -204,28 +192,6 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
     }
   };
 
-  const handleClip = () => {
-    toast({
-      title: "Clip creado",
-      description: "Se ha creado un clip de este momento"
-    });
-  };
-
-  const handleWallet = () => {
-    navigate('/perfil');
-    toast({
-      title: "Navegando a wallet",
-      description: "Abriendo tu wallet..."
-    });
-  };
-
-  const handleShop = () => {
-    toast({
-      title: "Tienda del vendedor",
-      description: `Abriendo la tienda de ${streamData.sellerName}`
-    });
-  };
-
   const handleFocusChat = () => {
     setShowComments(true);
     const chatInput = document.querySelector('input[placeholder="Escribe un mensaje..."]') as HTMLInputElement;
@@ -254,19 +220,6 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
       return `😰 ${currentWinningBidder} está ganando`;
     }
     return '🎯 ¡Haz tu primera puja!';
-  };
-
-  const getBidderStatusColor = () => {
-    if (currentProduct.auctionStatus === 'sold') {
-      return isUserWinning ? 'text-green-600' : 'text-red-600';
-    }
-    if (isUserWinning) {
-      return 'text-green-600';
-    }
-    if (currentWinningBidder && currentWinningBidder !== 'you') {
-      return 'text-red-600';
-    }
-    return 'text-blue-600';
   };
 
   return (
@@ -367,7 +320,7 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
           </div>
         </div>
 
-        {/* Comment Overlay */}
+        {/* Comment Overlay - Positioned to be visible */}
         <CommentOverlay comments={chatMessages} isVisible={showComments} />
 
         {/* Action Buttons */}
@@ -437,10 +390,8 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
             </div>
           </div>
 
-          {/* Bidder Status Banner */}
-          <div className={`text-center py-2 px-4 rounded-lg mb-3 font-bold text-sm ${getBidderStatusColor()} ${
-            isUserWinning ? 'bg-green-50' : currentWinningBidder && currentWinningBidder !== 'you' ? 'bg-red-50' : 'bg-blue-50'
-          }`}>
+          {/* Bidder Status Banner - Fixed colors to match navigation */}
+          <div className="text-center py-2 px-4 rounded-lg mb-3 font-bold text-sm bg-muted hover:bg-accent/20 text-foreground transition-colors">
             {getBidderStatus()}
           </div>
           
@@ -473,13 +424,6 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
                     <span className="text-xs text-green-600 font-bold">SOLD!</span>
                   </div>
                 )}
-                
-                {autoBidMaxAmount && currentProduct.auctionStatus === 'active' && (
-                  <div className="mt-2 flex items-center space-x-2">
-                    <Zap className="w-3 h-3 text-yellow-500" />
-                    <span className="text-xs text-yellow-600">Auto-bid: up to ${autoBidMaxAmount}</span>
-                  </div>
-                )}
               </div>
             </div>
             
@@ -488,7 +432,6 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
                 <SlideToBid
                   currentBid={currentProduct.currentBid}
                   onBid={(amount) => handleBid(currentProduct.id, amount)}
-                  onOpenAutoBid={() => setShowAutoBidModal(true)}
                 />
               ) : (
                 <div className="w-full text-center py-4">
@@ -539,13 +482,6 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
         isOpen={showOptionsSheet}
         onClose={() => setShowOptionsSheet(false)}
         sellerName={streamData.sellerName}
-      />
-
-      <AutoBidModal
-        isOpen={showAutoBidModal}
-        onClose={() => setShowAutoBidModal(false)}
-        currentBid={currentProduct.currentBid}
-        onSetAutoBid={handleSetAutoBid}
       />
 
       <AuctionResultModal
