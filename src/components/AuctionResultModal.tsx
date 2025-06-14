@@ -82,8 +82,8 @@ export const AuctionResultModal = ({
           
           <Button 
             onClick={onClose}
-            className="w-full mt-4 bg-foreground text-background hover:bg-foreground/90"
-            variant="outline"
+            variant="ghost"
+            className="w-full mt-4 text-foreground hover:bg-accent/20 border border-border"
           >
             {isWinner ? 'Continuar' : 'Ver más subastas'}
           </Button>
