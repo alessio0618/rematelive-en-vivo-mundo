@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronRight, Zap, DollarSign } from 'lucide-react';
+import { ChevronRight, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useBidIncrement } from '@/hooks/useBidIncrement';
 
@@ -8,10 +8,9 @@ interface SlideToBidProps {
   currentBid: number;
   onBid: (amount: number) => void;
   onOpenAutoBid?: () => void;
-  onOpenCustomBid?: () => void;
 }
 
-export const SlideToBid = ({ currentBid, onBid, onOpenAutoBid, onOpenCustomBid }: SlideToBidProps) => {
+export const SlideToBid = ({ currentBid, onBid, onOpenAutoBid }: SlideToBidProps) => {
   const [isSliding, setIsSliding] = useState(false);
   const [slideProgress, setSlideProgress] = useState(0);
   const [hasBid, setHasBid] = useState(false);
@@ -19,22 +18,15 @@ export const SlideToBid = ({ currentBid, onBid, onOpenAutoBid, onOpenCustomBid }
   const sliderRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const { getNextBidAmount, getQuickBidOptions } = useBidIncrement();
+  const { getNextBidAmount } = useBidIncrement();
   
   const nextBidAmount = getNextBidAmount(currentBid);
-  const quickBidOptions = getQuickBidOptions(currentBid);
   
   // Get the display price - locked when sliding starts
   const getDisplayPrice = () => {
-    if (hasBid) return '✓ Bid!';
+    if (hasBid) return '✓ Bid Placed!';
     if (lockedBidAmount !== null) return `$${lockedBidAmount}`;
-    return `$${nextBidAmount}`;
-  };
-
-  // Enhanced visual effects based on urgency
-  const getSliderGlowEffect = () => {
-    if (hasBid) return '';
-    return 'hover:shadow-lg hover:shadow-blue-500/20 transition-shadow duration-300';
+    return `Slide to bid $${nextBidAmount}`;
   };
 
   useEffect(() => {
@@ -53,7 +45,7 @@ export const SlideToBid = ({ currentBid, onBid, onOpenAutoBid, onOpenCustomBid }
 
     const handleTouchMove = (e: TouchEvent) => {
       if (!isSliding || !containerRef.current) return;
-      e.preventDefault(); // Prevent scrolling
+      e.preventDefault();
 
       const rect = containerRef.current.getBoundingClientRect();
       const touch = e.touches[0];
@@ -113,81 +105,45 @@ export const SlideToBid = ({ currentBid, onBid, onOpenAutoBid, onOpenCustomBid }
     setLockedBidAmount(nextBidAmount);
   };
 
-  const handleQuickBid = (amount: number) => {
-    if (hasBid) return;
-    onBid(amount);
-    setHasBid(true);
-    
-    // Reset after 2 seconds
-    setTimeout(() => {
-      setHasBid(false);
-    }, 2000);
-  };
-
   return (
-    <div className="w-full max-w-sm mx-auto space-y-3">
-      {/* Quick Bid Options */}
-      <div className="flex space-x-2">
-        {quickBidOptions.slice(1).map((amount, index) => (
-          <Button
-            key={amount}
-            variant="outline"
-            size="sm"
-            onClick={() => handleQuickBid(amount)}
-            disabled={hasBid}
-            className="flex-1 text-xs h-8 bg-muted border-accent hover:bg-accent/20"
-          >
-            ${amount}
-          </Button>
-        ))}
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onOpenCustomBid}
-          disabled={hasBid}
-          className="h-8 px-2 bg-muted border-accent hover:bg-accent/20"
-        >
-          <DollarSign className="w-3 h-3" />
-        </Button>
-      </div>
-
-      {/* Enhanced Main Slide to Bid */}
+    <div className="w-full max-w-sm mx-auto space-y-4">
+      {/* Main Slide to Bid - Enhanced with consistent colors */}
       <div className="w-full">
         <div
           ref={containerRef}
-          className={`relative h-12 bg-secondary rounded-full overflow-hidden cursor-pointer select-none border border-accent touch-none ${getSliderGlowEffect()}`}
+          className="relative h-14 bg-muted rounded-full overflow-hidden cursor-pointer select-none border border-border touch-none transition-shadow duration-300 hover:shadow-md"
           onMouseDown={handleStart}
           onTouchStart={handleStart}
         >
           {/* Background track */}
           <div className="absolute inset-0 flex items-center justify-center z-20">
-            <span className="text-foreground text-sm font-medium drop-shadow-md">
+            <span className="text-foreground text-sm font-medium px-4 text-center">
               {getDisplayPrice()}
             </span>
           </div>
 
-          {/* Progress fill */}
+          {/* Progress fill with app-consistent colors */}
           <div
             className="absolute left-0 top-0 h-full transition-all duration-75 ease-out rounded-full z-10"
             style={{ 
               width: `${slideProgress * 100}%`,
-              backgroundColor: slideProgress >= 1 ? '#22c55e' : hasBid ? '#22c55e' : 'rgb(99, 102, 241)'
+              backgroundColor: slideProgress >= 1 ? 'rgb(34, 197, 94)' : hasBid ? 'rgb(34, 197, 94)' : 'hsl(var(--foreground))'
             }}
           />
 
-          {/* Slider button */}
+          {/* Slider button with app-consistent styling */}
           <div
             ref={sliderRef}
-            className="absolute left-1 top-1 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all duration-75 ease-out border-2 border-white z-30"
+            className="absolute left-1 top-1 w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all duration-75 ease-out border-2 border-background z-30"
             style={{
-              transform: `translateX(${slideProgress * (containerRef.current ? containerRef.current.offsetWidth - 48 : 200)}px)`,
-              backgroundColor: hasBid ? '#22c55e' : slideProgress >= 1 ? '#22c55e' : '#6366f1'
+              transform: `translateX(${slideProgress * (containerRef.current ? containerRef.current.offsetWidth - 56 : 200)}px)`,
+              backgroundColor: hasBid ? 'rgb(34, 197, 94)' : slideProgress >= 1 ? 'rgb(34, 197, 94)' : 'hsl(var(--foreground))'
             }}
           >
             {hasBid ? (
               <span className="text-white font-bold text-lg">✓</span>
             ) : (
-              <ChevronRight className="w-5 h-5 text-white" />
+              <ChevronRight className="w-6 h-6 text-background" />
             )}
           </div>
 
@@ -200,16 +156,18 @@ export const SlideToBid = ({ currentBid, onBid, onOpenAutoBid, onOpenCustomBid }
         </div>
       </div>
 
-      {/* Auto-Bid Button */}
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={onOpenAutoBid}
-        className="w-full h-8 text-xs text-yellow-600 hover:text-yellow-700 hover:bg-yellow-50"
-      >
-        <Zap className="w-3 h-3 mr-1" />
-        Auto-Bid
-      </Button>
+      {/* Auto-Bid Button with improved styling */}
+      {onOpenAutoBid && (
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={onOpenAutoBid}
+          className="w-full h-10 text-sm bg-background border-border text-foreground hover:bg-muted transition-colors"
+        >
+          <Zap className="w-4 h-4 mr-2" />
+          Auto-Bid
+        </Button>
+      )}
     </div>
   );
 };

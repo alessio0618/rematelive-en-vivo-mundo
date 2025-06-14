@@ -5,13 +5,13 @@ import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { SlideToBid } from '@/components/SlideToBid';
 import { AutoBidModal } from '@/components/AutoBidModal';
-import { CustomBidModal } from '@/components/CustomBidModal';
 import { AuctionCountdownTimer } from '@/components/AuctionCountdownTimer';
 import { ShareModal } from '@/components/ShareModal';
 import { BoostModal } from '@/components/BoostModal';
 import { StreamOptionsSheet } from '@/components/StreamOptionsSheet';
 import { DoubleTapHandler } from '@/components/DoubleTapHandler';
 import { CommentOverlay } from '@/components/CommentOverlay';
+import { AuctionResultModal } from '@/components/AuctionResultModal';
 import { usePinchZoom } from '@/hooks/usePinchZoom';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
@@ -49,6 +49,7 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
   const [autoBidMaxAmount, setAutoBidMaxAmount] = useState<number | null>(null);
   const [currentWinningBidder, setCurrentWinningBidder] = useState<string | null>(null);
   const [isUserWinning, setIsUserWinning] = useState(false);
+  const [showAuctionResult, setShowAuctionResult] = useState(false);
 
   // Pinch zoom for video
   const { containerRef: zoomRef, scale, resetZoom, transform } = usePinchZoom({
@@ -117,6 +118,10 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
       auctionStatus: prev.timeLeft <= 10 ? 'extended' : 'active'
     }));
     
+    // Set user as winning bidder
+    setCurrentWinningBidder('you');
+    setIsUserWinning(true);
+    
     // Add haptic feedback
     if ('vibrate' in navigator) {
       navigator.vibrate([50, 50, 50]);
@@ -130,12 +135,8 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
       timeLeft: 0
     }));
     
-    const winnerMessage = isUserWinning ? '¡Has ganado la subasta!' : `Subasta ganada por ${currentWinningBidder}`;
-    
-    toast({
-      title: "¡Subasta finalizada!",
-      description: winnerMessage
-    });
+    // Show auction result modal
+    setShowAuctionResult(true);
     
     // Strong haptic feedback for auction end
     if ('vibrate' in navigator) {
@@ -423,7 +424,7 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
       {/* Bottom Section - Enhanced with proper sizing and safe areas */}
       <div className="bg-background border-t border-border pb-safe-bottom">
         {/* Enhanced Current Product Section */}
-        <div className="p-4">
+        <div className="p-4 pb-6">
           <div className="flex items-center justify-between mb-3">
             <h4 className="text-foreground font-semibold">Current Auction</h4>
             <div className="flex items-center space-x-3">
@@ -448,7 +449,7 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
             currentProduct.auctionStatus === 'extended' ? 'ring-2 ring-yellow-500 ring-opacity-50' :
             currentProduct.auctionStatus === 'sold' ? 'ring-2 ring-green-500 ring-opacity-50' : ''
           }`}>
-            <div className="flex items-start space-x-3 mb-3">
+            <div className="flex items-start space-x-3 mb-4">
               <img 
                 src={currentProduct.image} 
                 alt={currentProduct.name}
@@ -488,7 +489,6 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
                   currentBid={currentProduct.currentBid}
                   onBid={(amount) => handleBid(currentProduct.id, amount)}
                   onOpenAutoBid={() => setShowAutoBidModal(true)}
-                  onOpenCustomBid={() => setShowCustomBidModal(true)}
                 />
               ) : (
                 <div className="w-full text-center py-4">
@@ -548,11 +548,13 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
         onSetAutoBid={handleSetAutoBid}
       />
 
-      <CustomBidModal
-        isOpen={showCustomBidModal}
-        onClose={() => setShowCustomBidModal(false)}
-        currentBid={currentProduct.currentBid}
-        onBid={(amount) => handleBid(currentProduct.id, amount)}
+      <AuctionResultModal
+        isOpen={showAuctionResult}
+        onClose={() => setShowAuctionResult(false)}
+        isWinner={isUserWinning}
+        productName={currentProduct.name}
+        finalBid={currentProduct.currentBid}
+        winnerName={!isUserWinning ? currentWinningBidder : undefined}
       />
     </div>
   );
