@@ -27,7 +27,7 @@ const BottomNavBar = () => {
   };
 
   return (
-    <div className="bg-background border-t border-border z-50 mobile-safe-area">
+    <div className="fixed bottom-0 left-0 right-0 w-full bg-background border-t border-border z-50 mobile-safe-area">
       <div className="flex items-center justify-around py-1">
         {navItems.map((item) => {
           const Icon = item.icon;

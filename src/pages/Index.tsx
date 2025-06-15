@@ -12,7 +12,7 @@ const Index = () => {
       <div className="category-bar relative z-20">
         <CategoryBar />
       </div>
-      <main className="relative z-10">
+      <main className="relative z-10 pb-24">
         <HomeFeed />
       </main>
       <BottomNavBar />
