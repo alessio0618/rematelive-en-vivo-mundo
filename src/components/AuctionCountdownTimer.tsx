@@ -103,7 +103,7 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
       {extensionAmount !== null && (
         <div 
           key={Date.now()}
-          className="absolute -top-5 right-0 z-10 text-yellow-400 font-bold text-sm animate-fade-in-out-pop"
+          className="absolute -top-8 right-0 z-20 px-3 py-1 bg-yellow-400 text-black rounded-full font-bold text-base shadow-lg animate-popup-burst-and-fade"
         >
           +{extensionAmount}s
         </div>

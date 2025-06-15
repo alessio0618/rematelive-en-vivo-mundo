@@ -109,6 +109,12 @@ export default {
           '20%': { transform: 'translateY(0) scale(1)', opacity: '1' },
           '80%': { transform: 'translateY(0) scale(1)', opacity: '1' },
           '100%': { transform: 'translateY(-10px) scale(0.9)', opacity: '0' },
+        },
+        'popup-burst-and-fade': {
+          '0%': { transform: 'scale(0.8) translateY(10px)', opacity: '0' },
+          '30%': { transform: 'scale(1.05) translateY(0)', opacity: '1' },
+          '50%': { transform: 'scale(1) translateY(0)', opacity: '1' },
+          '100%': { transform: 'scale(0.8) translateY(-20px)', opacity: '0' },
         }
 			},
 			animation: {
@@ -116,9 +122,9 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'pulse-live': 'pulse-live 2s ease-in-out infinite',
         'fade-in-out-pop': 'fade-in-out-pop 1.5s ease-in-out forwards',
+        'popup-burst-and-fade': 'popup-burst-and-fade 1.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards',
 			}
 		}
 	},
 	plugins: [require("tailwindcss-animate")],
 } satisfies Config;
-
