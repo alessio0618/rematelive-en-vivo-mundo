@@ -39,19 +39,17 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
     }
   });
 
-  // Expose the extendOnBid function to parent components
-  React.useEffect(() => {
+  // Expose the extendOnBid function to parent components - memoized to prevent infinite loops
+  const handleBidExtension = React.useCallback(() => {
     if (onBidExtension) {
       onBidExtension(extendOnBid);
     }
   }, [onBidExtension, extendOnBid]);
 
-  // Handle bid placed - extend time if in final moments (legacy support)
+  // Only expose the function once when component mounts or onBidExtension changes
   React.useEffect(() => {
-    if (onBidPlaced && timeLeft <= 10) {
-      extendTime(30);
-    }
-  }, [onBidPlaced, timeLeft, extendTime]);
+    handleBidExtension();
+  }, [handleBidExtension]);
 
   const getTimerStyles = () => {
     const baseStyles = "font-mono font-bold transition-all duration-200 flex items-center space-x-1";
