@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+
+import { useState, useEffect, useCallback } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
 interface Product {
@@ -65,12 +66,12 @@ export const useLiveStreamState = () => {
   const [timerExtendFn, setTimerExtendFn] = useState<((seconds?: number) => void) | null>(null);
 
   // New function to handle timer updates from countdown
-  const handleTimeUpdate = (currentTime: number) => {
+  const handleTimeUpdate = useCallback((currentTime: number) => {
     setCurrentProduct(prev => ({
       ...prev,
       timeLeft: Math.max(0, currentTime) // Ensure it doesn't go below 0
     }));
-  };
+  }, []);
 
   // Simulate competing bidders - now with timer extension
   useEffect(() => {
@@ -120,9 +121,9 @@ export const useLiveStreamState = () => {
   };
 
   // New function to handle timer extension setup
-  const handleTimerExtend = (extendFn: (seconds?: number) => void) => {
+  const handleTimerExtend = useCallback((extendFn: (seconds?: number) => void) => {
     setTimerExtendFn(() => extendFn);
-  };
+  }, []);
 
   return {
     // State

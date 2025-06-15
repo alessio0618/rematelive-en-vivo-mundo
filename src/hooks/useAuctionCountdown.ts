@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 interface UseAuctionCountdownProps {
   initialTime: number; // in seconds
@@ -107,14 +108,16 @@ export const useAuctionCountdown = ({
   };
 
   // New method specifically for bid extensions - no hasExtended limitation
-  const extendOnBid = (additionalSeconds: number = 2) => {
-    const newTime = timeLeft + additionalSeconds;
-    setTimeLeft(newTime);
-    onExtension?.(newTime);
-    onTimeUpdate?.(newTime); // Update parent when extending
-    triggerHaptic('light');
-    console.log(`Timer extended by ${additionalSeconds} seconds due to winning bid`);
-  };
+  const extendOnBid = useCallback((additionalSeconds: number = 2) => {
+    setTimeLeft(currentTime => {
+      const newTime = currentTime + additionalSeconds;
+      onExtension?.(newTime);
+      onTimeUpdate?.(newTime); // Update parent when extending
+      triggerHaptic('light');
+      console.log(`Timer extended by ${additionalSeconds} seconds due to winning bid`);
+      return newTime;
+    });
+  }, [onExtension, onTimeUpdate]);
 
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);

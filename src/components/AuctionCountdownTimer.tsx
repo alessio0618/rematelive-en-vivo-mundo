@@ -1,4 +1,5 @@
-import React from 'react';
+
+import React, { useCallback } from 'react';
 import { Clock, Zap } from 'lucide-react';
 import { useAuctionCountdown } from '@/hooks/useAuctionCountdown';
 
@@ -21,6 +22,14 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
   auctionStatus = 'active',
   className = ''
 }) => {
+  const onExtensionCallback = useCallback((newTime: number) => {
+    console.log(`Auction extended to ${newTime} seconds`);
+  }, []);
+
+  const onUrgentStateCallback = useCallback((isUrgent: boolean) => {
+    console.log(`Auction urgency state: ${isUrgent}`);
+  }, []);
+  
   const {
     timeLeft,
     formattedTime,
@@ -33,25 +42,17 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
     initialTime,
     onTimeUp,
     onTimeUpdate, // Pass the callback to the hook
-    onExtension: (newTime) => {
-      console.log(`Auction extended to ${newTime} seconds`);
-    },
-    onUrgentState: (isUrgent) => {
-      console.log(`Auction urgency state: ${isUrgent}`);
-    }
+    onExtension: onExtensionCallback,
+    onUrgentState: onUrgentStateCallback,
   });
 
-  // Expose the extendOnBid function to parent components - memoized to prevent infinite loops
-  const handleBidExtension = React.useCallback(() => {
+  // Expose the extendOnBid function to parent components
+  React.useEffect(() => {
     if (onBidExtension) {
       onBidExtension(extendOnBid);
     }
   }, [onBidExtension, extendOnBid]);
 
-  // Only expose the function once when component mounts or onBidExtension changes
-  React.useEffect(() => {
-    handleBidExtension();
-  }, [handleBidExtension]);
 
   const getTimerStyles = () => {
     const baseStyles = "font-mono font-bold transition-all duration-200 flex items-center space-x-1";
