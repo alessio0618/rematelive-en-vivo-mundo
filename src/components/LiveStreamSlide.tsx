@@ -185,7 +185,7 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
   const currentUrl = `${window.location.origin}/live/${streamData.id}`;
 
   return (
-    <div className="h-screen bg-background text-foreground flex flex-col">
+    <div className="h-full bg-background text-foreground flex flex-col">
       <LiveStreamHeader 
         streamData={streamData}
         onShowOptions={() => setShowOptionsSheet(true)}

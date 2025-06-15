@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Home, Search, Video, Bell, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -28,7 +27,7 @@ const BottomNavBar = () => {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border z-50 mobile-safe-area">
+    <div className="bg-background border-t border-border z-50 mobile-safe-area">
       <div className="flex items-center justify-around py-1">
         {navItems.map((item) => {
           const Icon = item.icon;
