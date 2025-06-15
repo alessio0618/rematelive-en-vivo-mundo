@@ -22,7 +22,7 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
   
   // Get the display price - locked when sliding starts
   const getDisplayPrice = () => {
-    if (hasBid) return '✓ Bid Placed!';
+    if (hasBid) return `✓ Bid $${lockedBidAmount} Placed!`;
     if (lockedBidAmount !== null) return `$${lockedBidAmount}`;
     return `Slide to bid $${nextBidAmount}`;
   };
@@ -146,8 +146,8 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
 
           {/* Success state overlay */}
           {hasBid && (
-            <div className="absolute inset-0 rounded-full flex items-center justify-center z-40 bg-foreground">
-              <span className="text-background text-sm font-bold">✓ Bid Placed!</span>
+            <div className="absolute inset-0 rounded-full flex items-center justify-center z-40 bg-black">
+              <span className="text-white text-sm font-bold">✓ Bid ${lockedBidAmount} Placed!</span>
             </div>
           )}
         </div>
