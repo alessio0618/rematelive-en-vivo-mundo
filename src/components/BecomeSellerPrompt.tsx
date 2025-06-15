@@ -1,4 +1,5 @@
 
+```tsx
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -23,7 +24,11 @@ export const BecomeSellerPrompt: React.FC<BecomeSellerPromptProps> = ({ onSchedu
           <p className="text-muted-foreground">
             Programa tu primer show para activar tu panel de vendedor y acceder a todas las herramientas.
           </p>
-          <Button onClick={onScheduleShow} className="w-full mt-4" size="lg">
+          <Button
+            onClick={onScheduleShow}
+            className="w-full mt-4 font-bold [text-shadow:0_0_5px_black,0_0_5px_black]"
+            size="lg"
+          >
             <Video className="mr-2 h-5 w-5" />
             Programar tu Primer Show
           </Button>
@@ -32,3 +37,4 @@ export const BecomeSellerPrompt: React.FC<BecomeSellerPromptProps> = ({ onSchedu
     </div>
   );
 };
+```
