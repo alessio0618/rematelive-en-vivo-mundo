@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { useBidIncrement } from '@/hooks/useBidIncrement';
@@ -22,8 +21,9 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
   
   // Get the display price - locked when sliding starts
   const getDisplayPrice = () => {
-    if (hasBid) return `✓ Bid $${lockedBidAmount} Placed!`;
-    if (lockedBidAmount !== null) return `$${lockedBidAmount}`;
+    if (lockedBidAmount !== null) {
+      return `$${lockedBidAmount}`;
+    }
     return `Slide to bid $${nextBidAmount}`;
   };
 
@@ -109,13 +109,17 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
       <div className="w-full">
         <div
           ref={containerRef}
-          className="relative h-14 bg-muted rounded-full overflow-hidden cursor-pointer select-none border border-border touch-none transition-shadow duration-300 hover:shadow-md"
+          className={`relative h-14 rounded-full overflow-hidden cursor-pointer select-none border border-border touch-none transition-all duration-300 hover:shadow-md ${
+            hasBid ? 'bg-success-green' : 'bg-muted'
+          }`}
           onMouseDown={handleStart}
           onTouchStart={handleStart}
         >
           {/* Background track */}
           <div className="absolute inset-0 flex items-center justify-center z-20">
-            <span className="text-foreground text-sm font-medium px-4 text-center">
+            <span className={`text-sm font-medium px-4 text-center transition-colors ${
+              lockedBidAmount !== null ? 'text-black' : 'text-foreground'
+            }`}>
               {getDisplayPrice()}
             </span>
           </div>
@@ -125,8 +129,9 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
             className="absolute left-0 top-0 h-full transition-all duration-75 ease-out rounded-full z-10"
             style={{ 
               width: `${slideProgress * 100}%`,
-              backgroundColor: slideProgress >= 1 ? 'hsl(var(--foreground))' : hasBid ? 'hsl(var(--foreground))' : 'hsl(var(--foreground))'
+              backgroundColor: 'rgb(var(--rl-yellow))'
             }}
+            hidden={hasBid}
           />
 
           {/* Slider button with app-consistent styling */}
@@ -143,13 +148,6 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
               <ChevronRight className="w-6 h-6 text-foreground" />
             )}
           </div>
-
-          {/* Success state overlay */}
-          {hasBid && (
-            <div className="absolute inset-0 rounded-full flex items-center justify-center z-40 bg-black">
-              <span className="text-white text-sm font-bold">✓ Bid ${lockedBidAmount} Placed!</span>
-            </div>
-          )}
         </div>
       </div>
     </div>
