@@ -12,8 +12,11 @@ import { OrdersModal } from '@/components/OrdersModal';
 import { InventoryModal } from '@/components/InventoryModal';
 import { StartLiveModal } from '@/components/StartLiveModal';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
+import { BecomeSellerPrompt } from '@/components/BecomeSellerPrompt';
 
 const SubirEnVivo = () => {
+  const { user, updateProfile } = useAuth();
   const [isCreateProductModalOpen, setIsCreateProductModalOpen] = useState(false);
   const [isScheduleShowModalOpen, setIsScheduleShowModalOpen] = useState(false);
   const [isPaymentsModalOpen, setIsPaymentsModalOpen] = useState(false);
@@ -22,29 +25,40 @@ const SubirEnVivo = () => {
   const [isPracticeModalOpen, setIsPracticeModalOpen] = useState(false);
   const { toast } = useToast();
 
-  const handleCreateProduct = () => {
-    setIsCreateProductModalOpen(true);
+  const handleSellerOnboarding = async () => {
+    if (user?.role === 'buyer') {
+      await updateProfile({ role: 'seller' });
+      toast({
+        title: "¡Felicidades, ya eres vendedor!",
+        description: "Tu panel de vendedor ha sido activado. ¡Bienvenido!",
+      });
+    }
   };
 
-  const handleScheduleShow = () => {
-    setIsScheduleShowModalOpen(true);
-  };
+  if (user?.role !== 'seller') {
+    return (
+      <div className="min-h-screen bg-background text-foreground">
+        <SimpleHeader />
+        <main className="mobile-padding pb-24">
+          <BecomeSellerPrompt onScheduleShow={() => setIsScheduleShowModalOpen(true)} />
+        </main>
+        <BottomNavBar />
+        <ScheduleShowModal
+          isOpen={isScheduleShowModalOpen}
+          onClose={() => setIsScheduleShowModalOpen(false)}
+          onSchedule={handleSellerOnboarding}
+        />
+      </div>
+    );
+  }
 
-  const handlePayments = () => {
-    setIsPaymentsModalOpen(true);
-  };
-
-  const handleOrders = () => {
-    setIsOrdersModalOpen(true);
-  };
-
-  const handleInventory = () => {
-    setIsInventoryModalOpen(true);
-  };
-
-  const handlePracticeMode = () => {
-    setIsPracticeModalOpen(true);
-  };
+  // Seller View
+  const handleCreateProduct = () => setIsCreateProductModalOpen(true);
+  const handleScheduleShow = () => setIsScheduleShowModalOpen(true);
+  const handlePayments = () => setIsPaymentsModalOpen(true);
+  const handleOrders = () => setIsOrdersModalOpen(true);
+  const handleInventory = () => setIsInventoryModalOpen(true);
+  const handlePracticeMode = () => setIsPracticeModalOpen(true);
 
   return (
     <div className="min-h-screen bg-background text-foreground">

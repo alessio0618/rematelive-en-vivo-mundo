@@ -10,11 +10,13 @@ import { useToast } from '@/hooks/use-toast';
 interface ScheduleShowModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSchedule?: () => void;
 }
 
 export const ScheduleShowModal: React.FC<ScheduleShowModalProps> = ({
   isOpen,
-  onClose
+  onClose,
+  onSchedule
 }) => {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
@@ -35,6 +37,11 @@ export const ScheduleShowModal: React.FC<ScheduleShowModalProps> = ({
       title: "¡Show programado!",
       description: `"${title}" programado para ${date} a las ${time}`
     });
+    
+    if (onSchedule) {
+      onSchedule();
+    }
+    
     onClose();
     setTitle('');
     setDate('');
