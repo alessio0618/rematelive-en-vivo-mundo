@@ -7,6 +7,7 @@ interface User {
   name: string;
   avatar?: string;
   isVerified: boolean;
+  role: 'buyer' | 'seller';
 }
 
 interface AuthContextType {
@@ -39,7 +40,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // TODO: Replace with actual Supabase auth check
         const savedUser = localStorage.getItem('user');
         if (savedUser) {
-          setUser(JSON.parse(savedUser));
+          const parsedUser = JSON.parse(savedUser);
+          // Add a default role if it doesn't exist for backward compatibility
+          if (!parsedUser.role) {
+            parsedUser.role = 'buyer'; // Defaulting to buyer
+            localStorage.setItem('user', JSON.stringify(parsedUser));
+          }
+          setUser(parsedUser);
+        } else {
+          // For demonstration, create a default buyer user if none is saved
+          const mockUser: User = {
+            id: '1',
+            email: 'buyer@example.com',
+            name: 'Mock Buyer',
+            isVerified: true,
+            role: 'buyer'
+          };
+          setUser(mockUser);
+          localStorage.setItem('user', JSON.stringify(mockUser));
         }
       } catch (error) {
         console.error('Auth check failed:', error);
@@ -60,7 +78,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         id: '1',
         email,
         name: email.split('@')[0],
-        isVerified: true
+        isVerified: true,
+        role: email.includes('seller') ? 'seller' : 'buyer' // Simple logic for demo
       };
       setUser(mockUser);
       localStorage.setItem('user', JSON.stringify(mockUser));
@@ -81,7 +100,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         id: Date.now().toString(),
         email,
         name,
-        isVerified: false
+        isVerified: false,
+        role: 'buyer' // new users are buyers by default
       };
       setUser(mockUser);
       localStorage.setItem('user', JSON.stringify(mockUser));

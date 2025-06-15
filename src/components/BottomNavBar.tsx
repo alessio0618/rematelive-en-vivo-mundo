@@ -1,7 +1,9 @@
+
 import React from 'react';
 import { Home, Search, Video, Bell, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface NavItem {
   id: string;
@@ -13,14 +15,22 @@ interface NavItem {
 const BottomNavBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuth();
 
-  const navItems: NavItem[] = [
+  const allNavItems: NavItem[] = [
     { id: 'inicio', label: 'Inicio', icon: Home, route: '/' },
     { id: 'explorar', label: 'Explorar', icon: Search, route: '/explorar' },
     { id: 'subir', label: 'En Vivo', icon: Video, route: '/subir-en-vivo' },
     { id: 'notificaciones', label: 'Notificaciones', icon: Bell, route: '/notificaciones' },
     { id: 'perfil', label: 'Perfil', icon: User, route: '/perfil' },
   ];
+
+  const navItems = allNavItems.filter(item => {
+    if (item.id === 'subir') {
+      return user?.role === 'seller';
+    }
+    return true;
+  });
 
   const handleNavigation = (route: string) => {
     navigate(route);
