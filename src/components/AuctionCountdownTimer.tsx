@@ -7,6 +7,7 @@ interface AuctionCountdownTimerProps {
   initialTime: number;
   onTimeUp: () => void;
   onBidPlaced?: () => void;
+  auctionStatus?: 'active' | 'ending' | 'extended' | 'sold';
   className?: string;
 }
 
@@ -14,6 +15,7 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
   initialTime,
   onTimeUp,
   onBidPlaced,
+  auctionStatus = 'active',
   className = ''
 }) => {
   const {
@@ -66,6 +68,9 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
     return 'bg-card border-border';
   };
 
+  // Check if auction has ended
+  const isAuctionEnded = auctionStatus === 'sold' || timeLeft <= 0;
+
   return (
     <div className={`relative ${className}`}>
       {/* Main Timer */}
@@ -80,16 +85,16 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
       </div>
 
       {/* Urgency Indicators */}
-      {urgencyLevel === 'urgent' && (
+      {urgencyLevel === 'urgent' && !isAuctionEnded && (
         <div className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs px-2 py-1 rounded-full animate-bounce">
-          Last Call!
+          ¡Última Oportunidad!
         </div>
       )}
 
-      {urgencyLevel === 'critical' && (
+      {urgencyLevel === 'critical' && !isAuctionEnded && (
         <>
           <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full animate-bounce">
-            ENDING!
+            ¡TERMINANDO!
           </div>
           
           {/* Screen edge pulsing effect */}
@@ -100,14 +105,30 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
           {/* Floating warning text */}
           <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-40">
             <div className="text-red-500 text-2xl font-bold animate-bounce opacity-80">
-              ENDING SOON!
+              ¡TERMINANDO PRONTO!
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Show TERMINADA when auction has ended */}
+      {isAuctionEnded && (
+        <>
+          <div className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">
+            ¡TERMINADA!
+          </div>
+          
+          {/* Floating ended text */}
+          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-40">
+            <div className="text-green-500 text-2xl font-bold opacity-80">
+              ¡TERMINADA!
             </div>
           </div>
         </>
       )}
 
       {/* Particle effects for critical state */}
-      {urgencyLevel === 'critical' && (
+      {urgencyLevel === 'critical' && !isAuctionEnded && (
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           {[...Array(6)].map((_, i) => (
             <div
