@@ -90,7 +90,9 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
       timeLeft: 0
     }));
     
-    setShowAuctionResult(true);
+    if (isUserWinning) {
+      setShowAuctionResult(true);
+    }
     
     if ('vibrate' in navigator) {
       navigator.vibrate([100, 50, 100, 50, 100]);
