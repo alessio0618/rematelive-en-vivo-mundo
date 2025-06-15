@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { StreamPreview } from './StreamPreview';
 import { PullToRefresh } from './PullToRefresh';
@@ -9,7 +8,7 @@ const HomeFeed = () => {
   // Mock data for live channels with Spanish content
   const liveChannels = [
     {
-      id: '1',
+      id: 'dailydeal',
       sellerName: 'dailydeal',
       sellerAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
       viewerCount: 93,
@@ -19,7 +18,7 @@ const HomeFeed = () => {
       isLive: true
     },
     {
-      id: '2',
+      id: 'lifeluxury',
       sellerName: 'lifeluxury',
       sellerAvatar: 'https://images.unsplash.com/photo-1494790108755-2616b112b008?w=150&h=150&fit=crop&crop=face',
       viewerCount: 63,
@@ -29,7 +28,7 @@ const HomeFeed = () => {
       isLive: true
     },
     {
-      id: '3',
+      id: 'giftexpress',
       sellerName: 'giftexpress',
       sellerAvatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
       viewerCount: 142,
@@ -39,7 +38,7 @@ const HomeFeed = () => {
       isLive: true
     },
     {
-      id: '4',
+      id: 'perfumesstop',
       sellerName: 'perfumesstop',
       sellerAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
       viewerCount: 66,
@@ -49,7 +48,7 @@ const HomeFeed = () => {
       isLive: true
     },
     {
-      id: '5',
+      id: 'sneakerqueen',
       sellerName: 'sneakerqueen',
       sellerAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face',
       viewerCount: 89,
@@ -59,7 +58,7 @@ const HomeFeed = () => {
       isLive: true
     },
     {
-      id: '6',
+      id: 'vintagetreasures',
       sellerName: 'vintagetreasures',
       sellerAvatar: 'https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=150&h=150&fit=crop&crop=face',
       viewerCount: 124,

@@ -30,17 +30,17 @@ export const StreamPreview: React.FC<StreamPreviewProps> = ({ stream, onPreview 
 
   const handleClick = () => {
     console.log('Card clicked for:', stream.sellerName);
-    console.log('Navigating to:', `/live/${stream.sellerName}`);
+    console.log('Navigating to:', `/live/${stream.id}`);
     
     // Only navigate if preview is not open
     if (!isPreviewOpen) {
-      navigate(`/live/${stream.sellerName}`);
+      navigate(`/live/${stream.id}`);
     }
   };
 
   const handleJoinStream = () => {
     setIsPreviewOpen(false);
-    navigate(`/live/${stream.sellerName}`);
+    navigate(`/live/${stream.id}`);
   };
 
   const longPressHandlers = useLongPress({
