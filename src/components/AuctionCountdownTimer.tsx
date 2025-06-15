@@ -84,44 +84,17 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
         </div>
       </div>
 
-      {/* Urgency Indicators */}
-      {urgencyLevel === 'urgent' && !isAuctionEnded && (
-        <div className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs px-2 py-1 rounded-full animate-bounce">
-          ¡Última Oportunidad!
-        </div>
-      )}
-
-      {urgencyLevel === 'critical' && !isAuctionEnded && (
-        <>
-          <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full animate-bounce">
-            ¡TERMINANDO!
-          </div>
-          
-          {/* Screen edge pulsing effect */}
-          <div className="fixed inset-0 pointer-events-none z-50">
-            <div className="absolute inset-0 border-4 border-red-500 animate-pulse opacity-30" />
-          </div>
-
-          {/* Floating warning text */}
-          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-40">
-            <div className="text-red-500 text-2xl font-bold animate-bounce opacity-80">
-              ¡TERMINANDO PRONTO!
-            </div>
-          </div>
-        </>
-      )}
-
-      {/* Show TERMINADA when auction has ended */}
+      {/* Show VENDIDO when auction has ended */}
       {isAuctionEnded && (
         <>
           <div className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">
-            ¡TERMINADA!
+            ¡VENDIDO!
           </div>
           
           {/* Floating ended text */}
           <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-40">
             <div className="text-green-500 text-2xl font-bold opacity-80">
-              ¡TERMINADA!
+              ¡VENDIDO!
             </div>
           </div>
         </>
