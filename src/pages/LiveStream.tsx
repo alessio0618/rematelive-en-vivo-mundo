@@ -41,13 +41,6 @@ const LiveStream = () => {
           streamData={currentStream}
           isActive={true}
         />
-        
-        {/* Swipe indicator */}
-        <div className="absolute top-1/2 right-4 transform -translate-y-1/2 flex flex-col items-center space-y-2 opacity-50 pointer-events-none">
-          <div className="w-1 h-8 bg-white/30 rounded-full"></div>
-          <div className="text-white/50 text-xs rotate-90 whitespace-nowrap">Swipe up</div>
-          <div className="w-1 h-8 bg-white/30 rounded-full"></div>
-        </div>
       </div>
       
       <BottomNavBar />
