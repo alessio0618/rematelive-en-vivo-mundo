@@ -455,7 +455,7 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
             />
             <Button 
               size="icon"
-              className="bg-foreground text-background hover:bg-foreground/90 flex-shrink-0"
+              className="bg-background text-foreground hover:bg-accent/20 border border-border flex-shrink-0"
               onClick={handleSendMessage}
             >
               <MessageCircle className="w-4 h-4" />
