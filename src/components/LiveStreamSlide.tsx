@@ -189,15 +189,25 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
         description: "Tu mensaje se ha enviado al chat"
       });
       setChatMessage('');
+      
+      // Blur the input after sending to prevent keyboard issues on mobile
+      const chatInput = document.querySelector('input[placeholder="Escribe un mensaje..."]') as HTMLInputElement;
+      if (chatInput) {
+        chatInput.blur();
+      }
     }
   };
 
   const handleFocusChat = () => {
     setShowComments(true);
-    const chatInput = document.querySelector('input[placeholder="Escribe un mensaje..."]') as HTMLInputElement;
-    if (chatInput) {
-      chatInput.focus();
-    }
+    // Use setTimeout to ensure the input is rendered before focusing
+    setTimeout(() => {
+      const chatInput = document.querySelector('input[placeholder="Escribe un mensaje..."]') as HTMLInputElement;
+      if (chatInput) {
+        chatInput.focus();
+        chatInput.click(); // Additional click to ensure mobile keyboards appear
+      }
+    }, 100);
   };
 
   const handleScreenshot = () => {
@@ -270,7 +280,7 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
           </DoubleTapHandler>
         </div>
 
-        {/* Zoom indicator */}
+        {/* Zoom indicator and reset button */}
         {scale > 1 && (
           <div className="absolute top-4 right-4 bg-black/50 text-white px-2 py-1 rounded text-sm">
             {scale.toFixed(1)}x
@@ -442,21 +452,51 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
           </Card>
         </div>
 
-        {/* Chat Input - Fixed with increased bottom padding */}
+        {/* Chat Input - Fixed with increased bottom padding and better event handling */}
         <div className="px-4 pb-4 pt-2 mb-16">
           <div className="flex space-x-2">
             <Input
               placeholder="Escribe un mensaje..."
               value={chatMessage}
-              onChange={(e) => setChatMessage(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+              onChange={(e) => {
+                console.log('Input change:', e.target.value);
+                setChatMessage(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                console.log('Key pressed:', e.key);
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleSendMessage();
+                }
+              }}
               className="flex-1 bg-card border-border text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-foreground/20"
-              onFocus={() => setShowComments(true)}
+              onFocus={() => {
+                console.log('Input focused');
+                setShowComments(true);
+              }}
+              onBlur={() => {
+                console.log('Input blurred');
+              }}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck="false"
+              tabIndex={0}
+              style={{ 
+                touchAction: 'manipulation',
+                WebkitUserSelect: 'text',
+                userSelect: 'text'
+              }}
             />
             <Button 
               size="icon"
               className="bg-background text-foreground hover:bg-accent/20 border border-border flex-shrink-0"
-              onClick={handleSendMessage}
+              onClick={(e) => {
+                console.log('Send button clicked');
+                e.preventDefault();
+                handleSendMessage();
+              }}
+              type="button"
             >
               <MessageCircle className="w-4 h-4" />
             </Button>
