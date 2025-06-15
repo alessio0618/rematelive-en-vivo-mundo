@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -115,6 +114,12 @@ export default {
           '30%': { transform: 'scale(1.05) translateY(0)', opacity: '1' },
           '50%': { transform: 'scale(1) translateY(0)', opacity: '1' },
           '100%': { transform: 'scale(0.8) translateY(-20px)', opacity: '0' },
+        },
+        'popup-bouncy-glow': {
+          '0%': { transform: 'scale(0.5) translateY(10px)', opacity: '0' },
+          '40%': { transform: 'scale(1.15) translateY(-15px)', opacity: '1', boxShadow: '0 10px 25px -5px rgba(16, 185, 129, 0.4), 0 8px 10px -6px rgba(16, 185, 129, 0.4)' },
+          '60%': { transform: 'scale(1) translateY(0)', opacity: '1', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)' },
+          '100%': { transform: 'scale(0.8) translateY(-50px)', opacity: '0' },
         }
 			},
 			animation: {
@@ -123,6 +128,7 @@ export default {
 				'pulse-live': 'pulse-live 2s ease-in-out infinite',
         'fade-in-out-pop': 'fade-in-out-pop 1.5s ease-in-out forwards',
         'popup-burst-and-fade': 'popup-burst-and-fade 1.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards',
+        'popup-bouncy-glow': 'popup-bouncy-glow 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
 			}
 		}
 	},
