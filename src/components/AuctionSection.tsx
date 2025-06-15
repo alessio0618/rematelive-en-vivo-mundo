@@ -51,6 +51,11 @@ export const AuctionSection: React.FC<AuctionSectionProps> = ({
     onBid(productId, bidAmount);
   }, [currentProduct.currentBid, timerExtendFn, onBid]);
 
+  // Wrapper function to adapt handleBid for SlideToBid component
+  const handleSlideToBid = React.useCallback((amount: number) => {
+    handleBid(currentProduct.id, amount);
+  }, [handleBid, currentProduct.id]);
+
   return (
     <div className="p-4 pb-6">
       <div className="flex items-center justify-between mb-3">
@@ -107,7 +112,7 @@ export const AuctionSection: React.FC<AuctionSectionProps> = ({
           {currentProduct.auctionStatus !== 'sold' ? (
             <SlideToBid
               currentBid={currentProduct.currentBid}
-              onBid={handleBid}
+              onBid={handleSlideToBid}
             />
           ) : (
             <div className="w-full text-center py-4">
