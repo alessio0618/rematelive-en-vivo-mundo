@@ -84,15 +84,6 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
         </div>
       </div>
 
-      {/* Show floating VENDIDO when auction has ended */}
-      {isAuctionEnded && (
-        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-40">
-          <div className="text-green-500 text-2xl font-bold opacity-80">
-            ¡VENDIDO!
-          </div>
-        </div>
-      )}
-
       {/* Particle effects for critical state */}
       {urgencyLevel === 'critical' && !isAuctionEnded && (
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
