@@ -242,6 +242,7 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
         onClose={() => setShowAuctionResult(false)}
         isWinner={isUserWinning}
         productName={currentProduct.name}
+        finalBid={currentProduct.currentBid}
         winnerName={!isUserWinning ? currentWinningBidder : undefined}
       />
     </div>
