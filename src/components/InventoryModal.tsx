@@ -31,7 +31,7 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
         </DialogHeader>
         
         <div className="space-y-4">
-          <Button className="w-full">
+          <Button variant="outline" className="w-full">
             <Plus className="w-4 h-4 mr-2" />
             Agregar Nuevo Producto
           </Button>
