@@ -64,6 +64,14 @@ export const useLiveStreamState = () => {
   // Add timer extension function state
   const [timerExtendFn, setTimerExtendFn] = useState<((seconds?: number) => void) | null>(null);
 
+  // New function to handle timer updates from countdown
+  const handleTimeUpdate = (currentTime: number) => {
+    setCurrentProduct(prev => ({
+      ...prev,
+      timeLeft: Math.max(0, currentTime) // Ensure it doesn't go below 0
+    }));
+  };
+
   // Simulate competing bidders - now with timer extension
   useEffect(() => {
     if (currentProduct.auctionStatus === 'active') {
@@ -146,6 +154,7 @@ export const useLiveStreamState = () => {
     setChatMessages,
     currentUser,
     handleTimerExtend,
+    handleTimeUpdate,
     getBidderStatus
   };
 };

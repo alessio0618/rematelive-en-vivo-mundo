@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Clock, Zap } from 'lucide-react';
 import { useAuctionCountdown } from '@/hooks/useAuctionCountdown';
@@ -8,6 +7,7 @@ interface AuctionCountdownTimerProps {
   onTimeUp: () => void;
   onBidPlaced?: () => void;
   onBidExtension?: (extendFn: (seconds?: number) => void) => void;
+  onTimeUpdate?: (currentTime: number) => void; // New prop for time updates
   auctionStatus?: 'active' | 'ending' | 'extended' | 'sold';
   className?: string;
 }
@@ -17,6 +17,7 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
   onTimeUp,
   onBidPlaced,
   onBidExtension,
+  onTimeUpdate,
   auctionStatus = 'active',
   className = ''
 }) => {
@@ -31,6 +32,7 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
   } = useAuctionCountdown({
     initialTime,
     onTimeUp,
+    onTimeUpdate, // Pass the callback to the hook
     onExtension: (newTime) => {
       console.log(`Auction extended to ${newTime} seconds`);
     },

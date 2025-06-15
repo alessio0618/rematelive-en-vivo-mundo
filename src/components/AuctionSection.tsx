@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Zap } from 'lucide-react';
 import { Card } from '@/components/ui/card';
@@ -22,6 +21,7 @@ interface AuctionSectionProps {
   onBid: (productId: number, bidAmount: number) => void;
   onAuctionEnd: () => void;
   onTimerExtend?: (extendFn: (seconds?: number) => void) => void;
+  onTimeUpdate?: (currentTime: number) => void; // New prop for time updates
 }
 
 export const AuctionSection: React.FC<AuctionSectionProps> = ({
@@ -29,7 +29,8 @@ export const AuctionSection: React.FC<AuctionSectionProps> = ({
   bidderStatus,
   onBid,
   onAuctionEnd,
-  onTimerExtend
+  onTimerExtend,
+  onTimeUpdate
 }) => {
   const [timerExtendFn, setTimerExtendFn] = React.useState<((seconds?: number) => void) | null>(null);
 
@@ -66,6 +67,7 @@ export const AuctionSection: React.FC<AuctionSectionProps> = ({
             initialTime={currentProduct.timeLeft}
             onTimeUp={onAuctionEnd}
             onBidExtension={handleTimerExtension}
+            onTimeUpdate={onTimeUpdate}
             auctionStatus={currentProduct.auctionStatus}
           />
         </div>

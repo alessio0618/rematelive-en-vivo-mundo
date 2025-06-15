@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from 'react';
 
 interface UseAuctionCountdownProps {
@@ -6,13 +5,15 @@ interface UseAuctionCountdownProps {
   onTimeUp: () => void;
   onExtension?: (newTime: number) => void;
   onUrgentState?: (isUrgent: boolean) => void;
+  onTimeUpdate?: (currentTime: number) => void; // New callback for time updates
 }
 
 export const useAuctionCountdown = ({ 
   initialTime, 
   onTimeUp, 
   onExtension, 
-  onUrgentState 
+  onUrgentState,
+  onTimeUpdate
 }: UseAuctionCountdownProps) => {
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [isActive, setIsActive] = useState(true);
@@ -59,6 +60,9 @@ export const useAuctionCountdown = ({
       setTimeLeft(prev => {
         const newTime = prev - 0.1;
         
+        // Update parent component with current time
+        onTimeUpdate?.(newTime);
+        
         // Urgent state detection
         if (newTime <= 30 && newTime > 5) {
           onUrgentState?.(true);
@@ -89,7 +93,7 @@ export const useAuctionCountdown = ({
         clearInterval(intervalRef.current);
       }
     };
-  }, [isActive, onTimeUp, onUrgentState]);
+  }, [isActive, onTimeUp, onUrgentState, onTimeUpdate]);
 
   const extendTime = (additionalSeconds: number) => {
     if (!hasExtended && timeLeft <= 10) {
@@ -97,6 +101,7 @@ export const useAuctionCountdown = ({
       setTimeLeft(newTime);
       setHasExtended(true);
       onExtension?.(newTime);
+      onTimeUpdate?.(newTime); // Update parent when extending
       triggerHaptic('light');
     }
   };
@@ -106,6 +111,7 @@ export const useAuctionCountdown = ({
     const newTime = timeLeft + additionalSeconds;
     setTimeLeft(newTime);
     onExtension?.(newTime);
+    onTimeUpdate?.(newTime); // Update parent when extending
     triggerHaptic('light');
     console.log(`Timer extended by ${additionalSeconds} seconds due to winning bid`);
   };
