@@ -7,6 +7,7 @@ interface UseAuctionCountdownProps {
   onExtension?: (newTime: number) => void;
   onUrgentState?: (isUrgent: boolean) => void;
   onTimeUpdate?: (currentTime: number) => void; // New callback for time updates
+  onExtensionPopup?: (seconds: number) => void;
 }
 
 export const useAuctionCountdown = ({ 
@@ -14,7 +15,8 @@ export const useAuctionCountdown = ({
   onTimeUp, 
   onExtension, 
   onUrgentState,
-  onTimeUpdate
+  onTimeUpdate,
+  onExtensionPopup
 }: UseAuctionCountdownProps) => {
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [isActive, setIsActive] = useState(true);
@@ -113,11 +115,12 @@ export const useAuctionCountdown = ({
       const newTime = currentTime + additionalSeconds;
       onExtension?.(newTime);
       onTimeUpdate?.(newTime); // Update parent when extending
+      onExtensionPopup?.(additionalSeconds);
       triggerHaptic('light');
       console.log(`Timer extended by ${additionalSeconds} seconds due to winning bid`);
       return newTime;
     });
-  }, [onExtension, onTimeUpdate]);
+  }, [onExtension, onTimeUpdate, onExtensionPopup]);
 
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
@@ -153,3 +156,4 @@ export const useAuctionCountdown = ({
     }
   };
 };
+

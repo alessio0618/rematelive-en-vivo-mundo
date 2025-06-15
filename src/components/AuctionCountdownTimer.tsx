@@ -1,5 +1,4 @@
-
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { Clock, Zap } from 'lucide-react';
 import { useAuctionCountdown } from '@/hooks/useAuctionCountdown';
 
@@ -22,12 +21,18 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
   auctionStatus = 'active',
   className = ''
 }) => {
+  const [extensionAmount, setExtensionAmount] = useState<number | null>(null);
+
   const onExtensionCallback = useCallback((newTime: number) => {
     console.log(`Auction extended to ${newTime} seconds`);
   }, []);
 
   const onUrgentStateCallback = useCallback((isUrgent: boolean) => {
     console.log(`Auction urgency state: ${isUrgent}`);
+  }, []);
+
+  const handleExtensionPopup = useCallback((seconds: number) => {
+    setExtensionAmount(seconds);
   }, []);
   
   const {
@@ -44,7 +49,17 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
     onTimeUpdate, // Pass the callback to the hook
     onExtension: onExtensionCallback,
     onUrgentState: onUrgentStateCallback,
+    onExtensionPopup: handleExtensionPopup,
   });
+
+  useEffect(() => {
+    if (extensionAmount !== null) {
+      const timer = setTimeout(() => {
+        setExtensionAmount(null);
+      }, 1500); // Match animation duration
+      return () => clearTimeout(timer);
+    }
+  }, [extensionAmount]);
 
   // Expose the extendOnBid function to parent components
   React.useEffect(() => {
@@ -84,6 +99,16 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
 
   return (
     <div className={`relative ${className}`}>
+      {/* Extension Popup */}
+      {extensionAmount !== null && (
+        <div 
+          key={Date.now()}
+          className="absolute -top-5 right-0 z-10 text-yellow-400 font-bold text-sm animate-fade-in-out-pop"
+        >
+          +{extensionAmount}s
+        </div>
+      )}
+
       {/* Main Timer */}
       <div className={`px-3 py-2 rounded-lg border ${getBackgroundEffect()}`}>
         <div className={getTimerStyles()}>
