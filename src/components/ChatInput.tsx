@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -17,7 +18,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   onFocus
 }) => {
   return (
-    <div className="px-4 pb-4 pt-2">
+    <div className="px-4 pb-2 pt-2">
       <div className="flex space-x-2">
         <Input
           placeholder="Escribe un mensaje..."
