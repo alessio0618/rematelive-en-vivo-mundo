@@ -374,8 +374,8 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
         </div>
       </div>
 
-      {/* Bottom Section - Enhanced with proper sizing and safe areas */}
-      <div className="bg-background border-t border-border pb-safe-bottom">
+      {/* Bottom Section - Enhanced with proper spacing for navigation */}
+      <div className="bg-background border-t border-border pb-20">
         {/* Enhanced Current Product Section */}
         <div className="p-4 pb-6">
           <div className="flex items-center justify-between mb-3">
@@ -442,8 +442,8 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
           </Card>
         </div>
 
-        {/* Chat Input - Fixed visibility and padding */}
-        <div className="px-4 pb-6 pt-2">
+        {/* Chat Input - Fixed with increased bottom padding */}
+        <div className="px-4 pb-4 pt-2 mb-16">
           <div className="flex space-x-2">
             <Input
               placeholder="Escribe un mensaje..."
