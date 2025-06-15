@@ -103,32 +103,18 @@ export default {
 						opacity: '0.5'
 					}
 				},
-        'fade-in-out-pop': {
-          '0%': { transform: 'translateY(10px) scale(0.9)', opacity: '0' },
-          '20%': { transform: 'translateY(0) scale(1)', opacity: '1' },
-          '80%': { transform: 'translateY(0) scale(1)', opacity: '1' },
-          '100%': { transform: 'translateY(-10px) scale(0.9)', opacity: '0' },
+        'fade-slide-up-and-out': {
+          '0%': { opacity: '0', transform: 'translateY(5px)' },
+          '20%': { opacity: '1', transform: 'translateY(0)' },
+          '80%': { opacity: '1', transform: 'translateY(0)' },
+          '100%': { opacity: '0', transform: 'translateY(-5px)' },
         },
-        'popup-burst-and-fade': {
-          '0%': { transform: 'scale(0.8) translateY(10px)', opacity: '0' },
-          '30%': { transform: 'scale(1.05) translateY(0)', opacity: '1' },
-          '50%': { transform: 'scale(1) translateY(0)', opacity: '1' },
-          '100%': { transform: 'scale(0.8) translateY(-20px)', opacity: '0' },
-        },
-        'popup-bouncy-glow': {
-          '0%': { transform: 'scale(0.5) translateY(10px)', opacity: '0' },
-          '40%': { transform: 'scale(1.15) translateY(-15px)', opacity: '1', boxShadow: '0 10px 25px -5px rgba(16, 185, 129, 0.4), 0 8px 10px -6px rgba(16, 185, 129, 0.4)' },
-          '60%': { transform: 'scale(1) translateY(0)', opacity: '1', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)' },
-          '100%': { transform: 'scale(0.8) translateY(-50px)', opacity: '0' },
-        }
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'pulse-live': 'pulse-live 2s ease-in-out infinite',
-        'fade-in-out-pop': 'fade-in-out-pop 1.5s ease-in-out forwards',
-        'popup-burst-and-fade': 'popup-burst-and-fade 1.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards',
-        'popup-bouncy-glow': 'popup-bouncy-glow 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+        'fade-slide-up-and-out': 'fade-slide-up-and-out 1.2s ease-in-out forwards',
 			}
 		}
 	},

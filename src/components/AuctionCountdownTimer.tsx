@@ -1,3 +1,4 @@
+
 import React, { useCallback, useState, useEffect } from 'react';
 import { Clock, Zap } from 'lucide-react';
 import { useAuctionCountdown } from '@/hooks/useAuctionCountdown';
@@ -99,21 +100,22 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
 
   return (
     <div className={`relative ${className}`}>
-      {/* Extension Popup */}
-      {extensionAmount !== null && (
-        <div 
-          key={Date.now()}
-          className="absolute -top-12 left-1/2 -translate-x-1/2 z-20 flex items-center justify-center px-4 py-2 bg-emerald-500 text-white rounded-full font-bold text-lg shadow-2xl animate-popup-bouncy-glow"
-        >
-          +{extensionAmount}s
-        </div>
-      )}
-
       {/* Main Timer */}
       <div className={`px-3 py-2 rounded-lg border ${getBackgroundEffect()}`}>
         <div className={getTimerStyles()}>
           <Clock className="w-4 h-4" />
-          <span>{isAuctionEnded ? '¡VENDIDO!' : formattedTime}</span>
+          <div className="relative">
+            <span>{isAuctionEnded ? '¡VENDIDO!' : formattedTime}</span>
+            {/* Extension Popup */}
+            {extensionAmount !== null && (
+              <div
+                key={Date.now()}
+                className="absolute left-full top-1/2 -translate-y-1/2 ml-2 whitespace-nowrap font-bold text-orange-500 text-xl animate-fade-slide-up-and-out [text-shadow:0_1px_2px_rgba(0,0,0,0.5)]"
+              >
+                +{extensionAmount}s
+              </div>
+            )}
+          </div>
           {hasExtended && !isAuctionEnded && (
             <Zap className="w-3 h-3 text-yellow-500" />
           )}
