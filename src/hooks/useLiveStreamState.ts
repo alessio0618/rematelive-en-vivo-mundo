@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -62,17 +61,26 @@ export const useLiveStreamState = () => {
     { id: 3, user: 'maria_g', message: '¿Cuál es el precio final?', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop', timestamp: Date.now() - 1000 }
   ]);
 
-  // Simulate competing bidders
+  // Add timer extension function state
+  const [timerExtendFn, setTimerExtendFn] = useState<((seconds?: number) => void) | null>(null);
+
+  // Simulate competing bidders - now with timer extension
   useEffect(() => {
     if (currentProduct.auctionStatus === 'active') {
       const simulateBids = () => {
         if (Math.random() > 0.7) {
           const competingBidders = ['user123', 'golfpro', 'maria_g', 'sneaker_king', 'collector_pro'];
           const randomBidder = competingBidders[Math.floor(Math.random() * competingBidders.length)];
+          const newBid = currentProduct.currentBid + 2;
+          
+          // Extend timer for winning competitor bids
+          if (timerExtendFn && newBid > currentProduct.currentBid) {
+            timerExtendFn(2); // Extend by 2 seconds
+          }
           
           setCurrentProduct(prev => ({
             ...prev,
-            currentBid: prev.currentBid + 2
+            currentBid: newBid
           }));
           
           setCurrentWinningBidder(randomBidder);
@@ -80,7 +88,7 @@ export const useLiveStreamState = () => {
           
           toast({
             title: "Nueva puja",
-            description: `${randomBidder} ha pujado $${currentProduct.currentBid + 2}`
+            description: `${randomBidder} ha pujado $${newBid}`
           });
         }
       };
@@ -88,7 +96,7 @@ export const useLiveStreamState = () => {
       const interval = setInterval(simulateBids, 8000 + Math.random() * 12000);
       return () => clearInterval(interval);
     }
-  }, [currentProduct.auctionStatus, currentProduct.currentBid, toast]);
+  }, [currentProduct.auctionStatus, currentProduct.currentBid, toast, timerExtendFn]);
 
   const getBidderStatus = () => {
     if (currentProduct.auctionStatus === 'sold') {
@@ -101,6 +109,11 @@ export const useLiveStreamState = () => {
       return `😰 ${currentWinningBidder} está ganando`;
     }
     return '🎯 ¡Haz tu primera puja!';
+  };
+
+  // New function to handle timer extension setup
+  const handleTimerExtend = (extendFn: (seconds?: number) => void) => {
+    setTimerExtendFn(() => extendFn);
   };
 
   return {
@@ -132,6 +145,7 @@ export const useLiveStreamState = () => {
     chatMessages,
     setChatMessages,
     currentUser,
+    handleTimerExtend,
     getBidderStatus
   };
 };

@@ -60,12 +60,12 @@ export const useAuctionCountdown = ({
         const newTime = prev - 0.1;
         
         // Urgent state detection
-        if (newTime <= 30 && newTime > 10) {
+        if (newTime <= 30 && newTime > 5) {
           onUrgentState?.(true);
         }
         
-        // Final countdown effects
-        if (newTime <= 10 && newTime > 0) {
+        // Final countdown effects - now starts at 5 seconds
+        if (newTime <= 5 && newTime > 0) {
           if (Math.floor(newTime) !== Math.floor(prev)) {
             playTickSound();
             triggerHaptic('medium');
@@ -101,6 +101,15 @@ export const useAuctionCountdown = ({
     }
   };
 
+  // New method specifically for bid extensions - no hasExtended limitation
+  const extendOnBid = (additionalSeconds: number = 2) => {
+    const newTime = timeLeft + additionalSeconds;
+    setTimeLeft(newTime);
+    onExtension?.(newTime);
+    triggerHaptic('light');
+    console.log(`Timer extended by ${additionalSeconds} seconds due to winning bid`);
+  };
+
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
@@ -113,7 +122,7 @@ export const useAuctionCountdown = ({
   };
 
   const getUrgencyLevel = () => {
-    if (timeLeft <= 10) return 'critical';
+    if (timeLeft <= 5) return 'critical'; // Changed from 10 to 5 seconds
     if (timeLeft <= 30) return 'urgent';
     if (timeLeft <= 60) return 'warning';
     return 'normal';
@@ -126,6 +135,7 @@ export const useAuctionCountdown = ({
     isActive,
     hasExtended,
     extendTime,
+    extendOnBid, // New method for bid extensions
     stop: () => setIsActive(false),
     restart: (newTime: number) => {
       setTimeLeft(newTime);

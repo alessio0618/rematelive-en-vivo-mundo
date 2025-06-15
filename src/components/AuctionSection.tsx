@@ -21,14 +21,36 @@ interface AuctionSectionProps {
   bidderStatus: string;
   onBid: (productId: number, bidAmount: number) => void;
   onAuctionEnd: () => void;
+  onTimerExtend?: (extendFn: (seconds?: number) => void) => void;
 }
 
 export const AuctionSection: React.FC<AuctionSectionProps> = ({
   currentProduct,
   bidderStatus,
   onBid,
-  onAuctionEnd
+  onAuctionEnd,
+  onTimerExtend
 }) => {
+  const [timerExtendFn, setTimerExtendFn] = React.useState<((seconds?: number) => void) | null>(null);
+
+  // Store the timer extension function when received from countdown timer
+  const handleTimerExtension = React.useCallback((extendFn: (seconds?: number) => void) => {
+    setTimerExtendFn(() => extendFn);
+    if (onTimerExtend) {
+      onTimerExtend(extendFn);
+    }
+  }, [onTimerExtend]);
+
+  // Handle bid and extend timer
+  const handleBid = React.useCallback((productId: number, bidAmount: number) => {
+    // Only extend timer if this is a winning bid (higher than current bid)
+    if (bidAmount > currentProduct.currentBid && timerExtendFn) {
+      timerExtendFn(2); // Extend by 2 seconds for winning bids
+    }
+    
+    onBid(productId, bidAmount);
+  }, [currentProduct.currentBid, timerExtendFn, onBid]);
+
   return (
     <div className="p-4 pb-6">
       <div className="flex items-center justify-between mb-3">
@@ -38,7 +60,7 @@ export const AuctionSection: React.FC<AuctionSectionProps> = ({
           <AuctionCountdownTimer
             initialTime={currentProduct.timeLeft}
             onTimeUp={onAuctionEnd}
-            onBidPlaced={currentProduct.auctionStatus === 'extended' ? () => {} : undefined}
+            onBidExtension={handleTimerExtension}
             auctionStatus={currentProduct.auctionStatus}
           />
         </div>
@@ -85,7 +107,7 @@ export const AuctionSection: React.FC<AuctionSectionProps> = ({
           {currentProduct.auctionStatus !== 'sold' ? (
             <SlideToBid
               currentBid={currentProduct.currentBid}
-              onBid={(amount) => onBid(currentProduct.id, amount)}
+              onBid={handleBid}
             />
           ) : (
             <div className="w-full text-center py-4">

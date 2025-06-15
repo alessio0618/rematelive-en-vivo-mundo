@@ -56,7 +56,8 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
     chatMessages,
     setChatMessages,
     currentUser,
-    getBidderStatus
+    getBidderStatus,
+    handleTimerExtend
   } = useLiveStreamState();
 
   // Event handlers
@@ -209,6 +210,7 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
           bidderStatus={getBidderStatus()}
           onBid={handleBid}
           onAuctionEnd={handleAuctionEnd}
+          onTimerExtend={handleTimerExtend}
         />
 
         <ChatInput

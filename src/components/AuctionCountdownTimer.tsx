@@ -7,6 +7,7 @@ interface AuctionCountdownTimerProps {
   initialTime: number;
   onTimeUp: () => void;
   onBidPlaced?: () => void;
+  onBidExtension?: (extendFn: (seconds?: number) => void) => void;
   auctionStatus?: 'active' | 'ending' | 'extended' | 'sold';
   className?: string;
 }
@@ -15,6 +16,7 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
   initialTime,
   onTimeUp,
   onBidPlaced,
+  onBidExtension,
   auctionStatus = 'active',
   className = ''
 }) => {
@@ -24,7 +26,8 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
     urgencyLevel,
     isActive,
     hasExtended,
-    extendTime
+    extendTime,
+    extendOnBid
   } = useAuctionCountdown({
     initialTime,
     onTimeUp,
@@ -36,7 +39,14 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
     }
   });
 
-  // Handle bid placed - extend time if in final moments
+  // Expose the extendOnBid function to parent components
+  React.useEffect(() => {
+    if (onBidExtension) {
+      onBidExtension(extendOnBid);
+    }
+  }, [onBidExtension, extendOnBid]);
+
+  // Handle bid placed - extend time if in final moments (legacy support)
   React.useEffect(() => {
     if (onBidPlaced && timeLeft <= 10) {
       extendTime(30);
