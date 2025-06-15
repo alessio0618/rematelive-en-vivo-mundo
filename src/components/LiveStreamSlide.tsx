@@ -207,7 +207,7 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
         onScreenshot={handleScreenshot}
       />
 
-      <div className="bg-background border-t border-border">
+      <div className="bg-background border-t border-border pb-4">
         <AuctionSection
           currentProduct={currentProduct}
           bidderStatus={getBidderStatus()}
