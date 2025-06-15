@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { DoubleTapHandler } from '@/components/DoubleTapHandler';
 import { CommentOverlay } from '@/components/CommentOverlay';
+import { StreamActions } from '@/components/StreamActions';
 import { usePinchZoom } from '@/hooks/usePinchZoom';
 
 interface StreamVideoProps {
@@ -21,8 +22,15 @@ interface StreamVideoProps {
   }>;
   showComments: boolean;
   isFollowing: boolean;
+  isLiked: boolean;
+  likeCount: number;
   onDoubleTapLike: () => void;
   onFollow: () => void;
+  onLike: () => void;
+  onFocusChat: () => void;
+  onShare: () => void;
+  onBoost: () => void;
+  onScreenshot: () => void;
 }
 
 export const StreamVideo: React.FC<StreamVideoProps> = ({
@@ -30,8 +38,15 @@ export const StreamVideo: React.FC<StreamVideoProps> = ({
   chatMessages,
   showComments,
   isFollowing,
+  isLiked,
+  likeCount,
   onDoubleTapLike,
-  onFollow
+  onFollow,
+  onLike,
+  onFocusChat,
+  onShare,
+  onBoost,
+  onScreenshot
 }) => {
   const { containerRef: zoomRef, scale, resetZoom, transform } = usePinchZoom({
     minZoom: 1,
@@ -103,6 +118,17 @@ export const StreamVideo: React.FC<StreamVideoProps> = ({
           </button>
         </div>
       </div>
+
+      {/* Stream Actions - positioned absolutely within the video */}
+      <StreamActions
+        isLiked={isLiked}
+        likeCount={likeCount}
+        onLike={onLike}
+        onFocusChat={onFocusChat}
+        onShare={onShare}
+        onBoost={onBoost}
+        onScreenshot={onScreenshot}
+      />
 
       <CommentOverlay comments={chatMessages} isVisible={showComments} />
     </div>

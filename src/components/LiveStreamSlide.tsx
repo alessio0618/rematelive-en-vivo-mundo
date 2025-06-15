@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ShareModal } from '@/components/ShareModal';
 import { BoostModal } from '@/components/BoostModal';
@@ -6,7 +5,6 @@ import { StreamOptionsSheet } from '@/components/StreamOptionsSheet';
 import { AuctionResultModal } from '@/components/AuctionResultModal';
 import { LiveStreamHeader } from '@/components/LiveStreamHeader';
 import { StreamVideo } from '@/components/StreamVideo';
-import { StreamActions } from '@/components/StreamActions';
 import { AuctionSection } from '@/components/AuctionSection';
 import { ChatInput } from '@/components/ChatInput';
 import { useLiveStreamState } from '@/hooks/useLiveStreamState';
@@ -194,13 +192,10 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
         chatMessages={chatMessages}
         showComments={showComments}
         isFollowing={isFollowing}
-        onDoubleTapLike={handleDoubleTapLike}
-        onFollow={handleFollow}
-      />
-
-      <StreamActions
         isLiked={isLiked}
         likeCount={likeCount}
+        onDoubleTapLike={handleDoubleTapLike}
+        onFollow={handleFollow}
         onLike={handleLike}
         onFocusChat={handleFocusChat}
         onShare={() => setShowShareModal(true)}
