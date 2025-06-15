@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ShoppingBag, MessageSquare, Heart, BookmarkCheck, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -7,6 +6,7 @@ import SimpleHeader from '@/components/SimpleHeader';
 import BottomNavBar from '@/components/BottomNavBar';
 import { DMWindow } from '@/components/DMWindow';
 import { useToast } from '@/hooks/use-toast';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const Notificaciones = () => {
   const [activeTab, setActiveTab] = useState('Compras');
@@ -80,7 +80,7 @@ const Notificaciones = () => {
         title: 'Descuento del 50%',
         description: 'Auriculares Bluetooth - Vendedor: audiostore',
         amount: '$49.99',
-        image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100&h=100&fit=crop',
+        image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d314?w=100&h=100&fit=crop',
         status: 'Activa',
         time: 'Hace 5 horas'
       }
@@ -176,20 +176,20 @@ const Notificaciones = () => {
       
       <main className="mobile-padding pb-24">
         {/* Tab navigation with consistent styling */}
-        <div className="flex space-x-1 mb-4 mt-4 overflow-x-auto scrollbar-hide">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => handleTabClick(tab)}
-              className={`tab-button ${
-                activeTab === tab 
-                  ? 'tab-button-active' 
-                  : 'tab-button-inactive'
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
+        <div className="border-b border-border mt-4 mb-4">
+          <Tabs value={activeTab} onValueChange={handleTabClick} className="w-full">
+            <TabsList className="w-full justify-start rounded-none bg-transparent p-0 overflow-x-auto scrollbar-hide h-auto -mb-px">
+              {tabs.map((tab) => (
+                <TabsTrigger
+                  key={tab}
+                  value={tab}
+                  className="relative whitespace-nowrap rounded-none border-b-2 border-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-foreground data-[state=active]:text-foreground data-[state=active]:shadow-none hover:bg-transparent hover:text-foreground"
+                >
+                  {tab}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
         </div>
 
         {/* Filter buttons - only show for non-message tabs */}
