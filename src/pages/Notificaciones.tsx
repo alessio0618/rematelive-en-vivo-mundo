@@ -1,12 +1,12 @@
+
 import React, { useState } from 'react';
-import { ShoppingBag, MessageSquare, Heart, BookmarkCheck, DollarSign } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import SimpleHeader from '@/components/SimpleHeader';
 import BottomNavBar from '@/components/BottomNavBar';
 import { DMWindow } from '@/components/DMWindow';
 import { useToast } from '@/hooks/use-toast';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import NotificationTabs from '@/components/notifications/NotificationTabs';
+import NotificationFilters from '@/components/notifications/NotificationFilters';
+import NotificationList, { Notification } from '@/components/notifications/NotificationList';
 
 const Notificaciones = () => {
   const [activeTab, setActiveTab] = useState('Compras');
@@ -18,7 +18,7 @@ const Notificaciones = () => {
   const filters = ['Todos', 'En Progreso', 'Completados', 'Reembolsos'];
   
   // Different notifications for each tab
-  const allNotifications = {
+  const allNotifications: { [key: string]: Notification[] } = {
     'Compras': [
       {
         id: 1,
@@ -159,7 +159,7 @@ const Notificaciones = () => {
     }
   };
 
-  const handleNotificationClick = (notification: any) => {
+  const handleNotificationClick = (notification: Notification) => {
     if (activeTab === 'Mensajes') {
       setIsDMOpen(true);
     } else {
@@ -175,92 +175,30 @@ const Notificaciones = () => {
       <SimpleHeader />
       
       <main className="mobile-padding pb-24">
-        {/* Tab navigation with consistent styling */}
-        <div className="border-b border-border mt-4 mb-4">
-          <Tabs value={activeTab} onValueChange={handleTabClick} className="w-full">
-            <TabsList className="w-full justify-start rounded-none bg-transparent p-0 overflow-x-auto scrollbar-hide h-auto -mb-px">
-              {tabs.map((tab) => (
-                <TabsTrigger
-                  key={tab}
-                  value={tab}
-                  className="relative whitespace-nowrap rounded-none border-b-2 border-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none data-[state=active]:border-foreground data-[state=active]:text-foreground data-[state=active]:shadow-none hover:bg-transparent hover:text-foreground"
-                >
-                  {tab}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
-        </div>
+        <NotificationTabs
+          tabs={tabs}
+          activeTab={activeTab}
+          onTabChange={handleTabClick}
+        />
 
-        {/* Filter buttons - only show for non-message tabs */}
         {activeTab !== 'Mensajes' && (
-          <div className="flex space-x-2 mb-6 overflow-x-auto scrollbar-hide">
-            {filters.map((filter) => (
-              <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={`whitespace-nowrap text-xs transition-colors px-3 py-1.5 rounded-md hover:bg-accent/20 ${
-                  activeFilter === filter 
-                    ? 'text-foreground border-b-2 border-foreground bg-muted' 
-                    : 'text-foreground bg-muted border-b-2 border-transparent'
-                }`}
-              >
-                {filter}
-              </button>
-            ))}
-          </div>
+          <NotificationFilters
+            filters={filters}
+            activeFilter={activeFilter}
+            onFilterChange={setActiveFilter}
+          />
         )}
-
-        {/* Notifications list */}
-        <div className="space-y-3">
-          {notifications.map((notification) => (
-            <Card 
-              key={notification.id} 
-              className="bg-card border-border hover:bg-accent/20 transition-colors cursor-pointer"
-              onClick={() => handleNotificationClick(notification)}
-            >
-              <CardContent className="p-4">
-                <div className="flex items-start space-x-3">
-                  <img 
-                    src={notification.image} 
-                    alt={notification.title}
-                    className="w-16 h-16 rounded-lg object-cover"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between mb-1">
-                      <h3 className="text-foreground font-semibold text-sm">{notification.title}</h3>
-                      {notification.amount && (
-                        <span className="text-foreground font-bold text-sm">{notification.amount}</span>
-                      )}
-                    </div>
-                    <p className="text-foreground text-sm mb-2 line-clamp-2">{notification.description}</p>
-                    <div className="flex items-center justify-between">
-                      <span className={`text-xs font-medium ${getStatusColor(notification.status)}`}>
-                        {notification.status}
-                      </span>
-                      <span className="text-xs text-foreground">{notification.time}</span>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* Empty state */}
-        {notifications.length === 0 && (
-          <div className="text-center py-12">
-            <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-              <ShoppingBag className="w-8 h-8 text-foreground" />
-            </div>
-            <p className="text-foreground text-sm">No tienes notificaciones en {activeTab.toLowerCase()}</p>
-          </div>
-        )}
+        
+        <NotificationList
+          notifications={notifications}
+          activeTab={activeTab}
+          onNotificationClick={handleNotificationClick}
+          getStatusColor={getStatusColor}
+        />
       </main>
 
       <BottomNavBar />
 
-      {/* DM Window */}
       <DMWindow 
         isOpen={isDMOpen}
         onClose={() => setIsDMOpen(false)}
