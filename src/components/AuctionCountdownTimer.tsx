@@ -56,7 +56,7 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
     if (extensionAmount !== null) {
       const timer = setTimeout(() => {
         setExtensionAmount(null);
-      }, 1500); // Match animation duration
+      }, 1500); // The popup will disappear after 1.5s
       return () => clearTimeout(timer);
     }
   }, [extensionAmount]);
@@ -103,16 +103,16 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
       <div className={`px-3 py-2 rounded-lg border ${getBackgroundEffect()}`}>
         <div className={getTimerStyles()}>
           <Clock className="w-4 h-4" />
-          <div className="relative">
+          <div className="flex items-baseline">
             <span>{isAuctionEnded ? '¡VENDIDO!' : formattedTime}</span>
             {/* Extension Popup */}
             {extensionAmount !== null && (
-              <div
+              <span
                 key={Date.now()}
-                className="absolute left-full top-1/2 -translate-y-1/2 ml-3 whitespace-nowrap font-bold text-orange-500 animate-fade-in-out"
+                className="ml-2 font-bold text-orange-500"
               >
                 +{extensionAmount}s
-              </div>
+              </span>
             )}
           </div>
           {hasExtended && !isAuctionEnded && (
