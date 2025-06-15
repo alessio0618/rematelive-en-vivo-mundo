@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Zap } from 'lucide-react';
 import { Card } from '@/components/ui/card';
@@ -87,7 +88,7 @@ export const AuctionSection: React.FC<AuctionSectionProps> = ({
             />
           ) : (
             <div className="w-full text-center py-4">
-              <span className="text-green-600 font-bold text-lg">¡TERMINADO!</span>
+              <span className="text-green-600 font-bold text-lg">Auction Complete!</span>
             </div>
           )}
         </div>
