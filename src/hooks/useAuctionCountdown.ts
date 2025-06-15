@@ -25,32 +25,48 @@ export const useAuctionCountdown = ({
   const audioContextRef = useRef<AudioContext | null>(null);
 
   // Audio feedback
-  const playTickSound = () => {
+  const playTickSound = (type: 'normal' | 'urgent' | 'final' = 'normal') => {
     if (!audioContextRef.current) {
-      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+      try {
+        audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+      } catch(e) {
+        console.error("Web Audio API is not supported in this browser");
+        return;
+      }
     }
     
-    const oscillator = audioContextRef.current.createOscillator();
-    const gainNode = audioContextRef.current.createGain();
+    const context = audioContextRef.current;
+    if (context.state === 'suspended') {
+      context.resume();
+    }
+    
+    const oscillator = context.createOscillator();
+    const gainNode = context.createGain();
     
     oscillator.connect(gainNode);
-    gainNode.connect(audioContextRef.current.destination);
+    gainNode.connect(context.destination);
     
-    oscillator.frequency.setValueAtTime(800, audioContextRef.current.currentTime);
-    gainNode.gain.setValueAtTime(0.1, audioContextRef.current.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContextRef.current.currentTime + 0.1);
+    let frequency = 800, gain = 0.1;
+    if (type === 'urgent') { frequency = 1200; gain = 0.15; }
+    if (type === 'final') { frequency = 1500; gain = 0.2; }
+
+    oscillator.frequency.setValueAtTime(frequency, context.currentTime);
+    gainNode.gain.setValueAtTime(gain, context.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.1);
     
-    oscillator.start(audioContextRef.current.currentTime);
-    oscillator.stop(audioContextRef.current.currentTime + 0.1);
+    oscillator.start(context.currentTime);
+    oscillator.stop(context.currentTime + 0.1);
   };
 
   // Haptic feedback
-  const triggerHaptic = (intensity: 'light' | 'medium' | 'heavy') => {
+  const triggerHaptic = (intensity: 'light' | 'medium' | 'heavy' | 'heartbeat' | 'celebration') => {
     if ('vibrate' in navigator) {
       const patterns = {
         light: [10],
         medium: [20],
-        heavy: [30, 10, 30]
+        heavy: [30, 10, 30],
+        heartbeat: [0, 40, 40, 40, 40, 150, 40, 40, 40, 40, 350],
+        celebration: [100, 30, 100, 30, 100],
       };
       navigator.vibrate(patterns[intensity]);
     }
@@ -67,15 +83,29 @@ export const useAuctionCountdown = ({
         onTimeUpdate?.(newTime);
         
         // Urgent state detection
-        if (newTime <= 30 && newTime > 5) {
+        if (newTime <= 30) {
           onUrgentState?.(true);
+        } else {
+          onUrgentState?.(false);
         }
         
-        // Final countdown effects - now starts at 5 seconds
-        if (newTime <= 5 && newTime > 0) {
-          if (Math.floor(newTime) !== Math.floor(prev)) {
-            playTickSound();
-            triggerHaptic('medium');
+        const prevSecond = Math.floor(prev);
+        const newSecond = Math.floor(newTime);
+        
+        // Final countdown effects
+        if (newTime <= 10 && newTime > 0) {
+          if (newSecond !== prevSecond) {
+            if (newTime <= 3) {
+              playTickSound('final');
+              triggerHaptic('heavy');
+            } else {
+              playTickSound('urgent');
+              triggerHaptic('medium');
+            }
+          }
+          // Heartbeat haptic for the last 5 seconds
+          if (newTime <= 5 && (Math.floor(newTime * 2) !== Math.floor(prev * 2))) {
+            triggerHaptic('heartbeat');
           }
         }
         
@@ -116,7 +146,7 @@ export const useAuctionCountdown = ({
       onExtension?.(newTime);
       onTimeUpdate?.(newTime); // Update parent when extending
       onExtensionPopup?.(additionalSeconds);
-      triggerHaptic('light');
+      triggerHaptic('light'); // A 'celebration' haptic might be too much for every extension
       console.log(`Timer extended by ${additionalSeconds} seconds due to winning bid`);
       return newTime;
     });
@@ -134,9 +164,9 @@ export const useAuctionCountdown = ({
   };
 
   const getUrgencyLevel = () => {
-    if (timeLeft <= 5) return 'critical'; // Changed from 10 to 5 seconds
-    if (timeLeft <= 30) return 'urgent';
-    if (timeLeft <= 60) return 'warning';
+    if (timeLeft <= 5) return 'critical';
+    if (timeLeft <= 10) return 'urgent';
+    if (timeLeft <= 30) return 'warning';
     return 'normal';
   };
 
@@ -156,4 +186,3 @@ export const useAuctionCountdown = ({
     }
   };
 };
-

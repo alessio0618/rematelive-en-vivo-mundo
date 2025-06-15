@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Zap } from 'lucide-react';
 import { Card } from '@/components/ui/card';
@@ -58,6 +57,23 @@ export const AuctionSection: React.FC<AuctionSectionProps> = ({
     handleBid(currentProduct.id, amount);
   }, [handleBid, currentProduct.id]);
 
+  const getCardUrgencyClass = () => {
+    const { timeLeft, auctionStatus } = currentProduct;
+
+    if (auctionStatus === 'sold') {
+      return 'ring-2 ring-green-500/50';
+    }
+    // Pulsing extended state
+    if (auctionStatus === 'extended') {
+      return 'ring-2 ring-yellow-500/70 animate-pulse';
+    }
+    
+    if (timeLeft <= 5) return 'ring-2 ring-red-500/80 animate-border-pulse';
+    if (timeLeft <= 10) return 'ring-2 ring-orange-500/70';
+    if (timeLeft <= 30) return 'ring-2 ring-yellow-500/50';
+    return '';
+  };
+
   return (
     <div className="p-4 pb-6">
       <div className="flex items-center justify-between mb-3">
@@ -79,11 +95,7 @@ export const AuctionSection: React.FC<AuctionSectionProps> = ({
         {bidderStatus}
       </div>
       
-      <Card className={`bg-card border-border p-4 transition-all duration-300 ${
-        currentProduct.auctionStatus === 'ending' ? 'ring-2 ring-orange-500 ring-opacity-50' :
-        currentProduct.auctionStatus === 'extended' ? 'ring-2 ring-yellow-500 ring-opacity-50' :
-        currentProduct.auctionStatus === 'sold' ? 'ring-2 ring-green-500 ring-opacity-50' : ''
-      }`}>
+      <Card className={`bg-card border-border p-4 transition-all duration-300 ${getCardUrgencyClass()}`}>
         <div className="flex items-start space-x-3 mb-4">
           <img 
             src={currentProduct.image} 

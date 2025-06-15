@@ -74,7 +74,7 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
     
     switch (urgencyLevel) {
       case 'critical':
-        return `${baseStyles} text-red-500 text-xl animate-pulse`;
+        return `${baseStyles} text-red-500 text-xl animate-heartbeat`;
       case 'urgent':
         return `${baseStyles} text-orange-500 text-lg`;
       case 'warning':
@@ -85,13 +85,16 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
   };
 
   const getBackgroundEffect = () => {
-    if (urgencyLevel === 'critical') {
-      return 'animate-pulse bg-red-500/10 border-red-500/30';
+    switch (urgencyLevel) {
+      case 'critical':
+        return 'bg-red-500/10 border-red-500/30 animate-border-pulse';
+      case 'urgent':
+        return 'bg-orange-500/10 border-orange-500/20';
+      case 'warning':
+        return 'bg-yellow-500/5 border-yellow-500/20';
+      default:
+        return 'bg-card border-border';
     }
-    if (urgencyLevel === 'urgent') {
-      return 'bg-orange-500/5 border-orange-500/20';
-    }
-    return 'bg-card border-border';
   };
 
   // Check if auction has ended
