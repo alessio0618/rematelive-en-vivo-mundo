@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -84,11 +83,10 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({ isOpen, onClose }) 
               <Button
                 type="button"
                 size="icon"
-                variant="outline"
-                className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full"
+                className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full border border-border/50 bg-background/50 backdrop-blur-sm hover:bg-accent/30"
                 onClick={handleAvatarClick}
               >
-                <Camera className="w-4 h-4" />
+                <Camera className="w-4 h-4 [filter:drop-shadow(0_1px_1px_rgba(0,0,0,0.6))]" />
               </Button>
             </div>
             <Button
