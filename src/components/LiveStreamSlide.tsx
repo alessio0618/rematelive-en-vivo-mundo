@@ -65,11 +65,18 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
     auctionStatus: 'active' as 'active' | 'ending' | 'extended' | 'sold'
   });
 
-  const chatMessages = [
+  // Mock current user
+  const currentUser = {
+    username: 'you',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop'
+  };
+
+  // Chat messages state - converted from static to state
+  const [chatMessages, setChatMessages] = useState([
     { id: 1, user: 'user123', message: '¡Excelente producto!', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop', timestamp: Date.now() - 5000 },
     { id: 2, user: 'golfpro', message: 'Me interesa el set completo', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b112b008?w=32&h=32&fit=crop', timestamp: Date.now() - 3000 },
     { id: 3, user: 'maria_g', message: '¿Cuál es el precio final?', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop', timestamp: Date.now() - 1000 }
-  ];
+  ]);
 
   // Simulate competing bidders
   React.useEffect(() => {
@@ -184,6 +191,19 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
   const handleSendMessage = () => {
     if (chatMessage.trim()) {
       console.log('Sending message:', chatMessage);
+      
+      // Create new message object
+      const newMessage = {
+        id: Date.now(), // Use timestamp as unique ID
+        user: currentUser.username,
+        message: chatMessage.trim(),
+        avatar: currentUser.avatar,
+        timestamp: Date.now()
+      };
+
+      // Add new message to chat messages state
+      setChatMessages(prev => [...prev, newMessage]);
+      
       toast({
         title: "Mensaje enviado",
         description: "Tu mensaje se ha enviado al chat"
