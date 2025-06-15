@@ -87,13 +87,13 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
   const getBackgroundEffect = () => {
     switch (urgencyLevel) {
       case 'critical':
-        return 'bg-red-500/10 border-red-500/30 animate-border-pulse';
+        return 'border-red-500/30 animate-border-pulse';
       case 'urgent':
-        return 'bg-orange-500/10 border-orange-500/20';
+        return 'border-orange-500/20';
       case 'warning':
-        return 'bg-yellow-500/5 border-yellow-500/20';
+        return 'border-yellow-500/20';
       default:
-        return 'bg-card border-border';
+        return 'border-border';
     }
   };
 
@@ -103,7 +103,7 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
   return (
     <div className={`relative ${className}`}>
       {/* Main Timer */}
-      <div className={`px-3 py-2 rounded-lg border ${getBackgroundEffect()}`}>
+      <div className={`px-3 py-2 rounded-lg border bg-card ${getBackgroundEffect()}`}>
         <div className={getTimerStyles()}>
           <Clock className="w-4 h-4" />
           <div className="flex items-baseline">
