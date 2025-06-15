@@ -77,27 +77,20 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
       <div className={`px-3 py-2 rounded-lg border ${getBackgroundEffect()}`}>
         <div className={getTimerStyles()}>
           <Clock className="w-4 h-4" />
-          <span>{formattedTime}</span>
-          {hasExtended && (
+          <span>{isAuctionEnded ? '¡VENDIDO!' : formattedTime}</span>
+          {hasExtended && !isAuctionEnded && (
             <Zap className="w-3 h-3 text-yellow-500" />
           )}
         </div>
       </div>
 
-      {/* Show VENDIDO when auction has ended */}
+      {/* Show floating VENDIDO when auction has ended */}
       {isAuctionEnded && (
-        <>
-          <div className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-40">
+          <div className="text-green-500 text-2xl font-bold opacity-80">
             ¡VENDIDO!
           </div>
-          
-          {/* Floating ended text */}
-          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-40">
-            <div className="text-green-500 text-2xl font-bold opacity-80">
-              ¡VENDIDO!
-            </div>
-          </div>
-        </>
+        </div>
       )}
 
       {/* Particle effects for critical state */}
