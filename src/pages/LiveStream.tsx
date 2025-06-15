@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSwipeNavigation } from '@/hooks/useSwipeNavigation';
@@ -33,7 +34,7 @@ const LiveStream = () => {
     <div className="h-screen bg-background">
       <div 
         ref={containerRef}
-        className={`h-full relative overflow-hidden ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+        className={`h-full relative overflow-hidden ${isDragging ? 'cursor-grabbing' : 'cursor-grab'} pb-16 box-border`}
         style={{ touchAction: 'none' }}
       >
         <LiveStreamSlide 
