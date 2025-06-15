@@ -59,13 +59,13 @@ export const useAuctionCountdown = ({
       setTimeLeft(prev => {
         const newTime = prev - 0.1;
         
-        // Urgent state detection
-        if (newTime <= 30 && newTime > 10) {
+        // Urgent state detection - changed from 30 to 7 seconds
+        if (newTime <= 7 && newTime > 4) {
           onUrgentState?.(true);
         }
         
-        // Final countdown effects
-        if (newTime <= 10 && newTime > 0) {
+        // Final countdown effects - changed from 10 to 4 seconds
+        if (newTime <= 4 && newTime > 0) {
           if (Math.floor(newTime) !== Math.floor(prev)) {
             playTickSound();
             triggerHaptic('medium');
@@ -92,7 +92,7 @@ export const useAuctionCountdown = ({
   }, [isActive, onTimeUp, onUrgentState]);
 
   const extendTime = (additionalSeconds: number) => {
-    if (!hasExtended && timeLeft <= 10) {
+    if (!hasExtended && timeLeft <= 4) { // Changed from 10 to 4 seconds
       const newTime = timeLeft + additionalSeconds;
       setTimeLeft(newTime);
       setHasExtended(true);
@@ -113,8 +113,8 @@ export const useAuctionCountdown = ({
   };
 
   const getUrgencyLevel = () => {
-    if (timeLeft <= 10) return 'critical';
-    if (timeLeft <= 30) return 'urgent';
+    if (timeLeft <= 4) return 'critical'; // Changed from 10 to 4 seconds
+    if (timeLeft <= 7) return 'urgent';   // Changed from 30 to 7 seconds
     if (timeLeft <= 60) return 'warning';
     return 'normal';
   };

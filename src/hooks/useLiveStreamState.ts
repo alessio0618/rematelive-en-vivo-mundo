@@ -92,7 +92,7 @@ export const useLiveStreamState = () => {
 
   const getBidderStatus = () => {
     if (currentProduct.auctionStatus === 'sold') {
-      return isUserWinning ? '🏆 ¡HAS GANADO!' : '😞 Subasta perdida';
+      return isUserWinning ? '🏆 ¡HAS GANADO!' : '🏁 TERMINADO';
     }
     if (isUserWinning) {
       return '🥇 ¡ESTÁS GANANDO!';
