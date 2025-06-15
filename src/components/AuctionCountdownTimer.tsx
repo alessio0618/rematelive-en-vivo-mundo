@@ -70,17 +70,15 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
 
 
   const getTimerStyles = () => {
-    const baseStyles = "font-mono font-bold transition-all duration-200 flex items-center space-x-1";
+    const baseStyles = "font-mono font-bold transition-all duration-200 flex items-center space-x-1 text-foreground";
     
     switch (urgencyLevel) {
       case 'critical':
-        return `${baseStyles} text-red-500 text-xl animate-heartbeat`;
+        return `${baseStyles} text-xl animate-heartbeat`;
       case 'urgent':
-        return `${baseStyles} text-orange-500 text-lg`;
-      case 'warning':
-        return `${baseStyles} text-yellow-500 text-base`;
+        return `${baseStyles} text-lg`;
       default:
-        return `${baseStyles} text-foreground text-base`;
+        return `${baseStyles} text-base`;
     }
   };
 
