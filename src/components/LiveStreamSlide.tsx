@@ -64,10 +64,6 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
   // Event handlers
   const handleBid = (productId: number, bidAmount: number) => {
     console.log(`Bid placed for product ${productId}: $${bidAmount}`);
-    toast({
-      title: "¡Puja realizada!",
-      description: `Has pujado $${bidAmount} por ${currentProduct.name}`
-    });
     
     setCurrentProduct(prev => ({
       ...prev,
@@ -151,10 +147,6 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
 
       setChatMessages(prev => [...prev, newMessage]);
       
-      toast({
-        title: "Mensaje enviado",
-        description: "Tu mensaje se ha enviado al chat"
-      });
       setChatMessage('');
       
       const chatInput = document.querySelector('input[placeholder="Escribe un mensaje..."]') as HTMLInputElement;
@@ -250,7 +242,6 @@ export const LiveStreamSlide: React.FC<LiveStreamSlideProps> = ({ streamData, is
         onClose={() => setShowAuctionResult(false)}
         isWinner={isUserWinning}
         productName={currentProduct.name}
-        finalBid={currentProduct.currentBid}
         winnerName={!isUserWinning ? currentWinningBidder : undefined}
       />
     </div>
