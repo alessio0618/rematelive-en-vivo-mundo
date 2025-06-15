@@ -15,6 +15,58 @@ interface UseSwipeNavigationProps {
   velocityThreshold?: number;
 }
 
+// Helper function to check if an element is interactive
+const isInteractiveElement = (element: Element): boolean => {
+  const interactiveTags = ['INPUT', 'BUTTON', 'TEXTAREA', 'SELECT', 'A'];
+  const interactiveRoles = ['button', 'link', 'textbox'];
+  
+  // Check if element itself is interactive
+  if (interactiveTags.includes(element.tagName)) {
+    return true;
+  }
+  
+  // Check for interactive roles
+  const role = element.getAttribute('role');
+  if (role && interactiveRoles.includes(role)) {
+    return true;
+  }
+  
+  // Check if element is contentEditable
+  if (element.getAttribute('contenteditable') === 'true') {
+    return true;
+  }
+  
+  // Check if element has interactive classes (common patterns)
+  const className = element.className;
+  if (typeof className === 'string' && 
+      (className.includes('button') || 
+       className.includes('input') || 
+       className.includes('clickable'))) {
+    return true;
+  }
+  
+  return false;
+};
+
+// Helper function to check if event target or its parents are interactive
+const isEventOnInteractiveElement = (target: EventTarget | null): boolean => {
+  if (!target || !(target instanceof Element)) {
+    return false;
+  }
+  
+  let element: Element | null = target;
+  
+  // Check up to 5 levels of parents to catch nested interactive elements
+  for (let i = 0; i < 5 && element; i++) {
+    if (isInteractiveElement(element)) {
+      return true;
+    }
+    element = element.parentElement;
+  }
+  
+  return false;
+};
+
 export const useSwipeNavigation = ({
   onSwipeUp,
   onSwipeDown,
@@ -32,6 +84,12 @@ export const useSwipeNavigation = ({
 
   // Touch event handlers
   const handleTouchStart = useCallback((e: TouchEvent) => {
+    // Skip if touch started on an interactive element
+    if (isEventOnInteractiveElement(e.target)) {
+      console.log('Touch start on interactive element, skipping swipe');
+      return;
+    }
+    
     const touch = e.touches[0];
     setSwipeState({
       startY: touch.clientY,
@@ -84,6 +142,12 @@ export const useSwipeNavigation = ({
 
   // Mouse event handlers (mirroring touch logic)
   const handleMouseDown = useCallback((e: MouseEvent) => {
+    // Skip if mouse down started on an interactive element
+    if (isEventOnInteractiveElement(e.target)) {
+      console.log('Mouse down on interactive element, skipping swipe');
+      return;
+    }
+    
     setSwipeState({
       startY: e.clientY,
       currentY: e.clientY,
