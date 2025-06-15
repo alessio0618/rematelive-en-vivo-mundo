@@ -1,4 +1,3 @@
-
 import React, { useCallback, useState, useEffect } from 'react';
 import { Clock, Zap } from 'lucide-react';
 import { useAuctionCountdown } from '@/hooks/useAuctionCountdown';
@@ -110,7 +109,7 @@ export const AuctionCountdownTimer: React.FC<AuctionCountdownTimerProps> = ({
             {extensionAmount !== null && (
               <div
                 key={Date.now()}
-                className="absolute left-full top-1/2 -translate-y-1/2 ml-2 whitespace-nowrap font-bold text-orange-500 text-xl animate-fade-slide-up-and-out [text-shadow:0_1px_2px_rgba(0,0,0,0.5)]"
+                className="absolute left-full top-1/2 -translate-y-1/2 ml-3 whitespace-nowrap font-bold text-orange-500 animate-fade-in-out"
               >
                 +{extensionAmount}s
               </div>
