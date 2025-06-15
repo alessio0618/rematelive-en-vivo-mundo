@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Zap } from 'lucide-react';
 import { Card } from '@/components/ui/card';
@@ -95,13 +96,6 @@ export const AuctionSection: React.FC<AuctionSectionProps> = ({
             <p className="text-foreground/60 text-xs">${currentProduct.shipping.toFixed(2)} Envío + Impuestos</p>
             
             {/* Auction Status Indicators */}
-            {currentProduct.auctionStatus === 'extended' && (
-              <div className="mt-2 flex items-center space-x-2">
-                <Zap className="w-3 h-3 text-yellow-500" />
-                <span className="text-xs text-yellow-600 font-medium">¡Subasta Extendida!</span>
-              </div>
-            )}
-            
             {currentProduct.auctionStatus === 'sold' && (
               <div className="mt-2 flex items-center space-x-2">
                 <span className="text-xs text-green-600 font-bold">¡VENDIDO!</span>

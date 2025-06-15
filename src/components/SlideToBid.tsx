@@ -127,7 +127,7 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
 
           {/* Progress fill with app-consistent colors */}
           <div
-            className="absolute left-0 top-0 h-full transition-all duration-75 ease-out rounded-full z-10"
+            className="absolute left-0 top-0 h-full transition-none rounded-full z-10"
             style={{ 
               width: `${slideProgress * 100}%`,
               backgroundColor: '#FFD600'
