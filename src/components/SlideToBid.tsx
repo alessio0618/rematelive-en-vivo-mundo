@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { useBidIncrement } from '@/hooks/useBidIncrement';
@@ -110,7 +111,7 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
         <div
           ref={containerRef}
           className={`relative h-14 rounded-full overflow-hidden cursor-pointer select-none border border-border touch-none transition-all duration-300 hover:shadow-md ${
-            hasBid ? 'bg-success-green' : 'bg-muted'
+            hasBid ? 'bg-green-500' : 'bg-muted'
           }`}
           onMouseDown={handleStart}
           onTouchStart={handleStart}
@@ -118,7 +119,7 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
           {/* Background track */}
           <div className="absolute inset-0 flex items-center justify-center z-20">
             <span className={`text-sm font-medium px-4 text-center transition-colors ${
-              lockedBidAmount !== null ? 'text-black' : 'text-foreground'
+              lockedBidAmount !== null || hasBid ? 'text-black' : 'text-foreground'
             }`}>
               {getDisplayPrice()}
             </span>
@@ -129,7 +130,7 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
             className="absolute left-0 top-0 h-full transition-all duration-75 ease-out rounded-full z-10"
             style={{ 
               width: `${slideProgress * 100}%`,
-              backgroundColor: 'rgb(var(--rl-yellow))'
+              backgroundColor: '#FFD600'
             }}
             hidden={hasBid}
           />
@@ -137,15 +138,15 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
           {/* Slider button with app-consistent styling */}
           <div
             ref={sliderRef}
-            className="absolute left-1 top-1 w-12 h-12 bg-background rounded-full flex items-center justify-center shadow-lg transition-all duration-75 ease-out border-2 border-border z-30"
+            className="absolute left-1 top-1 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg transition-all duration-75 ease-out border-2 border-yellow-500 z-30"
             style={{
               transform: `translateX(${slideProgress * (containerRef.current ? containerRef.current.offsetWidth - 56 : 200)}px)`
             }}
           >
             {hasBid ? (
-              <span className="text-foreground font-bold text-lg">✓</span>
+              <span className="text-black font-bold text-lg">✓</span>
             ) : (
-              <ChevronRight className="w-6 h-6 text-foreground" />
+              <ChevronRight className="w-6 h-6 text-black" />
             )}
           </div>
         </div>
