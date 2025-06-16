@@ -28,7 +28,7 @@ export const BecomeSellerPrompt: React.FC<BecomeSellerPromptProps> = ({ onSchedu
             className="w-full mt-4 font-bold [text-shadow:0_0_5px_black,0_0_5px_black]"
             size="lg"
           >
-            <Video className="mr-2 h-5 w-5" />
+            <Video className="mr-2 h-5 w-5 [filter:drop-shadow(0_0_2px_black)_drop-shadow(0_0_4px_black)]" />
             Programar tu Primer Show
           </Button>
         </CardContent>
