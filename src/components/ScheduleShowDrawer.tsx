@@ -116,7 +116,7 @@ export const ScheduleShowDrawer: React.FC<ScheduleShowDrawerProps> = ({
             </Button>
             <Button 
               onClick={handleScheduleShow} 
-              className="flex-1 h-12 text-base"
+              className="flex-1 h-12 text-base bg-yellow-400 hover:bg-yellow-500 text-black font-bold"
             >
               Programar Show
             </Button>
