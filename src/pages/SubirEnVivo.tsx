@@ -75,13 +75,14 @@ const SubirEnVivo = () => {
               <Plus className="w-4 h-4 mr-2" />
               Crear Producto
             </button>
-            <button 
+            <Button
               onClick={handleScheduleShow}
-              className="flex-1 bg-card border border-border text-foreground hover:bg-accent/20 transition-colors rounded-md h-10 px-4 py-2 text-sm font-medium flex items-center justify-center"
+              className="flex-1 font-bold [text-shadow:0_0_5px_black,0_0_5px_black]"
+              size="lg"
             >
-              <Calendar className="w-4 h-4 mr-2" />
+              <Calendar className="w-4 h-4 mr-2 [filter:drop-shadow(0_0_2px_black)_drop-shadow(0_0_4px_black)]" />
               Programar Show
-            </button>
+            </Button>
           </div>
         </div>
 
