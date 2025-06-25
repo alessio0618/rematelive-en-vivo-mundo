@@ -87,8 +87,9 @@ export const BoostDrawer: React.FC<BoostDrawerProps> = ({
                 className="h-12 text-base"
               />
               <Button 
+                variant="outline"
                 onClick={handleCustomBoost} 
-                className="h-12 px-6 bg-yellow-500 hover:bg-yellow-600"
+                className="h-12 px-6 !bg-yellow-400 !hover:bg-yellow-500 !text-black !font-bold !border-yellow-400"
               >
                 <Zap className="w-5 h-5" />
               </Button>

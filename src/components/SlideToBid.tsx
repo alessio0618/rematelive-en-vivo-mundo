@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { useBidIncrement } from '@/hooks/useBidIncrement';
@@ -118,7 +119,7 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
           {/* Background track */}
           <div className="absolute inset-0 flex items-center justify-center z-20">
             <span className={`text-sm font-medium px-4 text-center transition-colors ${
-              lockedBidAmount !== null || hasBid ? 'text-black' : 'text-foreground'
+              lockedBidAmount !== null || hasBid ? '!text-black' : 'text-foreground'
             }`}>
               {getDisplayPrice()}
             </span>
@@ -126,10 +127,9 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
 
           {/* Progress fill with app-consistent colors */}
           <div
-            className="absolute left-0 top-0 h-full transition-none rounded-full z-10"
+            className="absolute left-0 top-0 h-full transition-none rounded-full z-10 !bg-yellow-400"
             style={{ 
-              width: `${slideProgress * 100}%`,
-              backgroundColor: '#FFD600'
+              width: `${slideProgress * 100}%`
             }}
             hidden={hasBid}
           />
@@ -137,15 +137,15 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
           {/* Slider button with app-consistent styling */}
           <div
             ref={sliderRef}
-            className="absolute left-1 top-1 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg transition-all duration-75 ease-out border-2 border-yellow-500 z-30"
+            className="absolute left-1 top-1 w-12 h-12 !bg-yellow-400 rounded-full flex items-center justify-center shadow-lg transition-all duration-75 ease-out !border-2 !border-yellow-400 z-30"
             style={{
               transform: `translateX(${slideProgress * (containerRef.current ? containerRef.current.offsetWidth - 56 : 200)}px)`
             }}
           >
             {hasBid ? (
-              <span className="text-black font-bold text-lg">✓</span>
+              <span className="!text-black font-bold text-lg">✓</span>
             ) : (
-              <ChevronRight className="w-6 h-6 text-black" />
+              <ChevronRight className="w-6 h-6 !text-black" />
             )}
           </div>
         </div>
