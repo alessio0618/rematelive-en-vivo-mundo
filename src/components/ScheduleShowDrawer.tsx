@@ -115,8 +115,9 @@ export const ScheduleShowDrawer: React.FC<ScheduleShowDrawerProps> = ({
               Cancelar
             </Button>
             <Button 
+              variant="outline"
               onClick={handleScheduleShow} 
-              className="flex-1 h-12 text-base bg-yellow-400 hover:bg-yellow-500 text-black font-bold"
+              className="flex-1 h-12 text-base !bg-yellow-400 !hover:bg-yellow-500 !text-black !font-bold !border-yellow-400"
             >
               Programar Show
             </Button>

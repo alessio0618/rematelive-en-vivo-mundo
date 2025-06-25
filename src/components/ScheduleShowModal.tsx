@@ -101,8 +101,9 @@ export const ScheduleShowModal: React.FC<ScheduleShowModalProps> = ({
               Cancelar
             </Button>
             <Button 
+              variant="outline"
               onClick={handleScheduleShow} 
-              className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black font-bold"
+              className="flex-1 !bg-yellow-400 !hover:bg-yellow-500 !text-black !font-bold !border-yellow-400"
             >
               Programar Show
             </Button>
