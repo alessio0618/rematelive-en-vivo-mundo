@@ -100,7 +100,10 @@ export const ScheduleShowModal: React.FC<ScheduleShowModalProps> = ({
             <Button variant="outline" onClick={onClose} className="flex-1">
               Cancelar
             </Button>
-            <Button onClick={handleScheduleShow} className="flex-1">
+            <Button 
+              onClick={handleScheduleShow} 
+              className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black font-bold"
+            >
               Programar Show
             </Button>
           </div>
