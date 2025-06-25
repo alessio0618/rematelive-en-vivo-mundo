@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { useBidIncrement } from '@/hooks/useBidIncrement';
@@ -88,12 +87,12 @@ export const SlideToBid = ({ currentBid, onBid }: SlideToBidProps) => {
     setIsSliding(false);
     onBid(bidAmount);
     
-    // Reset after 2 seconds to allow new bids
+    // Reset after 0.5 seconds to allow new bids quickly
     setTimeout(() => {
       setHasBid(false);
       setSlideProgress(0);
       setLockedBidAmount(null);
-    }, 2000);
+    }, 500);
   };
 
   const handleStart = (e: React.MouseEvent | React.TouchEvent) => {
