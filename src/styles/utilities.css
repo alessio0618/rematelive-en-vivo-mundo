@@ -1,0 +1,78 @@
+
+/* Custom utilities for RemateLive */
+.rl-gradient-text {
+  background: linear-gradient(45deg, rgb(var(--rl-blue)), rgb(var(--rl-yellow)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.live-indicator {
+  @apply bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full;
+}
+
+.viewer-count {
+  @apply bg-black/70 text-white text-sm font-medium px-2 py-1 rounded-full;
+}
+
+.card-hover {
+  @apply hover:bg-accent/20 transition-all duration-200 hover:shadow-lg hover:shadow-white/5;
+}
+
+/* Mobile-first responsive utilities */
+.mobile-safe-area {
+  @apply pb-safe;
+}
+
+.mobile-header {
+  @apply pt-safe;
+}
+
+/* SCROLLBAR UTILITIES FOR HORIZONTAL SCROLLING */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
+
+/* TOUCH OPTIMIZATIONS */
+.touch-manipulation {
+  touch-action: manipulation !important;
+}
+
+.touch-action-none {
+  touch-action: none !important;
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  .grid-mobile-cards {
+    @apply grid-cols-2 gap-2;
+  }
+  
+  .mobile-padding {
+    @apply px-3 py-2;
+  }
+
+  /* Enhanced touch targets for mobile */
+  button {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+}
+
+/* Category bar specific styles */
+.category-bar {
+  position: relative;
+  z-index: 20;
+}
+
+.category-bar button {
+  position: relative;
+  z-index: 21;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}

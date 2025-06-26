@@ -1,73 +1,186 @@
-# Welcome to your Lovable project
 
-## Project info
+# RemateLive - Live Auction Streaming Platform
 
-**URL**: https://lovable.dev/projects/0e581539-787f-4f31-be0e-e027453e2582
+RemateLive is a mobile-first live streaming platform where sellers can host live auctions and buyers can participate in real-time bidding. Think of it as a combination of live streaming, e-commerce, and auction house all in one app.
 
-## How can I edit this code?
+## 🚀 Features
 
-There are several ways of editing your application.
+### For Buyers
+- **Live Stream Viewing**: Watch sellers showcase products in real-time
+- **Real-time Bidding**: Slide-to-bid interface for seamless auction participation
+- **Interactive Chat**: Engage with sellers and other viewers
+- **Boost System**: Support favorite sellers with monetary boosts
+- **Category Browsing**: Explore streams by product categories
+- **Heart Reactions**: Show appreciation with floating heart animations
 
-**Use Lovable**
+### For Sellers
+- **Live Streaming**: Broadcast product showcases to engaged audiences
+- **Auction Management**: Set starting bids, manage auction flow
+- **Inventory Management**: Track and manage product listings
+- **Schedule Shows**: Plan and announce upcoming live auctions
+- **Real-time Analytics**: Monitor viewer engagement and bidding activity
+- **Direct Messaging**: Communicate with potential buyers
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/0e581539-787f-4f31-be0e-e027453e2582) and start prompting.
+### Platform Features
+- **Mobile-First Design**: Optimized for mobile devices with touch interactions
+- **Real-time Updates**: Live bidding, chat, and notifications
+- **Social Features**: Follow sellers, share streams, build community
+- **Secure Payments**: Integrated payment processing for transactions
+- **Push Notifications**: Stay updated on followed sellers and auction results
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🛠 Tech Stack
 
-**Use your preferred IDE**
+- **Frontend**: React 18, TypeScript, Vite
+- **Styling**: Tailwind CSS, shadcn/ui components
+- **State Management**: TanStack Query for server state
+- **Routing**: React Router DOM
+- **Icons**: Lucide React
+- **Animations**: CSS animations and transitions
+- **Build Tool**: Vite
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 📱 Architecture
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Design System
+- **Color Scheme**: Minimalist black/white with selective red accents for live indicators
+- **Typography**: Clean, readable fonts optimized for mobile
+- **Components**: Reusable shadcn/ui components with custom styling
+- **Interactions**: Touch-optimized with swipe gestures and slide-to-bid
 
-Follow these steps:
+### Key Components
+- **Live Stream Interface**: Full-screen video with overlay controls
+- **Auction System**: Real-time bidding with increment logic
+- **Category Navigation**: Horizontal scrolling category bar
+- **Mobile Navigation**: Bottom tab bar for main sections
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 🚀 Getting Started
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### Prerequisites
+- Node.js (v16 or higher)
+- npm or yarn
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Installation
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd rematelive
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+4. Open your browser and navigate to `http://localhost:5173`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Building for Production
 
-**Use GitHub Codespaces**
+```bash
+npm run build
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Preview Production Build
 
-## What technologies are used for this project?
+```bash
+npm run preview
+```
 
-This project is built with:
+## 📁 Project Structure
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```
+src/
+├── components/          # Reusable UI components
+│   ├── ui/             # shadcn/ui components
+│   ├── auth/           # Authentication components
+│   ├── profile/        # User profile components
+│   └── notifications/  # Notification components
+├── pages/              # Route components
+│   └── categories/     # Category-specific pages
+├── hooks/              # Custom React hooks
+├── contexts/           # React contexts
+├── data/              # Static data and mock data
+├── lib/               # Utility functions
+└── styles/            # Global styles and Tailwind config
+```
 
-## How can I deploy this project?
+## 🎯 Core User Flows
 
-Simply open [Lovable](https://lovable.dev/projects/0e581539-787f-4f31-be0e-e027453e2582) and click on Share -> Publish.
+### Buyer Journey
+1. **Discovery**: Browse live streams by category or search
+2. **Engagement**: Watch streams, chat with sellers, react with hearts
+3. **Bidding**: Use slide-to-bid for auction participation
+4. **Support**: Send boosts to favorite sellers
+5. **Purchase**: Complete transactions for won auctions
 
-## Can I connect a custom domain to my Lovable project?
+### Seller Journey
+1. **Setup**: Create profile, add products to inventory
+2. **Scheduling**: Plan and announce upcoming shows
+3. **Broadcasting**: Go live and showcase products
+4. **Auction Management**: Start auctions, manage bids, close sales
+5. **Community Building**: Engage with viewers, build following
 
-Yes, you can!
+## 🔧 Customization
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### Adding New Categories
+1. Add category data to `src/data/categoryData.ts`
+2. Create new page in `src/pages/categories/`
+3. Add route to `src/App.tsx`
+4. Update navigation in `src/components/CategoryBar.tsx`
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### Modifying Auction Logic
+- Bid increments: `src/hooks/useBidIncrement.ts`
+- Countdown timers: `src/hooks/useAuctionCountdown.ts`
+- Live stream state: `src/hooks/useLiveStreamState.ts`
+
+## 📱 Mobile Optimizations
+
+- Touch-friendly interactions (minimum 44px touch targets)
+- Swipe gestures for navigation
+- Pull-to-refresh functionality
+- Responsive design with mobile-first approach
+- Optimized performance for mobile devices
+
+## 🎨 Design Guidelines
+
+### Color Usage
+- **Primary**: Black (#000000) and White (#FFFFFF)
+- **Accents**: Red for live indicators only
+- **Interactive**: Yellow (#FFD600) for call-to-action elements
+- **Grays**: Various shades for cards, borders, and muted content
+
+### Typography
+- Clean, readable fonts
+- Consistent sizing scale
+- High contrast for accessibility
+
+### Interactions
+- Smooth transitions and animations
+- Touch-optimized controls
+- Visual feedback for all interactions
+
+## 🚀 Deployment
+
+This project is configured for deployment on various platforms:
+
+- **Lovable**: Direct deployment from the editor
+- **Vercel**: Connect GitHub repository for automatic deployments
+- **Netlify**: Drag and drop build folder or connect repository
+- **GitHub Pages**: Use GitHub Actions for automated deployment
+
+## 📄 License
+
+This project is proprietary software. All rights reserved.
+
+## 🤝 Contributing
+
+This is a private project. For questions or suggestions, please contact the development team.
+
+---
+
+Built with ❤️ for the live auction community
+```

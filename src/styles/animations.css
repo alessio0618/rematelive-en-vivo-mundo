@@ -1,0 +1,90 @@
+
+/* ANIMATIONS */
+@keyframes floatHeart {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 1;
+  }
+  15% {
+    transform: scale(1.2) rotate(-5deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8) translateY(-150px) rotate(15deg);
+    opacity: 0;
+  }
+}
+
+@keyframes slideInFromBottom {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounceCount {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes slide-in-bottom {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-gentle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-2px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(2px);
+  }
+}
+
+.animate-floatHeart {
+  animation: floatHeart 2s ease-out forwards;
+}
+
+.animate-slideInFromBottom {
+  animation: slideInFromBottom 0.3s ease-out;
+}
+
+.animate-bounceCount {
+  animation: bounceCount 0.3s ease-in-out;
+}
+
+.animate-slide-in-bottom {
+  animation: slide-in-bottom 0.3s ease-out;
+}
+
+.animate-pulse-gentle {
+  animation: pulse-gentle 2s ease-in-out infinite;
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
